@@ -9,5 +9,10 @@ namespace Financeasy.Infra.Repository
         public CalendarEventRepository(FinanceasyDbContext dbContext) : base(dbContext)
         {
         }
+
+        public Task<CalendarEvent> GetCalendarEventWithTransactionById(Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

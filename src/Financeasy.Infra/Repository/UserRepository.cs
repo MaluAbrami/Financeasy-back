@@ -9,5 +9,10 @@ namespace Financeasy.Infra.Repository
         public UserRepository(FinanceasyDbContext dbContext) : base(dbContext)
         {
         }
+
+        public Task<User> GetUserByIdWithSettingsAysnc(Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
