@@ -8,10 +8,12 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Financeasy.Application\Financeasy.Application.csproj" />
+    <ProjectReference Include="..\Financeasy.Infra\Financeasy.Infra.csproj" />
   </ItemGroup>
 
 </Project>
