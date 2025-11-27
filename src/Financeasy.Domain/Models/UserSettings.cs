@@ -9,6 +9,7 @@ namespace Financeasy.Domain.Models
     public class UserSettings
     {
         [Key]
+        [Column("id")]
         public Guid Id { get; set; }
 
         [Column("user_id")]

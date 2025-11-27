@@ -8,6 +8,7 @@ namespace Financeasy.Domain.Models
     public class Category
     {
         [Key]
+        [Column("id")]
         public Guid Id { get; set; }
 
         [Column("user_id")]
@@ -26,7 +27,7 @@ namespace Financeasy.Domain.Models
 
         //navigation
         public User User { get; private set;}
-        public List<Transction> Transctions { get; private set; } = [];
+        public List<Transaction> Transactions { get; private set; } = [];
 
         private Category()
         {

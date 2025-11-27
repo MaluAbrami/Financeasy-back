@@ -4,10 +4,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Financeasy.Domain.Models
 {
-    [Table("transction")]
-    public class Transction
+    [Table("transaction")]
+    public class Transaction
     {
         [Key]
+        [Column("id")]
         public Guid Id { get; set; }
 
         [Required]
@@ -38,13 +39,13 @@ namespace Financeasy.Domain.Models
         //navigation
         public User User {get; private set;}
         public Category Category {get; private set;}
-        public ReccuringTransction ReccuringTransction {get; private set;}
+        public RecurringTransaction RecurringTransaction {get; private set;}
 
-        private Transction()
+        private Transaction()
         {
         }
 
-        public Transction(Guid userId, Guid categoryId, decimal amount, DateOnly date, string? description, Guid? recurrenceId)
+        public Transaction(Guid userId, Guid categoryId, decimal amount, DateOnly date, string? description, Guid? recurrenceId)
         {
             Id = Guid.NewGuid();
             CategoryId = categoryId;

@@ -9,29 +9,36 @@ namespace Financeasy.Domain.Models
     public class MonthlySummary
     {
         [Key]
+        [Column("id")]
         public Guid Id { get; private set; }
 
         [Required]
         [ForeignKey(nameof(User))]
+        [Column("user_id")]
         public Guid UserId { get; private set; }
 
         [Required]
+        [Column("year")]
         public int Year { get; private set; }
 
         [Required]
+        [Column("month")]
         public int Month { get; private set; }
 
         [Precision(18, 2)]
+        [Column("total_income")]
         public decimal TotalIncome { get; private set; }
 
         [Precision(18, 2)]
+        [Column("total_expenses")]
         public decimal TotalExpenses { get; private set; }
 
         [Precision(18, 2)]
+        [Column("balance")]
         public decimal Balance { get; private set; }
 
         [Required]
-        [Column(TypeName = "jsonb")]
+        [Column(name: "category_breakdown_json", TypeName = "jsonb")]
         public string CategoryBreakdownJson { get; private set; }
 
         //navigation

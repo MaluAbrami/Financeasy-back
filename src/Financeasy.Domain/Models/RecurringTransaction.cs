@@ -4,10 +4,11 @@ using Financeasy.Domain.Models.Enums;
 
 namespace Financeasy.Domain.Models
 {
-    [Table("recurring_transction")]
-    public class ReccuringTransction
+    [Table("recurring_transaction")]
+    public class RecurringTransaction
     {
         [Key]
+        [Column("id")]
         public Guid Id { get; set; }
 
         [Required]
@@ -36,13 +37,13 @@ namespace Financeasy.Domain.Models
         public DateOnly? EndDate { get; set; }
 
         //navigation
-        public List<Transction> Transctions { get; private set; } = [];
+        public List<Transaction> Transactions { get; private set; } = [];
 
-        private ReccuringTransction()
+        private RecurringTransaction()
         {
         }
 
-        public ReccuringTransction(Guid userId, Guid categoryId, Frequency frequency, decimal amount, DateOnly startDate, DateOnly? endDate)
+        public RecurringTransaction(Guid userId, Guid categoryId, Frequency frequency, decimal amount, DateOnly startDate, DateOnly? endDate)
         {
             Id = Guid.NewGuid();
             CategoryId = categoryId;
