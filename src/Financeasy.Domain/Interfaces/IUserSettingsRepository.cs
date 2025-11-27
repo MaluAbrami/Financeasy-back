@@ -1,6 +1,8 @@
+using Financeasy.Domain.Models;
+
 namespace Financeasy.Domain.Interfaces
 {
-    public interface IUserSettingsRepository
+    public interface IUserSettingsRepository : IBaseRepository<UserSettings>
     {
         
     }

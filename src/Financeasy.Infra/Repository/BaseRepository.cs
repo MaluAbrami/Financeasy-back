@@ -1,9 +1,10 @@
+using Financeasy.Domain.Interfaces;
 using Financeasy.Infra.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Financeasy.Infra.Repository
 {
-    public class BaseRepository<T> where T : class
+    public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         private readonly FinanceasyDbContext _dbContext;
         private readonly DbSet<T> _dbSet;
