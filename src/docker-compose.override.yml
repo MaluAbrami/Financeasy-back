@@ -1,0 +1,16 @@
+services:
+  financeasydb:
+    image: postgres
+    container_name: financeasydb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=FinanceasyDb
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_financeasydb:/var/lib/postgresql/data/
+
+volumes:
+  postgres_financeasydb:

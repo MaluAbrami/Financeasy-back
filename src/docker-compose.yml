@@ -1,0 +1,6 @@
+services:
+  financeasydb:
+    image: postgres
+
+volumes:
+  postgres_financeasydb:
