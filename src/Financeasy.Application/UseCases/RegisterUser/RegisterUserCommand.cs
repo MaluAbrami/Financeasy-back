@@ -2,9 +2,9 @@ using MediatR;
 
 namespace Financeasy.Application.UseCases.RegisterUser
 {
-    public record RegisterUserCommand(string Email, string Password) : IRequest<Guid>
+    public record RegisterUserCommand() : IRequest<Guid>
     {
-        public string Email { get; set;}
-        public string Password {get; set; }
+        public required string Email { get; set;}
+        public required string Password {get; set; }
     }
 }
