@@ -1,4 +1,6 @@
 using Financeasy.Application.UseCases.DeleteUser;
+using Financeasy.Application.UseCases.GetUserByEmail;
+using Financeasy.Application.UseCases.Login;
 using Financeasy.Application.UseCases.RegisterUser;
 using Financeasy.Application.UseCases.UpdateUser;
 using Financeasy.Domain.DTO;
@@ -29,23 +31,23 @@ namespace Financeasy.Api.Endpoints
             return Results.Ok(userId);
         }
 
-        private static async Task<IResult> Login(RegisterUserCommand command, IMediator mediator)
+        private static async Task<IResult> Login(LoginCommand command, IMediator mediator)
         {
-            var userId = await mediator.Send(command);
+            var token = await mediator.Send(command);
 
-            return Results.Ok(userId);
+            return Results.Ok(token);
         }
 
-        private static async Task<IResult> GetUserByEmail(string query, IMediator mediator)
+        private static async Task<IResult> GetUserByEmail(string email, IMediator mediator)
         {
-            var userId = await mediator.Send(query);
+            var userId = await mediator.Send(new GetUserByEmailQuery { Email = email } );
 
             return Results.Ok(userId);
         }
 
         private static async Task<IResult> UpdateUser(UpdateUserRequestDTO userRequest, HttpContext context, IMediator mediator)
         {
-            var userIdFromToken = context.User.FindFirst("sub")?.Value;
+            var userIdFromToken = context.User.FindFirst("userId")?.Value;
 
             if (userIdFromToken is null)
                 return Results.Unauthorized();
@@ -61,15 +63,15 @@ namespace Financeasy.Api.Endpoints
 
         private static async Task<IResult> DeleteUser(HttpContext context, IMediator mediator)
         {
-            var userIdFromToken = context.User.FindFirst("sub")?.Value;
+            var userIdFromToken = context.User.FindFirst("userId")?.Value;
 
             if (userIdFromToken is null)
                 return Results.Unauthorized();
 
             var command = new DeleteUserCommand(Guid.Parse(userIdFromToken));
-            var userId = await mediator.Send(command);
+            await mediator.Send(command);
 
-            return Results.Ok(userId);
+            return Results.NoContent();
         }
     }
 }
