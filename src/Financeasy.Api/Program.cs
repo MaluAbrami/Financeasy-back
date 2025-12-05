@@ -1,15 +1,17 @@
 using System.Text;
 using Financeasy.Api.Endpoints;
+using Financeasy.Application.Behaviors;
 using Financeasy.Application.UseCases.RegisterUser;
 using Financeasy.Domain.interfaces;
 using Financeasy.Infra.Persistence;
 using Financeasy.Infra.Repository;
 using Financeasy.Infra.Services;
 using Financeasy.Infra.Util;
+using FluentValidation;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using MySql.EntityFrameworkCore.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<FinanceasyDbContext>(options =>
     options.UseMySQL(connectionString!));
 
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(typeof(RegisterUserCommand).Assembly);
@@ -46,6 +49,7 @@ builder.Services.AddAuthentication(options =>
         ClockSkew = TimeSpan.Zero // evita atrasos de expiração
     };
 });
+builder.Services.AddAuthorization();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
@@ -54,7 +58,23 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddValidatorsFromAssembly(typeof(RegisterUserCommand).Assembly);
+
 var app = builder.Build();
+
+app.Use(async (ctx, next) =>
+{
+    try
+    {
+        await next();
+    }
+    catch (FluentValidation.ValidationException ex)
+    {
+        var errors = ex.Errors.Select(e => new { e.PropertyName, e.ErrorMessage });
+        ctx.Response.StatusCode = 400;
+        await ctx.Response.WriteAsJsonAsync(errors);
+    }
+});
 
 if (app.Environment.IsDevelopment())
 {
