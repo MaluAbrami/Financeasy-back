@@ -16,9 +16,16 @@ namespace Financeasy.Application.UseCases.DeleteUser
             _userRepository = userRepository;
         }
 
-        public Task<DeleteUserCommand> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+        public async Task<DeleteUserCommand> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var userExist = await _userRepository.GetUserById(request.UserId);
+
+            if(userExist is null)
+                throw new ArgumentException($"Usuário com id {request.UserId} não existe.");
+
+            _userRepository.DeleteUser(userExist);
+
+            return request;
         }
     }
 }
