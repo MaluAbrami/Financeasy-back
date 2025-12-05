@@ -4,8 +4,9 @@ namespace Financeasy.Domain.interfaces
 {
     public interface IUserRepository
     {
-        void AddUser(User user);
-        User? GetUserByEmail(string email);
+        Task AddUser(User user);
+        Task<User?> GetUserByEmail(string email);
+        Task<User?> GetUserById(Guid id);
         public void UpdateUser(User user);
         public void DeleteUser(User user);
     }

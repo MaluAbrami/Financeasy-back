@@ -1,6 +1,7 @@
 using Financeasy.Domain.interfaces;
 using Financeasy.Domain.models;
 using Financeasy.Infra.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Financeasy.Infra.Repository
 {
@@ -13,15 +14,24 @@ namespace Financeasy.Infra.Repository
             _context = context;
         }
 
-        public void AddUser(User user)
+        public async Task AddUser(User user)
         {
-            _context.Users.Add(user);
-            _context.SaveChanges();
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
         }
 
-        public User? GetUserByEmail(string email)
+        public async Task<User?> GetUserByEmail(string email)
         {
-            return _context.Users.FirstOrDefault(u => u.Email == email);
+            return await _context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Email == email);
+        }
+
+        public async Task<User?> GetUserById(Guid id)
+        {
+            return await _context.Users
+                .AsNoTracking()
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public void UpdateUser(User user)
