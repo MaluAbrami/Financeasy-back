@@ -10,20 +10,23 @@ namespace Financeasy.Application.UseCases.DeleteUser
     public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserCommand>
     {
         private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public DeleteUserHandler(IUserRepository userRepository)
+        public DeleteUserHandler(IUserRepository userRepository, IUnitOfWork unitOfWork)
         {
             _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<DeleteUserCommand> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-            var userExist = await _userRepository.GetUserById(request.UserId);
+            var userExist = await _userRepository.GetByIdAsync(request.UserId);
 
             if(userExist is null)
                 throw new ArgumentException($"Usuário com id {request.UserId} não existe.");
 
-            _userRepository.DeleteUser(userExist);
+            _userRepository.Delete(userExist);
+            await _unitOfWork.SaveChangesAsync();
 
             return request;
         }

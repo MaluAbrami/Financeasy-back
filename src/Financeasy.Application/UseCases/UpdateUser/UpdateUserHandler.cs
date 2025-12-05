@@ -7,17 +7,19 @@ namespace Financeasy.Application.UseCases.UpdateUser
     public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserCommand>
     {
         private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordHasher _passwordHasher;
 
-        public UpdateUserHandler(IUserRepository userRepository, IPasswordHasher passwordHasher)
+        public UpdateUserHandler(IUserRepository userRepository, IUnitOfWork unitOfWork, IPasswordHasher passwordHasher)
         {
             _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
             _passwordHasher = passwordHasher;
         }
 
         public async Task<UpdateUserCommand> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var userExist = await _userRepository.GetUserById(request.UserId);
+            var userExist = await _userRepository.GetByIdAsync(request.UserId);
 
             if(userExist is null)
                 throw new ArgumentException($"Usuário com id {request.UserId} não existe.");
@@ -34,7 +36,9 @@ namespace Financeasy.Application.UseCases.UpdateUser
             if(request.User.Email is not null)
                 userExist.Email = request.User.Email;
 
-            _userRepository.UpdateUser(userExist);
+            _userRepository.Update(userExist);
+            await _unitOfWork.SaveChangesAsync();
+            
             return request;
         }
     }

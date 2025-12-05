@@ -7,11 +7,13 @@ namespace Financeasy.Application.UseCases.RegisterUser
     public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, Guid>
     {
         private readonly IUserRepository _userRepository;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IPasswordHasher _passwordHasher;
 
-        public RegisterUserHandler(IUserRepository userRepository, IPasswordHasher passwordHasher)
+        public RegisterUserHandler(IUserRepository userRepository, IUnitOfWork unitOfWork, IPasswordHasher passwordHasher)
         {
             _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
             _passwordHasher = passwordHasher;
         }
 
@@ -23,7 +25,8 @@ namespace Financeasy.Application.UseCases.RegisterUser
                 throw new ArgumentException("Já existe um usuário com esse email");
 
             var newUser = new User(request.Email, _passwordHasher.Hash(request.Password));
-            await _userRepository.AddUser(newUser);
+            await _userRepository.AddAsync(newUser);
+            await _unitOfWork.SaveChangesAsync();
 
             return newUser.Id;
         }
