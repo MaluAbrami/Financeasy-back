@@ -3,6 +3,7 @@ using System;
 using Financeasy.Infra.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Financeasy.Infra.Migrations
 {
     [DbContext(typeof(FinanceasyDbContext))]
-    partial class FinanceasyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251205195005_UpdateFinancialEntry")]
+    partial class UpdateFinancialEntry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

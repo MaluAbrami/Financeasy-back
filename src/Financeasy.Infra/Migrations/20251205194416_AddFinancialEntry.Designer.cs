@@ -3,6 +3,7 @@ using System;
 using Financeasy.Infra.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Financeasy.Infra.Migrations
 {
     [DbContext(typeof(FinanceasyDbContext))]
-    partial class FinanceasyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251205194416_AddFinancialEntry")]
+    partial class AddFinancialEntry
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,11 +33,6 @@ namespace Financeasy.Infra.Migrations
                         .HasColumnType("decimal(18,2)")
                         .HasColumnName("amount");
 
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("category");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)")
                         .HasColumnName("date");
@@ -43,10 +41,6 @@ namespace Financeasy.Infra.Migrations
                         .IsRequired()
                         .HasColumnType("longtext")
                         .HasColumnName("description");
-
-                    b.Property<bool>("Fixed")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("fixed");
 
                     b.Property<int>("Type")
                         .HasColumnType("int")
