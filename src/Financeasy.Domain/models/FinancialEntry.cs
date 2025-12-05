@@ -22,7 +22,7 @@ namespace Financeasy.Domain.models
         public string Category { get; set; }
 
         [Column("description")]
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; } = string.Empty;
 
         [Column("date")]
         public DateTime Date { get; set; }
@@ -32,5 +32,19 @@ namespace Financeasy.Domain.models
 
         [Column("fixed")]
         public bool Fixed { get; set; }
+
+        public FinancialEntry(Guid userId, decimal amount, string category, string? description, DateTime date, EntryType type, bool isFixed)
+        {
+            Id = Guid.NewGuid();
+            UserId = userId;
+            Amount = amount;
+            Category = category;
+            Date = date;
+            Type = type;
+            Fixed = isFixed;
+
+            if(description is not null)
+                Description = description;
+        }
     }
 }
