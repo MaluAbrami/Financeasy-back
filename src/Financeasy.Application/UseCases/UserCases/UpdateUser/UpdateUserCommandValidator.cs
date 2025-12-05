@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Financeasy.Application.UseCases.UpdateUser
+namespace Financeasy.Application.UseCases.UserCases.UpdateUser
 {
     public class UpdateUserCommandValidator : AbstractValidator<UpdateUserCommand>
     {

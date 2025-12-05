@@ -1,7 +1,7 @@
 using Financeasy.Domain.DTO;
 using MediatR;
 
-namespace Financeasy.Application.UseCases.UpdateUser
+namespace Financeasy.Application.UseCases.UserCases.UpdateUser
 {
     public record UpdateUserCommand : IRequest<UpdateUserCommand>
     {

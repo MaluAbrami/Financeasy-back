@@ -1,7 +1,7 @@
 using System.Text;
 using Financeasy.Api.Endpoints;
 using Financeasy.Application.Behaviors;
-using Financeasy.Application.UseCases.RegisterUser;
+using Financeasy.Application.UseCases.UserCases.RegisterUser;
 using Financeasy.Domain.interfaces;
 using Financeasy.Infra.Persistence;
 using Financeasy.Infra.Repository;

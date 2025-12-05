@@ -2,7 +2,7 @@ using Financeasy.Domain.interfaces;
 using Financeasy.Domain.models;
 using MediatR;
 
-namespace Financeasy.Application.UseCases.RegisterUser
+namespace Financeasy.Application.UseCases.UserCases.RegisterUser
 {
     public class RegisterUserHandler : IRequestHandler<RegisterUserCommand, Guid>
     {

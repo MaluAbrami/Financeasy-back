@@ -1,8 +1,8 @@
-using Financeasy.Application.UseCases.DeleteUser;
-using Financeasy.Application.UseCases.GetUserByEmail;
-using Financeasy.Application.UseCases.Login;
-using Financeasy.Application.UseCases.RegisterUser;
-using Financeasy.Application.UseCases.UpdateUser;
+using Financeasy.Application.UseCases.UserCases.DeleteUser;
+using Financeasy.Application.UseCases.UserCases.GetUserByEmail;
+using Financeasy.Application.UseCases.UserCases.Login;
+using Financeasy.Application.UseCases.UserCases.RegisterUser;
+using Financeasy.Application.UseCases.UserCases.UpdateUser;
 using Financeasy.Domain.DTO;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;

@@ -1,7 +1,7 @@
 using Financeasy.Domain.interfaces;
 using MediatR;
 
-namespace Financeasy.Application.UseCases.GetUserByEmail
+namespace Financeasy.Application.UseCases.UserCases.GetUserByEmail
 {
     public class GetUserByEmailHandler : IRequestHandler<GetUserByEmailQuery, GetUserByEmailResponse>
     {

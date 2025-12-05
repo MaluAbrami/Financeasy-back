@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Financeasy.Application.UseCases.GetUserByEmail
+namespace Financeasy.Application.UseCases.UserCases.GetUserByEmail
 {
     public record GetUserByEmailResponse()
     {

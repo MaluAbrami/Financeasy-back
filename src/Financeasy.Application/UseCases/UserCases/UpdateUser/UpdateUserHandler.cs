@@ -2,7 +2,7 @@ using Financeasy.Domain.interfaces;
 using Financeasy.Domain.models;
 using MediatR;
 
-namespace Financeasy.Application.UseCases.UpdateUser
+namespace Financeasy.Application.UseCases.UserCases.UpdateUser
 {
     public class UpdateUserHandler : IRequestHandler<UpdateUserCommand, UpdateUserCommand>
     {

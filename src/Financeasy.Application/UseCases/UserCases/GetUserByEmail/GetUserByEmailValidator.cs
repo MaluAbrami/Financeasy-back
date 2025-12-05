@@ -1,6 +1,6 @@
 using FluentValidation;
 
-namespace Financeasy.Application.UseCases.GetUserByEmail
+namespace Financeasy.Application.UseCases.UserCases.GetUserByEmail
 {
     public class GetUserByEmailValidator : AbstractValidator<GetUserByEmailQuery>
     {

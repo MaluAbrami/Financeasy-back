@@ -1,7 +1,7 @@
 using Financeasy.Domain.interfaces;
 using MediatR;
 
-namespace Financeasy.Application.UseCases.Login
+namespace Financeasy.Application.UseCases.UserCases.Login
 {
     public class LoginHandler : IRequestHandler<LoginCommand, string>
     {

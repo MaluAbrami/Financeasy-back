@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Financeasy.Domain.interfaces;
 using MediatR;
 
-namespace Financeasy.Application.UseCases.DeleteUser
+namespace Financeasy.Application.UseCases.UserCases.DeleteUser
 {
     public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserCommand>
     {

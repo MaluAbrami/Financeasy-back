@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Financeasy.Application.UseCases.RegisterUser
+namespace Financeasy.Application.UseCases.UserCases.RegisterUser
 {
     public record RegisterUserCommand() : IRequest<Guid>
     {

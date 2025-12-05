@@ -1,10 +1,10 @@
 using FluentValidation;
 
-namespace Financeasy.Application.UseCases.Login
+namespace Financeasy.Application.UseCases.UserCases.RegisterUser
 {
-    public class LoginCommanndValidator : AbstractValidator<LoginCommand>
+    public class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
     {
-        public LoginCommanndValidator()
+        public RegisterUserCommandValidator()
         {
             RuleFor(x => x.Email)
                 .NotEmpty().WithMessage("Email é obrigatório")

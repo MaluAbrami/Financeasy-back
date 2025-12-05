@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Financeasy.Application.UseCases.Login
+namespace Financeasy.Application.UseCases.UserCases.Login
 {
     public record LoginCommand : IRequest<string>
     {
