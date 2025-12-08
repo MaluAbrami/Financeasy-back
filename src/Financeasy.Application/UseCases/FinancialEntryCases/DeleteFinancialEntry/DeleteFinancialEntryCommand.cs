@@ -4,7 +4,7 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.DeleteFinancialEnt
 {
     public record DeleteFinancialEntryCommand : IRequest<DeleteFinancialEntryCommand>
     {
-        public Guid FinancialId { get; set; }
+        public Guid Id { get; set; }
         public Guid UserId { get; set; }
     }
 }
