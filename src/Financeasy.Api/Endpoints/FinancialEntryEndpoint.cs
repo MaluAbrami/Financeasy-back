@@ -21,7 +21,7 @@ namespace Financeasy.Api.Endpoints
             group.MapGet("/all-by-user", GetAllFinancialByUser)
                 .RequireAuthorization();
 
-            group.MapPut("", UpdateFinancialEntry)
+            group.MapPatch("", UpdateFinancialEntry)
                 .RequireAuthorization();
 
             group.MapDelete("", DeleteFinancialEntry)

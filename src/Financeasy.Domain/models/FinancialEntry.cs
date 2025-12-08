@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Financeasy.Domain.DTO;
 using Financeasy.Domain.Enums;
 
 namespace Financeasy.Domain.models
@@ -43,8 +44,29 @@ namespace Financeasy.Domain.models
             Type = type;
             Fixed = isFixed;
 
-            if(description is not null)
+            if (description is not null)
                 Description = description;
+        }
+
+        public void Update(FinancialEntryUpdateDTO req)
+        {
+            if (req.Amount.HasValue && Amount != req.Amount.Value)
+                Amount = req.Amount.Value;
+
+            if (!string.IsNullOrWhiteSpace(req.Category) && Category != req.Category)
+                Category = req.Category;
+
+            if (!string.IsNullOrWhiteSpace(req.Description) && Description != req.Description)
+                Description = req.Description;
+
+            if (req.Date.HasValue && Date != req.Date.Value)
+                Date = req.Date.Value;
+
+            if (req.Type.HasValue && Type != req.Type.Value)
+                Type = req.Type.Value;
+
+            if (req.Fixed.HasValue && Fixed != req.Fixed.Value)
+                Fixed = req.Fixed.Value;
         }
     }
 }
