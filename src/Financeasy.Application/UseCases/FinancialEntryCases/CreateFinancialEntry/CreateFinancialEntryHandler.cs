@@ -26,7 +26,7 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.CreateFinancialEnt
                     request.Description,
                     request.Date,
                     request.Type,
-                    request.Fixed
+                    request.IsFixed
                 );
 
             await _financialRepository.AddAsync(newFinancialEntry);

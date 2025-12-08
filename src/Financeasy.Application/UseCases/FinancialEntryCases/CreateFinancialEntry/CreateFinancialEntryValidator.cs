@@ -22,9 +22,6 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.CreateFinancialEnt
             RuleFor(x => x.Type)
                 .NotEmpty().WithMessage("Tipo é obrigatório")
                 .IsInEnum().WithMessage("Tipo de entrada inválido");
-
-            RuleFor(x => x.Fixed)
-                .NotEmpty().WithMessage("Informar se é fixo é obrigatório");
         }
     }
 }

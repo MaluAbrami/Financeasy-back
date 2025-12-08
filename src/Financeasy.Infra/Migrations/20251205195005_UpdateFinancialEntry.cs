@@ -17,7 +17,7 @@ namespace Financeasy.Infra.Migrations
                 nullable: false);
 
             migrationBuilder.AddColumn<bool>(
-                name: "fixed",
+                name: "IsFixed",
                 table: "financial_entry",
                 type: "tinyint(1)",
                 nullable: false,
@@ -32,7 +32,7 @@ namespace Financeasy.Infra.Migrations
                 table: "financial_entry");
 
             migrationBuilder.DropColumn(
-                name: "fixed",
+                name: "IsFixed",
                 table: "financial_entry");
         }
     }

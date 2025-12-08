@@ -31,7 +31,7 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.GetFinancialById
                 Description = financialExist.Description,
                 Date = financialExist.Date,
                 Type = financialExist.Type,
-                Fixed = financialExist.Fixed
+                IsFixed = financialExist.IsFixed
             };
         }
     }

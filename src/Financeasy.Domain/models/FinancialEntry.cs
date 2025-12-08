@@ -32,7 +32,7 @@ namespace Financeasy.Domain.models
         public EntryType Type { get; set; }
 
         [Column("fixed")]
-        public bool Fixed { get; set; }
+        public bool IsFixed { get; set; }
 
         public FinancialEntry(Guid userId, decimal amount, string category, string? description, DateTime date, EntryType type, bool isFixed)
         {
@@ -42,7 +42,7 @@ namespace Financeasy.Domain.models
             Category = category;
             Date = date;
             Type = type;
-            Fixed = isFixed;
+            IsFixed = isFixed;
 
             if (description is not null)
                 Description = description;
@@ -65,8 +65,8 @@ namespace Financeasy.Domain.models
             if (req.Type.HasValue && Type != req.Type.Value)
                 Type = req.Type.Value;
 
-            if (req.Fixed.HasValue && Fixed != req.Fixed.Value)
-                Fixed = req.Fixed.Value;
+            if (req.IsFixed.HasValue && IsFixed != req.IsFixed.Value)
+                IsFixed = req.IsFixed.Value;
         }
     }
 }

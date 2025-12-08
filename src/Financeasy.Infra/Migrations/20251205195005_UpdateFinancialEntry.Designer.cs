@@ -47,9 +47,9 @@ namespace Financeasy.Infra.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("description");
 
-                    b.Property<bool>("Fixed")
+                    b.Property<bool>("IsFixed")
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("fixed");
+                        .HasColumnName("IsFixed");
 
                     b.Property<int>("Type")
                         .HasColumnType("int")

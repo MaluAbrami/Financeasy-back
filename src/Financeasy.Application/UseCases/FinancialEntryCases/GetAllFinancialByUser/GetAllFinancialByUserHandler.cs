@@ -31,7 +31,7 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.GetAllFinancialByU
                         Description = financial.Description,
                         Date = financial.Date,
                         Type = financial.Type,
-                        Fixed = financial.Fixed
+                        IsFixed = financial.IsFixed
                     };
 
                     listResponse.Add(responseDTO);

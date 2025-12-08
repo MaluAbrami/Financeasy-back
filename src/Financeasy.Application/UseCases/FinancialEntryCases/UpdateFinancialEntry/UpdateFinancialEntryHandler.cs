@@ -33,7 +33,7 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.UpdateFinancialEnt
                 Description = request.Description,
                 Date = request.Date,
                 Type = request.Type,
-                Fixed = request.Fixed
+                IsFixed = request.IsFixed
             });
 
             _financialRepository.Update(financialExist);
@@ -47,7 +47,7 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.UpdateFinancialEnt
                 Description = financialExist.Description,
                 Date = financialExist.Date,
                 Type = financialExist.Type,
-                Fixed = financialExist.Fixed
+                IsFixed = financialExist.IsFixed
             };
         }
     }

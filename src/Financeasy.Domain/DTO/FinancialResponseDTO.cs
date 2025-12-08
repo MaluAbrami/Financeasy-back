@@ -10,6 +10,6 @@ namespace Financeasy.Domain.DTO
         public string? Description { get; set; }
         public DateTime Date { get; set; }
         public EntryType Type { get; set; }
-        public bool Fixed { get; set; }
+        public bool IsFixed { get; set; }
     }
 }

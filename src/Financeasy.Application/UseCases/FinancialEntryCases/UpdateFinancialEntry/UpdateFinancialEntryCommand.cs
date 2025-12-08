@@ -13,6 +13,6 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.UpdateFinancialEnt
         public string? Description { get; set; } = string.Empty;
         public DateTime Date { get; set; }
         public EntryType Type { get; set; }
-        public bool Fixed { get; set; }
+        public bool IsFixed { get; set; }
     }
 }
