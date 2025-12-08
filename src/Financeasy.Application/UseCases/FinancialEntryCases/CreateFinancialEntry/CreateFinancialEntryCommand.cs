@@ -7,7 +7,8 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.CreateFinancialEnt
     {
         public Guid UserId { get; set; }
         public decimal Amount { get; set; }
-        public string Category { get; set; }
+        public required string Category { get; set; }
+        public string? Description { get; set; }
         public DateTime Date { get; set; }
         public EntryType Type { get; set; }
         public bool Fixed { get; set; }

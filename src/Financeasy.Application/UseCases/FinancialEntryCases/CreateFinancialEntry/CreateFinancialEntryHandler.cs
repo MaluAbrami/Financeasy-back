@@ -1,4 +1,5 @@
 using Financeasy.Domain.interfaces;
+using Financeasy.Domain.models;
 using MediatR;
 
 namespace Financeasy.Application.UseCases.FinancialEntryCases.CreateFinancialEntry
@@ -14,9 +15,24 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.CreateFinancialEnt
             _unitOfWork = unitOfWork;
         }
 
-        public Task<Guid> Handle(CreateFinancialEntryCommand request, CancellationToken cancellationToken)
+        public async Task<Guid> Handle(CreateFinancialEntryCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            FinancialEntry newFinancialEntry =             
+                new FinancialEntry
+                (
+                    request.UserId,
+                    request.Amount,
+                    request.Category,
+                    request.Description,
+                    request.Date,
+                    request.Type,
+                    request.Fixed
+                );
+
+            await _financialRepository.AddAsync(newFinancialEntry);
+            await _unitOfWork.SaveChangesAsync();
+
+            return newFinancialEntry.Id;
         }
     }
 }
