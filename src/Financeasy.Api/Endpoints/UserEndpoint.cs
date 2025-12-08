@@ -26,9 +26,9 @@ namespace Financeasy.Api.Endpoints
 
         private static async Task<IResult> RegisterUser(RegisterUserCommand command, IMediator mediator)
         {
-            var userId = await mediator.Send(command);
+            await mediator.Send(command);
 
-            return Results.Ok(userId);
+            return Results.Created();
         }
 
         private static async Task<IResult> Login(LoginCommand command, IMediator mediator)
