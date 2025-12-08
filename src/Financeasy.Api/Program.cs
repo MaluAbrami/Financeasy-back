@@ -122,4 +122,8 @@ app.MapGroup("/users")
     .WithTags("Users")
     .MapUserEndpoints();
 
+app.MapGroup("/financial-entry")
+    .WithTags("Financial Entry")
+    .MapFinancialEntryEndpoints();
+
 app.Run();
