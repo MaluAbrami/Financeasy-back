@@ -1,8 +1,8 @@
-using Financeasy.Application.UseCases.DeleteUser;
-using Financeasy.Application.UseCases.GetUserByEmail;
-using Financeasy.Application.UseCases.Login;
-using Financeasy.Application.UseCases.RegisterUser;
-using Financeasy.Application.UseCases.UpdateUser;
+using Financeasy.Application.UseCases.UserCases.DeleteUser;
+using Financeasy.Application.UseCases.UserCases.GetUserByEmail;
+using Financeasy.Application.UseCases.UserCases.Login;
+using Financeasy.Application.UseCases.UserCases.RegisterUser;
+using Financeasy.Application.UseCases.UserCases.UpdateUser;
 using Financeasy.Domain.DTO;
 using MediatR;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -26,9 +26,9 @@ namespace Financeasy.Api.Endpoints
 
         private static async Task<IResult> RegisterUser(RegisterUserCommand command, IMediator mediator)
         {
-            var userId = await mediator.Send(command);
+            await mediator.Send(command);
 
-            return Results.Ok(userId);
+            return Results.Created();
         }
 
         private static async Task<IResult> Login(LoginCommand command, IMediator mediator)

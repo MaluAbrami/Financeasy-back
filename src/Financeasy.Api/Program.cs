@@ -1,11 +1,12 @@
 using System.Text;
 using Financeasy.Api.Endpoints;
 using Financeasy.Application.Behaviors;
-using Financeasy.Application.UseCases.RegisterUser;
+using Financeasy.Application.UseCases.UserCases.RegisterUser;
 using Financeasy.Domain.interfaces;
 using Financeasy.Infra.Persistence;
 using Financeasy.Infra.Repository;
 using Financeasy.Infra.Services;
+using Financeasy.Infra.UnitOfWork;
 using Financeasy.Infra.Util;
 using FluentValidation;
 using MediatR;
@@ -52,7 +53,11 @@ builder.Services.AddAuthentication(options =>
 });
 builder.Services.AddAuthorization();
 
+builder.Services.AddScoped<IBaseRepository<object>, BaseRepository<object>>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IFinancialEntryRepository, FinancialEntryRepository>();
+
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
@@ -117,5 +122,9 @@ app.UseAuthorization();
 app.MapGroup("/users")
     .WithTags("Users")
     .MapUserEndpoints();
+
+app.MapGroup("/financial-entry")
+    .WithTags("Financial Entry")
+    .MapFinancialEntryEndpoints();
 
 app.Run();
