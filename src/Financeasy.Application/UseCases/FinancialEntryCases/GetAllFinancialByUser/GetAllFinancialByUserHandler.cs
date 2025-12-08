@@ -2,9 +2,9 @@ using MediatR;
 
 namespace Financeasy.Application.UseCases.FinancialEntryCases.GetAllFinancialByUser
 {
-    public class GetAllFinancialByUserHandler : IRequestHandler<GetAllFinancialByUser, GetAllFinancialByUserResponse>
+    public class GetAllFinancialByUserHandler : IRequestHandler<GetAllFinancialByUser, GetAllFinancialResponseDTO>
     {
-        public Task<GetAllFinancialByUserResponse> Handle(GetAllFinancialByUser request, CancellationToken cancellationToken)
+        public Task<GetAllFinancialResponseDTO> Handle(GetAllFinancialByUser request, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

@@ -1,25 +1,14 @@
-using Financeasy.Domain.Enums;
+using Financeasy.Domain.DTO;
 using MediatR;
 
 namespace Financeasy.Application.UseCases.FinancialEntryCases.GetAllFinancialByUser
 {
-    public record FinancialByUserResponse()
+    public record GetAllFinancialResponseDTO()
     {
-        public Guid Id { get; set; }
-        public decimal Amount { get; set; }
-        public required string Category { get; set; }
-        public string? Description { get; set; }
-        public DateTime Date { get; set; }
-        public EntryType Type { get; set; }
-        public bool Fixed { get; set; }
+        public List<FinancialResponseDTO>? FinancialsByUser { get; set; }
     }
 
-    public record GetAllFinancialByUserResponse()
-    {
-        public List<FinancialByUserResponse>? FinancialsByUser { get; set; }
-    }
-
-    public record GetAllFinancialByUser : IRequest<GetAllFinancialByUserResponse>
+    public record GetAllFinancialByUser : IRequest<GetAllFinancialResponseDTO>
     {
         public Guid UserId { get; set; }
     }
