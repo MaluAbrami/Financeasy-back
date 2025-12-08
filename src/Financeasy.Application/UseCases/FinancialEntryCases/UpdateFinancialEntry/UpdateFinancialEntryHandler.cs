@@ -28,12 +28,12 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.UpdateFinancialEnt
 
             financialExist.Update(new FinancialEntryUpdateDTO
             {
-                Amount = request.Amount,
-                Category = request.Category,
-                Description = request.Description,
-                Date = request.Date,
-                Type = request.Type,
-                IsFixed = request.IsFixed
+                Amount = request.Data.Amount,
+                Category = request.Data.Category,
+                Description = request.Data.Description,
+                Date = request.Data.Date,
+                Type = request.Data.Type,
+                IsFixed = request.Data.IsFixed
             });
 
             _financialRepository.Update(financialExist);

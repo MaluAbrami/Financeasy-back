@@ -8,11 +8,6 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.UpdateFinancialEnt
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
-        public decimal Amount { get; set; }
-        public string? Category { get; set; }
-        public string? Description { get; set; } = string.Empty;
-        public DateTime Date { get; set; }
-        public EntryType Type { get; set; }
-        public bool IsFixed { get; set; }
+        public required FinancialUpdateRequestDTO Data { get; set; }
     }
 }

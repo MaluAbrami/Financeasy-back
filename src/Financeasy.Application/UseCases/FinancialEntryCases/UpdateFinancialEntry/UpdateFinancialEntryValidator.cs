@@ -9,10 +9,10 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.UpdateFinancialEnt
             RuleFor(x => x.Id)
                 .NotEmpty().WithMessage("Id é obrigatório");
 
-            RuleFor(x => x.Amount)
-                .LessThan(0).WithMessage("O valor não pode ser negativo");
+            RuleFor(x => x.Data.Amount)
+                .GreaterThanOrEqualTo(0).WithMessage("O valor não pode ser negativo");
 
-            RuleFor(x => x.Type)
+            RuleFor(x => x.Data.Type)
                 .IsInEnum().WithMessage("Tipo de lançamento inválido");
         }
     }

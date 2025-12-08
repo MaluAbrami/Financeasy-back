@@ -21,7 +21,7 @@ namespace Financeasy.Api.Endpoints
             group.MapGet("/all-by-user", GetAllFinancialByUser)
                 .RequireAuthorization();
 
-            group.MapPatch("", UpdateFinancialEntry)
+            group.MapPatch("/{id}", UpdateFinancialEntry)
                 .RequireAuthorization();
 
             group.MapDelete("", DeleteFinancialEntry)
@@ -30,16 +30,18 @@ namespace Financeasy.Api.Endpoints
             return group;
         }
 
-        private async static Task<IResult> CreateFinancialEntry(CreateFinancialEntryCommand command, HttpContext httpContext, IMediator mediator)
+        private async static Task<IResult> CreateFinancialEntry(FinancialCreateRequestDTO request, HttpContext httpContext, IMediator mediator)
         {
             var userId = httpContext.User.FindFirst("userId")?.Value;
 
             if(userId is null)
                 return Results.Unauthorized();
 
-            command.UserId = Guid.Parse(userId);
-
-            var id = await mediator.Send(command);
+            await mediator.Send(new CreateFinancialEntryCommand
+            {
+                UserId = Guid.Parse(userId),
+                Data = request
+            });
 
             return Results.Created();
         }
@@ -68,16 +70,19 @@ namespace Financeasy.Api.Endpoints
             return Results.Ok(financialEntrys);
         }
 
-        private async static Task<IResult> UpdateFinancialEntry(UpdateFinancialEntryCommand command, HttpContext httpContext, IMediator mediator)
+        private async static Task<IResult> UpdateFinancialEntry(Guid id, FinancialUpdateRequestDTO request, HttpContext httpContext, IMediator mediator)
         {
             var userId = httpContext.User.FindFirst("userId")?.Value;
 
             if(userId is null)
                 return Results.Unauthorized();
 
-            command.UserId = Guid.Parse(userId);
-
-            FinancialResponseDTO financialEntryUpdated = await mediator.Send(command);
+            var financialEntryUpdated = await mediator.Send(new UpdateFinancialEntryCommand
+            {
+                Id = id,
+                UserId = Guid.Parse(userId),
+                Data = request
+            });
 
             return Results.Ok(financialEntryUpdated);
         }

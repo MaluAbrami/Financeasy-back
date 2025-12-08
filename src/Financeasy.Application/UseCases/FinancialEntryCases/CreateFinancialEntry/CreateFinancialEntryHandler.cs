@@ -21,12 +21,12 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.CreateFinancialEnt
                 new FinancialEntry
                 (
                     request.UserId,
-                    request.Amount,
-                    request.Category,
-                    request.Description,
-                    request.Date,
-                    request.Type,
-                    request.IsFixed
+                    request.Data.Amount,
+                    request.Data.Category,
+                    request.Data.Description,
+                    request.Data.Date,
+                    request.Data.Type,
+                    request.Data.IsFixed
                 );
 
             await _financialRepository.AddAsync(newFinancialEntry);
