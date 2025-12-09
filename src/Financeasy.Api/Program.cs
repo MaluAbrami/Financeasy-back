@@ -22,6 +22,16 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<FinanceasyDbContext>(options =>
     options.UseMySQL(connectionString!));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173/");
+        policy.AllowAnyHeader();
+        policy.AllowAnyOrigin();
+    });
+});
+
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 builder.Services.AddMediatR(cfg =>
 {
@@ -93,6 +103,8 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddValidatorsFromAssembly(typeof(RegisterUserCommand).Assembly);
 
 var app = builder.Build();
+
+app.UseCors("AllowAll");
 
 app.Use(async (ctx, next) =>
 {
