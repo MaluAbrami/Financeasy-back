@@ -28,7 +28,6 @@ namespace Financeasy.Domain.models
         [Column("date")]
         public DateTime Date { get; set; }
 
-        [Column("type")]
         public EntryType Type { get; set; }
 
         [Column("fixed")]

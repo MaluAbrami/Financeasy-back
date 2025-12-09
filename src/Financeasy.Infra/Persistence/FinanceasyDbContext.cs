@@ -12,5 +12,15 @@ namespace Financeasy.Infra.Persistence
 
         public DbSet<User> Users { get; set; }
         public DbSet<FinancialEntry> FinancialEntry { get; set ;}
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Configuração para salvar o enum Category como string
+            modelBuilder.Entity<FinancialEntry>()
+                .Property(x => x.Type)
+                .HasConversion<string>();
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
