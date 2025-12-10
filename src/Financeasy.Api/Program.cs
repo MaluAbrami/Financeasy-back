@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using Financeasy.Api.Endpoints;
 using Financeasy.Application.Behaviors;
 using Financeasy.Application.UseCases.UserCases.RegisterUser;
@@ -101,6 +102,11 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 builder.Services.AddValidatorsFromAssembly(typeof(RegisterUserCommand).Assembly);
+
+builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 var app = builder.Build();
 
