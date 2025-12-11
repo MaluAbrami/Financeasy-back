@@ -16,7 +16,7 @@ namespace Financeasy.Application.UseCases.DashboardsCases.GetSpendingByMonth
 
         public async Task<GetSpendingByMonthResponse> Handle(GetSpendingByMonth request, CancellationToken cancellationToken)
         {
-            var userExist = _userRepository.GetByIdAsync(request.UserId);
+            var userExist = await _userRepository.GetByIdAsync(request.UserId);
             if(userExist is null)
             {
                 throw new UnauthorizedAccessException($"Usuário autenticado com id {request.UserId} não encontrado");

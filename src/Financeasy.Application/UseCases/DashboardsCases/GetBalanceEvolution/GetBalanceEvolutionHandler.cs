@@ -17,7 +17,7 @@ namespace Financeasy.Application.UseCases.DashboardsCases.GetBalanceEvolution
 
         public async Task<GetBalanceEvolutionResponse> Handle(GetBalanceEvolution request, CancellationToken cancellationToken)
         {
-            var userExist = _userRepository.GetByIdAsync(request.UserId);
+            var userExist = await _userRepository.GetByIdAsync(request.UserId);
             if(userExist is null)
             {
                 throw new UnauthorizedAccessException($"Usuário autenticado com id {request.UserId} não encontrado");
