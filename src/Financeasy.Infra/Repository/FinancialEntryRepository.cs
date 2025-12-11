@@ -22,6 +22,16 @@ namespace Financeasy.Infra.Repository
                 .SumAsync(f => f.Amount);
         }
 
+        public async Task<decimal> GetTotalAmountByTypeAndByMonth(EntryType type, Guid userId, int year, int month)
+        {
+            return await _context.FinancialEntry
+                .Where(f => f.Type == type && 
+                    f.UserId == userId && 
+                    f.Date.Year == year &&
+                    f.Date.Month == month)
+                .SumAsync(f => f.Amount);
+        }
+
         public async Task<decimal> GetTotalExpenseByCategory(string category, Guid userId)
         {
             return await _context.FinancialEntry
