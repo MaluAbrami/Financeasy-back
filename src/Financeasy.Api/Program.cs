@@ -146,4 +146,8 @@ app.MapGroup("/financial-entry")
     .WithTags("Financial Entry")
     .MapFinancialEntryEndpoints();
 
+app.MapGroup("/dashboards")
+    .WithTags("Dashboards")
+    .MapDashboards();
+
 app.Run();
