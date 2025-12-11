@@ -39,11 +39,9 @@ namespace Financeasy.Application.UseCases.DashboardsCases.GetBalanceEvolution
                 }
 
                 if(i == request.EndYearComparison)
-                {
                     maxMonths = request.EndMonthComparison;
-                }
-
-                for(int j = minMonths; i <= maxMonths; i++)
+                
+                for(int j = minMonths; j <= maxMonths; j++)
                 {
                     balanceResponse.TotalExpenses = await _financialRepository.GetTotalAmountByTypeAndByMonth(
                             EntryType.Expense,
@@ -66,6 +64,9 @@ namespace Financeasy.Application.UseCases.DashboardsCases.GetBalanceEvolution
 
                     list.Add(balanceResponse);
                 }
+
+                if(minMonths != 1)
+                    minMonths = 1;
             }
 
             return new GetBalanceEvolutionResponse { Balances = list };
