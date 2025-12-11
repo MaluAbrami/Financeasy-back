@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace Financeasy.Application.UseCases.DashboardsCases.GetSpedingByCategory
+namespace Financeasy.Application.UseCases.DashboardsCases.GetSpendingByCategory
 {
     public record GetSpendingByCategoryResponse()
     {
