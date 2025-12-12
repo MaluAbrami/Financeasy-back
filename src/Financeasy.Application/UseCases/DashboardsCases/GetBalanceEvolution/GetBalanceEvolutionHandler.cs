@@ -24,7 +24,6 @@ namespace Financeasy.Application.UseCases.DashboardsCases.GetBalanceEvolution
             }
 
             List<BalanceResponse> list = [];
-            BalanceResponse balanceResponse = new();
             bool first = true;
             decimal totalAccumulatedBalance = 0;
             int maxMonths = 12;
@@ -43,6 +42,8 @@ namespace Financeasy.Application.UseCases.DashboardsCases.GetBalanceEvolution
                 
                 for(int j = minMonths; j <= maxMonths; j++)
                 {
+                    BalanceResponse balanceResponse = new();
+                    
                     balanceResponse.TotalExpenses = await _financialRepository.GetTotalAmountByTypeAndByMonth(
                             EntryType.Expense,
                             request.UserId,
