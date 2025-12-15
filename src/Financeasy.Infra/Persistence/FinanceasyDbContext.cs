@@ -12,6 +12,7 @@ namespace Financeasy.Infra.Persistence
 
         public DbSet<User> Users { get; set; }
         public DbSet<FinancialEntry> FinancialEntry { get; set ;}
+        public DbSet<Category> Categorys { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -19,6 +20,10 @@ namespace Financeasy.Infra.Persistence
             modelBuilder.Entity<FinancialEntry>()
                 .Property(x => x.Type)
                 .HasConversion<string>();
+
+            modelBuilder.Entity<Category>()
+                .HasIndex(e => new { e.UserId, e.Name })
+                .IsUnique();
 
             base.OnModelCreating(modelBuilder);
         }
