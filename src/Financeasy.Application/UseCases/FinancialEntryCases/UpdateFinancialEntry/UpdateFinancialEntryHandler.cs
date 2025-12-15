@@ -29,11 +29,8 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.UpdateFinancialEnt
             financialExist.Update(new FinancialEntryUpdateDTO
             {
                 Amount = request.Data.Amount,
-                Category = request.Data.Category,
                 Description = request.Data.Description,
-                Date = request.Data.Date,
-                Type = request.Data.Type,
-                IsFixed = request.Data.IsFixed
+                Date = request.Data.Date
             });
 
             _financialRepository.Update(financialExist);
@@ -43,9 +40,9 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.UpdateFinancialEnt
             {
                 Id = financialExist.Id,
                 Amount = financialExist.Amount,
-                Category = financialExist.Category,
                 Description = financialExist.Description,
                 Date = financialExist.Date,
+                CategoryName = financialExist.CategoryName,
                 Type = financialExist.Type,
                 IsFixed = financialExist.IsFixed
             };

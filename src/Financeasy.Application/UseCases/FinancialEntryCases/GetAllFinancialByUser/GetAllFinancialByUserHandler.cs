@@ -27,9 +27,9 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.GetAllFinancialByU
                     {
                         Id = financial.Id,
                         Amount = financial.Amount,
-                        Category = financial.Category,
                         Description = financial.Description,
                         Date = financial.Date,
+                        CategoryName = financial.CategoryName,
                         Type = financial.Type,
                         IsFixed = financial.IsFixed
                     };

@@ -11,9 +11,6 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.UpdateFinancialEnt
 
             RuleFor(x => x.Data.Amount)
                 .GreaterThanOrEqualTo(0).WithMessage("O valor não pode ser negativo");
-
-            RuleFor(x => x.Data.Type)
-                .IsInEnum().WithMessage("Tipo de lançamento inválido");
         }
     }
 }

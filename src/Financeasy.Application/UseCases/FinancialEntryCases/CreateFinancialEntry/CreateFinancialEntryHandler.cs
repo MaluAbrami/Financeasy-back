@@ -7,26 +7,30 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.CreateFinancialEnt
     public class CreateFinancialEntryHandler : IRequestHandler<CreateFinancialEntryCommand, Guid>
     {
         private readonly IFinancialEntryRepository _financialRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateFinancialEntryHandler(IFinancialEntryRepository financialRepository, IUnitOfWork unitOfWork)
+        public CreateFinancialEntryHandler(IFinancialEntryRepository financialRepository, ICategoryRepository categoryRepository, IUnitOfWork unitOfWork)
         {
             _financialRepository = financialRepository;
+            _categoryRepository = categoryRepository;
             _unitOfWork = unitOfWork;
         }
 
         public async Task<Guid> Handle(CreateFinancialEntryCommand request, CancellationToken cancellationToken)
         {
+            Category? category = await _categoryRepository.GetByIdAsync(request.Data.CategoryId);
+            if(category is null)
+                throw new ArgumentException($"Categoria de {request.Data.CategoryId} não foi encontrada");
+
             FinancialEntry newFinancialEntry =             
                 new FinancialEntry
                 (
                     request.UserId,
                     request.Data.Amount,
-                    request.Data.Category,
                     request.Data.Description,
                     request.Data.Date,
-                    request.Data.Type,
-                    request.Data.IsFixed
+                    category
                 );
 
             await _financialRepository.AddAsync(newFinancialEntry);

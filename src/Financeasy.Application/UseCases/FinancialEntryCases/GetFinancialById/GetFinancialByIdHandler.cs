@@ -27,9 +27,9 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.GetFinancialById
             {
                 Id = financialExist.Id,
                 Amount = financialExist.Amount,
-                Category = financialExist.Category,
                 Description = financialExist.Description,
                 Date = financialExist.Date,
+                CategoryName = financialExist.CategoryName,
                 Type = financialExist.Type,
                 IsFixed = financialExist.IsFixed
             };

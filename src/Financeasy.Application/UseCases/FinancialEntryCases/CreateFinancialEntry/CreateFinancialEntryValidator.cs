@@ -13,14 +13,11 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.CreateFinancialEnt
             RuleFor(x => x.Data.Amount)
                 .NotEmpty().WithMessage("Valor é obrigatório");
 
-            RuleFor(x => x.Data.Category)
-                .NotEmpty().WithMessage("Categoria é obrigatória");
+            RuleFor(x => x.Data.CategoryId)
+                .NotEmpty().WithMessage("Id da Categoria é obrigatória");
 
             RuleFor(x => x.Data.Date)
                 .NotEmpty().WithMessage("Data é obrigatório");
-
-            RuleFor(x => x.Data.Type)
-                .IsInEnum().WithMessage("Tipo de entrada inválido");
         }
     }
 }
