@@ -26,6 +26,9 @@ namespace Financeasy.Application.UseCases.DashboardsCases.GetBalanceEvolution
             List<BalanceResponse> list = [];
             bool first = true;
             decimal totalAccumulatedBalance = 0;
+            decimal totalIncomes = 0;
+            decimal totalExpenses = 0;
+            decimal totalPeriods = 0;
             int maxMonths = 12;
             int minMonths = 1;
 
@@ -43,13 +46,14 @@ namespace Financeasy.Application.UseCases.DashboardsCases.GetBalanceEvolution
                 for(int j = minMonths; j <= maxMonths; j++)
                 {
                     BalanceResponse balanceResponse = new();
-                    
+
                     balanceResponse.TotalExpenses = await _financialRepository.GetTotalAmountByTypeAndByMonth(
                             EntryType.Expense,
                             request.UserId,
                             i,
                             j
                         );
+                    totalExpenses += balanceResponse.TotalExpenses;
 
                     balanceResponse.TotalIncomes = await _financialRepository.GetTotalAmountByTypeAndByMonth(
                             EntryType.Income,
@@ -57,10 +61,14 @@ namespace Financeasy.Application.UseCases.DashboardsCases.GetBalanceEvolution
                             i,
                             j
                         );
+                    totalIncomes += balanceResponse.TotalIncomes;
 
                     balanceResponse.TotalMonthBalance = balanceResponse.TotalIncomes - balanceResponse.TotalExpenses;
+                    totalPeriods += balanceResponse.TotalMonthBalance;
+
                     totalAccumulatedBalance += balanceResponse.TotalMonthBalance;
                     balanceResponse.TotalAccumulatedBalance = totalAccumulatedBalance;
+                
                     balanceResponse.Period = $"{j}/{i}";
 
                     list.Add(balanceResponse);
@@ -69,6 +77,9 @@ namespace Financeasy.Application.UseCases.DashboardsCases.GetBalanceEvolution
                 if(minMonths != 1)
                     minMonths = 1;
             }
+
+            var lastTotalBalance = new BalanceResponse { Period = "Total", TotalIncomes = totalIncomes, TotalExpenses = totalExpenses, TotalMonthBalance = totalPeriods, TotalAccumulatedBalance = totalAccumulatedBalance };
+            list.Add(lastTotalBalance);
 
             return new GetBalanceEvolutionResponse { Balances = list };
         }
