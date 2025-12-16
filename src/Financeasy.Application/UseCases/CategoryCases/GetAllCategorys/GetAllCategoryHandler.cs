@@ -28,8 +28,7 @@ namespace Financeasy.Application.UseCases.CategoryCases.GetAllCategorys
                     Id = category.Id,
                     Name = category.Name,
                     Type = category.Type,
-                    IsFixed = category.IsFixed,
-                    Recurrence = category.Recurrence
+                    IsFixed = category.IsFixed
                 };
                 
                 responseList.Add(categoryResponse);

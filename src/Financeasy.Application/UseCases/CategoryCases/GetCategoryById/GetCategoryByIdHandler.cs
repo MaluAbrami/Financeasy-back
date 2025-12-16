@@ -28,8 +28,7 @@ namespace Financeasy.Application.UseCases.CategoryCases.GetCategoryById
             {
                 Name = categoryExists.Name,
                 Type = categoryExists.Type,
-                IsFixed = categoryExists.IsFixed,
-                Recurrence = categoryExists.Recurrence
+                IsFixed = categoryExists.IsFixed
             };
         }
     }
