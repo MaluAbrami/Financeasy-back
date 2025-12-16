@@ -1,4 +1,7 @@
 using Financeasy.Application.UseCases.CategoryCases.CreateCategory;
+using Financeasy.Application.UseCases.CategoryCases.DeleteCategory;
+using Financeasy.Application.UseCases.CategoryCases.GetAllCategorys;
+using Financeasy.Application.UseCases.CategoryCases.GetCategoryById;
 using Financeasy.Domain.DTO;
 using MediatR;
 
@@ -9,6 +12,15 @@ namespace Financeasy.Api.Endpoints
         public static RouteGroupBuilder MapCategorys(this RouteGroupBuilder group)
         {
             group.MapPost("", CreateCategory)
+                .RequireAuthorization();
+                
+            group.MapGet("/all", GetAllCategorys)
+                .RequireAuthorization();
+
+            group.MapGet("/{id}", GetCategoryById)
+                .RequireAuthorization();
+
+            group.MapDelete("", DeleteCategory)
                 .RequireAuthorization();
 
             return group;
@@ -23,6 +35,39 @@ namespace Financeasy.Api.Endpoints
             await mediator.Send(new CreateCategoryCommand { UserId = Guid.Parse(userId), Name = request.Name, Type = request.Type, IsFixed = request.IsFixed, Recurrence = request.Recurrence } );
 
             return Results.Created();
+        }
+
+        private static async Task<IResult> GetAllCategorys(HttpContext context, IMediator mediator)
+        {
+            var userId = context.User.FindFirst("userId")?.Value;
+            if(userId is null)
+                return Results.Unauthorized();
+
+            var response = await mediator.Send(new GetAllCategorys { UserId = Guid.Parse(userId) } );
+
+            return Results.Ok(response);
+        }
+
+        private static async Task<IResult> GetCategoryById(Guid id, HttpContext context, IMediator mediator)
+        {
+            var userId = context.User.FindFirst("userId")?.Value;
+            if(userId is null)
+                return Results.Unauthorized();
+
+            var response = await mediator.Send(new GetCategoryById { Id = id, UserId = Guid.Parse(userId) } );
+
+            return Results.Ok(response);
+        }
+
+        private static async Task<IResult> DeleteCategory(Guid id, HttpContext context, IMediator mediator)
+        {
+            var userId = context.User.FindFirst("userId")?.Value;
+            if(userId is null)
+                return Results.Unauthorized();
+
+            var response = await mediator.Send(new DeleteCategoryCommand { Id = id, UserId = Guid.Parse(userId) } );
+
+            return Results.NoContent();
         }
     }
 }
