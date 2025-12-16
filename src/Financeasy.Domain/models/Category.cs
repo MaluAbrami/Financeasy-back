@@ -16,7 +16,7 @@ namespace Financeasy.Domain.models
         public Guid UserId { get; set; }
 
         [Column("name")]
-        public required string Name { get; set; }
+        public string Name { get; set; }
 
         [Column("type")]
         public EntryType Type { get; set; }
@@ -27,8 +27,15 @@ namespace Financeasy.Domain.models
         [Column("recurrence")]
         public int? Recurrence { get; set; }
 
-        public Category(string name, EntryType type, bool isFixed, int? recurrence)
+        public Category()
         {
+            
+        }
+
+        public Category(Guid userId, string name, EntryType type, bool isFixed, int? recurrence)
+        {
+            Id = Guid.NewGuid();
+            UserId = userId;
             Name = name;
             Type = type;
             IsFixed = isFixed;
