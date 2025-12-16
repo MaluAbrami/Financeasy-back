@@ -9,6 +9,6 @@ namespace Financeasy.Application.UseCases.CategoryCases.CreateCategory
         public required string Name { get; set; }
         public EntryType Type { get; set; }
         public bool IsFixed { get; set; }
-        public int Recurrence { get; set; }
+        public int? Recurrence { get; set; }
     }
 }
