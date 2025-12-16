@@ -22,6 +22,10 @@ namespace Financeasy.Infra.Persistence
                 .HasConversion<string>();
 
             modelBuilder.Entity<Category>()
+                .Property(x => x.Type)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<Category>()
                 .HasIndex(e => new { e.UserId, e.Name })
                 .IsUnique();
 
