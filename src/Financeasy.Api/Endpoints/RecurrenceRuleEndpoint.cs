@@ -39,7 +39,7 @@ namespace Financeasy.Api.Endpoints
                 Recurrence = request
             });
 
-            return Results.Ok();
+            return Results.Created();
         }
 
         private static async Task<IResult> GetAllRecurrencesByCategoryId(Guid categoryId, HttpContext context, IMediator mediator)
@@ -87,7 +87,7 @@ namespace Financeasy.Api.Endpoints
                 Id = id
             });
 
-            return Results.Ok();
+            return Results.NoContent();
         }
     }
 }
