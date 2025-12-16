@@ -166,4 +166,8 @@ app.MapGroup("/categorys")
     .WithTags("Categorys")
     .MapCategorys();
 
+app.MapGroup("/recurrences")
+    .WithTags("Recurrences")
+    .MapRecurrenceRule();
+
 app.Run();
