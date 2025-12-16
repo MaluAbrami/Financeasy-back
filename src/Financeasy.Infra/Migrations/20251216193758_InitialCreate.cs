@@ -56,6 +56,7 @@ namespace Financeasy.Infra.Migrations
                 {
                     id = table.Column<Guid>(type: "char(36)", nullable: false),
                     category_id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    user_id = table.Column<Guid>(type: "char(36)", nullable: false),
                     frequency = table.Column<string>(type: "longtext", nullable: false),
                     day_of_month = table.Column<int>(type: "int", nullable: true),
                     day_of_week = table.Column<int>(type: "int", nullable: true),

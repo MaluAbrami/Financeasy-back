@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Financeasy.Infra.Migrations
 {
     [DbContext(typeof(FinanceasyDbContext))]
-    [Migration("20251216180643_InitialCreate")]
+    [Migration("20251216193758_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -146,6 +146,10 @@ namespace Financeasy.Infra.Migrations
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime(6)")
                         .HasColumnName("start_date");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("user_id");
 
                     b.HasKey("Id");
 

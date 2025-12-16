@@ -144,6 +144,10 @@ namespace Financeasy.Infra.Migrations
                         .HasColumnType("datetime(6)")
                         .HasColumnName("start_date");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("user_id");
+
                     b.HasKey("Id");
 
                     b.ToTable("recurrence_rule");
