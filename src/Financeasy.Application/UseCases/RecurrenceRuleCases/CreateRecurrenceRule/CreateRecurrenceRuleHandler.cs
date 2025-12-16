@@ -43,7 +43,6 @@ namespace Financeasy.Application.UseCases.RecurrenceRuleCases.CreateRecurrenceRu
             );
 
             await _recurrenceRepository.AddAsync(newRecurrence);
-            await _unitOfWork.SaveChangesAsync();
 
             if(newRecurrence.StartDate <= DateTime.Today)
             {
@@ -54,6 +53,8 @@ namespace Financeasy.Application.UseCases.RecurrenceRuleCases.CreateRecurrenceRu
                     cancellationToken
                 );
             }
+
+            await _unitOfWork.SaveChangesAsync();
 
             return newRecurrence.Id;
         }
