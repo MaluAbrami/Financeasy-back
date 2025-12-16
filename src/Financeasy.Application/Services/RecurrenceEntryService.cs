@@ -20,7 +20,11 @@ namespace Financeasy.Application.Services
         {
             var strategy = _strategyFactory.Create(rule.Frequency);
 
-            var dates = strategy.CalculateDates(rule.StartDate, DateTime.Today, rule);
+            DateTime dateParam = DateTime.Today;
+            if(rule.EndDate is not null && rule.EndDate <= DateTime.Today)
+                dateParam = rule.EndDate.Value;
+            
+            var dates = strategy.CalculateDates(rule.StartDate, dateParam, rule);
 
             foreach(var date in dates)
             {
