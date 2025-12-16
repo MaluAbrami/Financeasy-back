@@ -80,6 +80,7 @@ builder.Services.AddScoped<IRecurrenceStrategy, MonthlyRecurrenceStrategy>();
 builder.Services.AddScoped<IRecurrenceStrategy, YearlyRecurrenceStrategy>();
 builder.Services.AddScoped<IRecurrenceStrategyFactory, RecurrenceStrategyFactory>();
 builder.Services.AddScoped<IRecurrenceEntryService, RecurrenceEntryService>();
+builder.Services.AddScoped<IDateAdjustmentService, DateAdjustmentService>();
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<ITokenService, TokenService>();
