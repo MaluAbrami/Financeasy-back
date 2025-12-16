@@ -32,10 +32,10 @@ namespace Financeasy.Infra.Repository
                 .SumAsync(f => f.Amount);
         }
 
-        public async Task<decimal> GetTotalExpenseByCategory(string category, Guid userId)
+        public async Task<decimal> GetTotalExpenseByCategory(string categoryName, Guid userId)
         {
             return await _context.FinancialEntry
-                .Where(f => f.Category == category && f.UserId == userId)
+                .Where(f => f.CategoryName == categoryName && f.UserId == userId)
                 .SumAsync(f => f.Amount);
         }
 

@@ -6,12 +6,29 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Financeasy.Infra.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class AddCategoryEntity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterDatabase()
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "category",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    user_id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    name = table.Column<string>(type: "varchar(255)", nullable: false),
+                    type = table.Column<string>(type: "longtext", nullable: false),
+                    is_fixed = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    recurrence = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_category", x => x.id);
+                })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
@@ -21,11 +38,11 @@ namespace Financeasy.Infra.Migrations
                     id = table.Column<Guid>(type: "char(36)", nullable: false),
                     user_id = table.Column<Guid>(type: "char(36)", nullable: false),
                     amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    category = table.Column<string>(type: "longtext", nullable: false),
                     description = table.Column<string>(type: "longtext", nullable: true),
                     date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Type = table.Column<string>(type: "longtext", nullable: false),
-                    @fixed = table.Column<bool>(name: "fixed", type: "tinyint(1)", nullable: false)
+                    category_name = table.Column<string>(type: "longtext", nullable: false),
+                    type = table.Column<string>(type: "longtext", nullable: false),
+                    is_fixed = table.Column<bool>(type: "tinyint(1)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -46,11 +63,20 @@ namespace Financeasy.Infra.Migrations
                     table.PrimaryKey("PK_users", x => x.id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_category_user_id_name",
+                table: "category",
+                columns: new[] { "user_id", "name" },
+                unique: true);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "category");
+
             migrationBuilder.DropTable(
                 name: "financial_entry");
 

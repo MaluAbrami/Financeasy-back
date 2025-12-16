@@ -33,6 +33,11 @@ namespace Financeasy.Domain.models
         [Column("is_fixed")]
         public bool IsFixed { get; set; }
 
+        public FinancialEntry()
+        {
+            
+        }
+
         public FinancialEntry(Guid userId, decimal amount, string? description, DateTime date, Category category)
         {
             Id = Guid.NewGuid();

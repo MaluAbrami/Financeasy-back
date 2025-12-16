@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Financeasy.Infra.Migrations
 {
     [DbContext(typeof(FinanceasyDbContext))]
-    [Migration("20251209232749_Initial")]
-    partial class Initial
+    [Migration("20251216140054_AddCategoryEntity")]
+    partial class AddCategoryEntity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -21,6 +21,43 @@ namespace Financeasy.Infra.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "10.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("Financeasy.Domain.models.Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)")
+                        .HasColumnName("id");
+
+                    b.Property<bool>("IsFixed")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_fixed");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("name");
+
+                    b.Property<int?>("Recurrence")
+                        .HasColumnType("int")
+                        .HasColumnName("recurrence");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("type");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId", "Name")
+                        .IsUnique();
+
+                    b.ToTable("category");
+                });
 
             modelBuilder.Entity("Financeasy.Domain.models.FinancialEntry", b =>
                 {
@@ -33,10 +70,10 @@ namespace Financeasy.Infra.Migrations
                         .HasColumnType("decimal(18,2)")
                         .HasColumnName("amount");
 
-                    b.Property<string>("Category")
+                    b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("category");
+                        .HasColumnName("category_name");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)")
@@ -48,11 +85,12 @@ namespace Financeasy.Infra.Migrations
 
                     b.Property<bool>("IsFixed")
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("fixed");
+                        .HasColumnName("is_fixed");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("longtext")
+                        .HasColumnName("type");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)")
