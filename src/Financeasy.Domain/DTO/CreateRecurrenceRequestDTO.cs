@@ -4,6 +4,7 @@ namespace Financeasy.Domain.DTO
 {
     public record CreateRecurrenceRequestDTO
     {
+        public Guid CategoryId { get; set; }
         public Frequency Frequency { get; set; }
         public int? DayOfMonth { get; set; }
         public int? DayOfWeek { get; set; }

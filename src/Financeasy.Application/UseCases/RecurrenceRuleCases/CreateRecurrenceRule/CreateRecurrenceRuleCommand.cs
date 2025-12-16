@@ -6,7 +6,6 @@ namespace Financeasy.Application.UseCases.RecurrenceRuleCases.CreateRecurrenceRu
     public record CreateRecurrenceRuleCommand : IRequest<Guid>
     {
         public Guid UserId { get; set; }
-        public Guid CategoryId { get; set; }
         public required CreateRecurrenceRequestDTO Recurrence { get; set; }
     }
 }

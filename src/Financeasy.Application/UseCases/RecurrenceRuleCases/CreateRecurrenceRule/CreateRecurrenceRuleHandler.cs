@@ -22,15 +22,15 @@ namespace Financeasy.Application.UseCases.RecurrenceRuleCases.CreateRecurrenceRu
 
         public async Task<Guid> Handle(CreateRecurrenceRuleCommand request, CancellationToken cancellationToken)
         {
-            var categoryExist = await _categoryRepository.GetByIdAsync(request.CategoryId);
+            var categoryExist = await _categoryRepository.GetByIdAsync(request.Recurrence.CategoryId);
             if(categoryExist is null)
-                throw new ArgumentException($"Categoria de id {request.CategoryId} não foi encontrada.");
+                throw new ArgumentException($"Categoria de id {request.Recurrence.CategoryId} não foi encontrada.");
 
             if(!categoryExist.IsFixed)
                 throw new ArgumentOutOfRangeException("Apenas é possível criar regra de recorrência para categorias fixas.");
 
             var newRecurrence = new RecurrenceRule(
-                request.CategoryId,
+                request.Recurrence.CategoryId,
                 request.UserId,
                 request.Recurrence.Frequency,
                 request.Recurrence.DayOfMonth,
