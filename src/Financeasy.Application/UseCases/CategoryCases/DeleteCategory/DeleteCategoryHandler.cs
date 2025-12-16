@@ -1,20 +1,20 @@
 using Financeasy.Domain.interfaces;
 using MediatR;
 
-namespace Financeasy.Application.UseCases.CategoryCases.GetCategoryById
+namespace Financeasy.Application.UseCases.CategoryCases.DeleteCategory
 {
-    public class GetCategoryByIdHandler : IRequestHandler<GetCategoryById, GetCategoryByIdResponse>
+    public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand, DeleteCategoryCommand>
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public GetCategoryByIdHandler(ICategoryRepository categoryRepository, IUnitOfWork unitOfWork)
+        public DeleteCategoryHandler(ICategoryRepository categoryRepository, IUnitOfWork unitOfWork)
         {
             _categoryRepository = categoryRepository;
             _unitOfWork = unitOfWork;
         }
-
-        public async Task<GetCategoryByIdResponse> Handle(GetCategoryById request, CancellationToken cancellationToken)
+        
+        public async Task<DeleteCategoryCommand> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
             var categoryExists = await _categoryRepository.GetByIdAsync(request.Id);
 
@@ -24,13 +24,10 @@ namespace Financeasy.Application.UseCases.CategoryCases.GetCategoryById
             if(categoryExists.UserId != request.UserId)
                 throw new UnauthorizedAccessException("Usuário não pode realizar essa ação.");
 
-            return new GetCategoryByIdResponse
-            {
-                Name = categoryExists.Name,
-                Type = categoryExists.Type,
-                IsFixed = categoryExists.IsFixed,
-                Recurrence = categoryExists.Recurrence
-            };
+            _categoryRepository.Delete(categoryExists);
+            await _unitOfWork.SaveChangesAsync();
+
+            return request;
         }
     }
 }
