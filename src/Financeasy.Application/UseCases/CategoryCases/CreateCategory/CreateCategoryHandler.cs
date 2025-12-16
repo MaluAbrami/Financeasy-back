@@ -1,3 +1,5 @@
+using Financeasy.Application.Factory;
+using Financeasy.Application.Services;
 using Financeasy.Domain.interfaces;
 using Financeasy.Domain.models;
 using MediatR;
@@ -8,12 +10,14 @@ namespace Financeasy.Application.UseCases.CategoryCases.CreateCategory
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IRecurrenceRuleRepository _recurrenceRepository;
+        private readonly IRecurrenceEntryService _recurrenceService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateCategoryHandler(ICategoryRepository categoryRepository, IRecurrenceRuleRepository recurrenceRepository, IUnitOfWork unitOfWork)
+        public CreateCategoryHandler(ICategoryRepository categoryRepository, IRecurrenceRuleRepository recurrenceRepository, IRecurrenceEntryService recurrenceService, IUnitOfWork unitOfWork)
         {
             _categoryRepository = categoryRepository;
             _recurrenceRepository = recurrenceRepository;
+            _recurrenceService = recurrenceService;
             _unitOfWork = unitOfWork; 
         }
 
@@ -46,6 +50,16 @@ namespace Financeasy.Application.UseCases.CategoryCases.CreateCategory
                 );
 
                 await _recurrenceRepository.AddAsync(newRecurrence);
+
+                if(newRecurrence.StartDate.Date <= DateTime.Now.Date)
+                {
+                    await _recurrenceService.GenerateEntries(
+                        newRecurrence,
+                        newCategory,
+                        request.UserId,
+                        cancellationToken
+                    );
+                }
             }
 
             await _unitOfWork.SaveChangesAsync();
