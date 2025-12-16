@@ -150,4 +150,8 @@ app.MapGroup("/dashboards")
     .WithTags("Dashboards")
     .MapDashboards();
 
+app.MapGroup("/categorys")
+    .WithTags("Categorys")
+    .MapCategorys();
+
 app.Run();
