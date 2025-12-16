@@ -7,11 +7,13 @@ namespace Financeasy.Application.UseCases.CategoryCases.CreateCategory
     public class CreateCategoryHandler : IRequestHandler<CreateCategoryCommand, Guid>
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly IRecurrenceRuleRepository _recurrenceRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateCategoryHandler(ICategoryRepository categoryRepository, IUnitOfWork unitOfWork)
+        public CreateCategoryHandler(ICategoryRepository categoryRepository, IRecurrenceRuleRepository recurrenceRepository, IUnitOfWork unitOfWork)
         {
             _categoryRepository = categoryRepository;
+            _recurrenceRepository = recurrenceRepository;
             _unitOfWork = unitOfWork; 
         }
 
@@ -24,6 +26,28 @@ namespace Financeasy.Application.UseCases.CategoryCases.CreateCategory
             var newCategory = new Category(request.UserId, request.Name, request.Type, request.IsFixed);
 
             await _categoryRepository.AddAsync(newCategory);
+
+            if(newCategory.IsFixed)
+            {
+                if(request.Recurrence is null)
+                    throw new ArgumentException("Para categoria fixa as informações de recorrência são obrigatórias.");
+
+                var newRecurrence = new RecurrenceRule
+                (
+                    newCategory.Id,
+                    request.Recurrence.Frequency,
+                    request.Recurrence.DayOfMonth,
+                    request.Recurrence.DayOfWeek,
+                    request.Recurrence.AdjustmentRule,
+                    request.Recurrence.StartDate,
+                    request.Recurrence.EndDate,
+                    request.Recurrence.Amount,
+                    true
+                );
+
+                await _recurrenceRepository.AddAsync(newRecurrence);
+            }
+
             await _unitOfWork.SaveChangesAsync();
 
             return newCategory.Id;

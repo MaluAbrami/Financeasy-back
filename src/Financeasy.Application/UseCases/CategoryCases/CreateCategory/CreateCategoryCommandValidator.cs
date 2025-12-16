@@ -10,12 +10,9 @@ namespace Financeasy.Application.UseCases.CategoryCases.CreateCategory
 
             RuleFor(x => x.Type).IsInEnum();
 
-            RuleFor(x => x.Recurrence).GreaterThan(0).WithMessage("Recorrência é obrigatório quando é fixo.").When(x => x.IsFixed == true);
-
-            RuleFor(x => x.Recurrence)
-            .Null()
-            .WithMessage("Recorrência só deve ser informada quando o item é fixo.")
-            .When(x => !x.IsFixed);
+            RuleFor(x => x)
+                .Must(x => x.IsFixed ? x.Recurrence != null : x.Recurrence == null)
+                .WithMessage("A recorrência só deve ser informada para categorias fixas.");
         }
     }
 }
