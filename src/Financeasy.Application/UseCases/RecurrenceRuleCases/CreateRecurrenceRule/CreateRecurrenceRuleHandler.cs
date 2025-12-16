@@ -38,8 +38,7 @@ namespace Financeasy.Application.UseCases.RecurrenceRuleCases.CreateRecurrenceRu
                 request.Recurrence.AdjustmentRule,
                 request.Recurrence.StartDate,
                 request.Recurrence.EndDate,
-                request.Recurrence.Amount,
-                true
+                request.Recurrence.Amount
             );
 
             await _recurrenceRepository.AddAsync(newRecurrence);

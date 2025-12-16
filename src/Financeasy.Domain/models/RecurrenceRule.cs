@@ -46,7 +46,7 @@ namespace Financeasy.Domain.models
             
         }
 
-        public RecurrenceRule(Guid categoryId, Guid userId, Frequency frequency, int? dayOfMonth, int? dayOfWeek, AdjustmentRule adjustmentRule, DateTime startDate, DateTime? endDate, decimal amount, bool isActive)
+        public RecurrenceRule(Guid categoryId, Guid userId, Frequency frequency, int? dayOfMonth, int? dayOfWeek, AdjustmentRule adjustmentRule, DateTime startDate, DateTime? endDate, decimal amount)
         {
             Id = Guid.NewGuid();
             CategoryId = categoryId;
@@ -58,7 +58,11 @@ namespace Financeasy.Domain.models
             StartDate = startDate;
             EndDate = endDate;
             Amount = amount;
-            IsActive = isActive;
+            
+            if(EndDate <= DateTime.Today)
+                IsActive = false;
+            else
+                IsActive = true;
         }
     }
 }
