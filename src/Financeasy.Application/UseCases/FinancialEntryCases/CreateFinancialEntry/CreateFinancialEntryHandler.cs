@@ -1,3 +1,4 @@
+using Financeasy.Domain.Enums;
 using Financeasy.Domain.interfaces;
 using Financeasy.Domain.models;
 using MediatR;
@@ -30,7 +31,8 @@ namespace Financeasy.Application.UseCases.FinancialEntryCases.CreateFinancialEnt
                     request.Data.Amount,
                     request.Data.Description,
                     request.Data.Date,
-                    category
+                    category,
+                    SourceType.Manual
                 );
 
             await _financialRepository.AddAsync(newFinancialEntry);
