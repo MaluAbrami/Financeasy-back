@@ -14,6 +14,9 @@ namespace Financeasy.Domain.models
         [Column("category_id")]
         public Guid CategoryId { get; set; }
 
+        [Column("user_id")]
+        public Guid UserId { get; set; }
+
         [Column("frequency")]
         public Frequency Frequency { get; set; }
 
@@ -43,10 +46,11 @@ namespace Financeasy.Domain.models
             
         }
 
-        public RecurrenceRule(Guid categoryId, Frequency frequency, int? dayOfMonth, int? dayOfWeek, AdjustmentRule adjustmentRule, DateTime startDate, DateTime? endDate, decimal amount, bool isActive)
+        public RecurrenceRule(Guid categoryId, Guid userId, Frequency frequency, int? dayOfMonth, int? dayOfWeek, AdjustmentRule adjustmentRule, DateTime startDate, DateTime? endDate, decimal amount, bool isActive)
         {
             Id = Guid.NewGuid();
             CategoryId = categoryId;
+            UserId = userId;
             Frequency = frequency;
             DayOfMonth = dayOfMonth;
             DayOfWeek = dayOfWeek;

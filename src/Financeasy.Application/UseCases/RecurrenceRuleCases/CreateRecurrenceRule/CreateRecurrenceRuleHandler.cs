@@ -31,6 +31,7 @@ namespace Financeasy.Application.UseCases.RecurrenceRuleCases.CreateRecurrenceRu
 
             var newRecurrence = new RecurrenceRule(
                 request.CategoryId,
+                request.UserId,
                 request.Recurrence.Frequency,
                 request.Recurrence.DayOfMonth,
                 request.Recurrence.DayOfWeek,

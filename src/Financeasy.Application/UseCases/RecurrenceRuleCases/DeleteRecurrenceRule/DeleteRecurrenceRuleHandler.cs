@@ -20,6 +20,9 @@ namespace Financeasy.Application.UseCases.RecurrenceRuleCases.DeleteRecurrenceRu
             if(recurrenceExists is null)
                 throw new ArgumentException($"Recorrência de id {request.Id} não foi encontrada.");
 
+            if(recurrenceExists.UserId != request.UserId)
+                throw new UnauthorizedAccessException("Usuário não tem acesso a essa ação.");
+
             _recurrenceRepository.Delete(recurrenceExists);
             await _unitOfWork.SaveChangesAsync();
 
