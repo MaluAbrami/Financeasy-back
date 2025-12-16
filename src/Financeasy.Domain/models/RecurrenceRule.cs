@@ -30,7 +30,7 @@ namespace Financeasy.Domain.models
         public DateTime StartDate { get; set; }
 
         [Column("end_date")]
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
         [Column("amount")]
         public decimal Amount { get; set; }
@@ -43,7 +43,7 @@ namespace Financeasy.Domain.models
             
         }
 
-        public RecurrenceRule(Guid categoryId, Frequency frequency, int dayOfMonth, int dayOfWeek, AdjustmentRule adjustmentRule, DateTime startDate, DateTime endDate, decimal amount, bool isActive)
+        public RecurrenceRule(Guid categoryId, Frequency frequency, int? dayOfMonth, int? dayOfWeek, AdjustmentRule adjustmentRule, DateTime startDate, DateTime? endDate, decimal amount, bool isActive)
         {
             Id = Guid.NewGuid();
             CategoryId = categoryId;
