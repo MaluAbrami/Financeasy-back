@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using Financeasy.Domain.DTO;
 using Financeasy.Domain.interfaces;
 using Financeasy.Infra.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +40,29 @@ namespace Financeasy.Infra.Repository
         public async Task<T?> GetByIdAsync(Guid id)
         {
             return await _dbSet.FindAsync(id);
+        }
+
+        public async Task<GetPagedBaseResponseDTO<T>> GetPagedAsync(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderBy, bool ascending, int page, int pageSize)
+        {
+            IQueryable<T> query = _dbSet;
+
+            if ( filter is not null)
+                query = query.Where(filter);
+
+            var totalItems = await query.CountAsync();
+
+            query = ascending
+                ? query.OrderBy(orderBy)
+                : query.OrderByDescending(orderBy);
+
+            return new GetPagedBaseResponseDTO<T> 
+            {   
+                List = await query
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .ToListAsync(),
+                TotalItems = totalItems
+            };
         }
 
         public void Update(T entity)

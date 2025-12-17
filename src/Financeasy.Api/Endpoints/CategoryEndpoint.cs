@@ -3,6 +3,7 @@ using Financeasy.Application.UseCases.CategoryCases.DeleteCategory;
 using Financeasy.Application.UseCases.CategoryCases.GetAllCategorys;
 using Financeasy.Application.UseCases.CategoryCases.GetCategoryById;
 using Financeasy.Domain.DTO;
+using Financeasy.Domain.Enums;
 using MediatR;
 
 namespace Financeasy.Api.Endpoints
@@ -14,13 +15,13 @@ namespace Financeasy.Api.Endpoints
             group.MapPost("", CreateCategory)
                 .RequireAuthorization();
                 
-            group.MapGet("/all", GetAllCategorys)
+            group.MapGet("/all/{page}/{pageSize}/{orderBy}/{direction}", GetAllCategorys)
                 .RequireAuthorization();
 
             group.MapGet("/{id}", GetCategoryById)
                 .RequireAuthorization();
 
-            group.MapDelete("", DeleteCategory)
+            group.MapDelete("/{id}", DeleteCategory)
                 .RequireAuthorization();
 
             return group;
@@ -37,13 +38,13 @@ namespace Financeasy.Api.Endpoints
             return Results.Created();
         }
 
-        private static async Task<IResult> GetAllCategorys(HttpContext context, IMediator mediator)
+        private static async Task<IResult> GetAllCategorys(int page, int pageSize, CategoryOrderBy orderBy, SortDirection direction, HttpContext context, IMediator mediator)
         {
             var userId = context.User.FindFirst("userId")?.Value;
             if(userId is null)
                 return Results.Unauthorized();
 
-            var response = await mediator.Send(new GetAllCategorys { UserId = Guid.Parse(userId) } );
+            var response = await mediator.Send(new GetAllCategorys { UserId = Guid.Parse(userId), Pagination = new PaginationRequestBase { Page = page, PageSize = pageSize }, OrderBy = orderBy, Direction = direction } );
 
             return Results.Ok(response);
         }

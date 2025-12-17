@@ -4,6 +4,7 @@ using Financeasy.Application.UseCases.FinancialEntryCases.GetAllFinancialByUser;
 using Financeasy.Application.UseCases.FinancialEntryCases.GetFinancialById;
 using Financeasy.Application.UseCases.FinancialEntryCases.UpdateFinancialEntry;
 using Financeasy.Domain.DTO;
+using Financeasy.Domain.Enums;
 using MediatR;
 
 namespace Financeasy.Api.Endpoints
@@ -18,7 +19,7 @@ namespace Financeasy.Api.Endpoints
             group.MapGet("/{id}", GetFinancialEntryById)
                 .RequireAuthorization();
 
-            group.MapGet("/all-by-user", GetAllFinancialByUser)
+            group.MapGet("/all-by-user/{page}/{pageSize}/{orderBy}/{direction}", GetAllFinancialByUser)
                 .RequireAuthorization();
 
             group.MapPatch("/{id}", UpdateFinancialEntry)
@@ -58,14 +59,14 @@ namespace Financeasy.Api.Endpoints
             return Results.Ok(financialEntry);
         }
 
-        private async static Task<IResult> GetAllFinancialByUser(HttpContext httpContext, IMediator mediator)
+        private async static Task<IResult> GetAllFinancialByUser(int page, int pageSize, FinancialEntryOrderBy orderBy, SortDirection direction, HttpContext httpContext, IMediator mediator)
         {
             var userId = httpContext.User.FindFirst("userId")?.Value;
 
             if(userId is null)
                 return Results.Unauthorized();
 
-            GetAllFinancialResponse financialEntrys = await mediator.Send(new GetAllFinancialByUser { UserId =  Guid.Parse(userId)});
+            GetAllFinancialResponse financialEntrys = await mediator.Send(new GetAllFinancialByUser { UserId =  Guid.Parse(userId), Pagination = new PaginationRequestBase { Page = page, PageSize = pageSize }, OrderBy = orderBy, Direction = direction});
 
             return Results.Ok(financialEntrys);
         }
