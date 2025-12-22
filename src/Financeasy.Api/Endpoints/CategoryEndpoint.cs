@@ -19,6 +19,9 @@ namespace Financeasy.Api.Endpoints
             group.MapGet("/all/{page}/{pageSize}/{orderBy}/{direction}", GetAllCategorysPaged)
                 .RequireAuthorization();
 
+            group.MapGet("/all", GetAllCategorys)
+                .RequireAuthorization();
+
             group.MapGet("/{id}", GetCategoryById)
                 .RequireAuthorization();
 
