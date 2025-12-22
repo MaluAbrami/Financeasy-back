@@ -5,20 +5,20 @@ using Financeasy.Domain.interfaces;
 using Financeasy.Domain.models;
 using MediatR;
 
-namespace Financeasy.Application.UseCases.CategoryCases.GetAllCategorys
+namespace Financeasy.Application.UseCases.CategoryCases.GetAllCategorysPaged
 {
-    public class GetAllCategoryHandler : IRequestHandler<GetAllCategorys, GetAllCategorysResponse>
+    public class GetAllCategoryPagedHandler : IRequestHandler<GetAllCategorysPaged, GetAllCategorysPagedResponse>
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public GetAllCategoryHandler(ICategoryRepository categoryRepository, IUnitOfWork unitOfWork)
+        public GetAllCategoryPagedHandler(ICategoryRepository categoryRepository, IUnitOfWork unitOfWork)
         {
             _categoryRepository = categoryRepository;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<GetAllCategorysResponse> Handle(GetAllCategorys request, CancellationToken cancellationToken)
+        public async Task<GetAllCategorysPagedResponse> Handle(GetAllCategorysPaged request, CancellationToken cancellationToken)
         {
             Expression<Func<Category, object>> expression = 
                 request.OrderBy switch
@@ -52,7 +52,7 @@ namespace Financeasy.Application.UseCases.CategoryCases.GetAllCategorys
                 responseList.Add(categoryResponse);
             }
 
-            return new GetAllCategorysResponse 
+            return new GetAllCategorysPagedResponse 
             { 
                 Categorys = responseList, 
                 Pagination = new PaginationResponseBase 

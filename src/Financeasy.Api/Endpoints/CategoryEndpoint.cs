@@ -1,6 +1,7 @@
 using Financeasy.Application.UseCases.CategoryCases.CreateCategory;
 using Financeasy.Application.UseCases.CategoryCases.DeleteCategory;
 using Financeasy.Application.UseCases.CategoryCases.GetAllCategorys;
+using Financeasy.Application.UseCases.CategoryCases.GetAllCategorysPaged;
 using Financeasy.Application.UseCases.CategoryCases.GetCategoryById;
 using Financeasy.Domain.DTO;
 using Financeasy.Domain.Enums;
@@ -15,7 +16,7 @@ namespace Financeasy.Api.Endpoints
             group.MapPost("", CreateCategory)
                 .RequireAuthorization();
                 
-            group.MapGet("/all/{page}/{pageSize}/{orderBy}/{direction}", GetAllCategorys)
+            group.MapGet("/all/{page}/{pageSize}/{orderBy}/{direction}", GetAllCategorysPaged)
                 .RequireAuthorization();
 
             group.MapGet("/{id}", GetCategoryById)
@@ -38,13 +39,24 @@ namespace Financeasy.Api.Endpoints
             return Results.Created();
         }
 
-        private static async Task<IResult> GetAllCategorys(int page, int pageSize, CategoryOrderBy orderBy, SortDirection direction, HttpContext context, IMediator mediator)
+        private static async Task<IResult> GetAllCategorysPaged(int page, int pageSize, CategoryOrderBy orderBy, SortDirection direction, HttpContext context, IMediator mediator)
         {
             var userId = context.User.FindFirst("userId")?.Value;
             if(userId is null)
                 return Results.Unauthorized();
 
-            var response = await mediator.Send(new GetAllCategorys { UserId = Guid.Parse(userId), Pagination = new PaginationRequestBase { Page = page, PageSize = pageSize }, OrderBy = orderBy, Direction = direction } );
+            var response = await mediator.Send(new GetAllCategorysPaged { UserId = Guid.Parse(userId), Pagination = new PaginationRequestBase { Page = page, PageSize = pageSize }, OrderBy = orderBy, Direction = direction } );
+
+            return Results.Ok(response);
+        }
+
+        private static async Task<IResult> GetAllCategorys(HttpContext context, IMediator mediator)
+        {
+            var userId = context.User.FindFirst("userId")?.Value;
+            if(userId is null)
+                return Results.Unauthorized();
+
+            var response = await mediator.Send(new GetAllCategorys { UserId = Guid.Parse(userId) } );
 
             return Results.Ok(response);
         }
