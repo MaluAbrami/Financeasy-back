@@ -14,6 +14,7 @@ namespace Financeasy.Infra.Persistence
         public DbSet<FinancialEntry> FinancialEntry { get; set ;}
         public DbSet<Category> Categorys { get; set; }
         public DbSet<RecurrenceRule> RecurrenceRules { get; set; }
+        public DbSet<Update> Updates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
