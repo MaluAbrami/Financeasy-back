@@ -19,6 +19,39 @@ namespace Financeasy.Infra.Migrations
                 .HasAnnotation("ProductVersion", "10.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("Financeasy.Domain.models.Category", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)")
+                        .HasColumnName("id");
+
+                    b.Property<bool>("IsFixed")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_fixed");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("type");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId", "Name")
+                        .IsUnique();
+
+                    b.ToTable("category");
+                });
+
             modelBuilder.Entity("Financeasy.Domain.models.FinancialEntry", b =>
                 {
                     b.Property<Guid>("Id")
@@ -30,10 +63,10 @@ namespace Financeasy.Infra.Migrations
                         .HasColumnType("decimal(18,2)")
                         .HasColumnName("amount");
 
-                    b.Property<string>("Category")
+                    b.Property<string>("CategoryName")
                         .IsRequired()
                         .HasColumnType("longtext")
-                        .HasColumnName("category");
+                        .HasColumnName("category_name");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime(6)")
@@ -45,11 +78,17 @@ namespace Financeasy.Infra.Migrations
 
                     b.Property<bool>("IsFixed")
                         .HasColumnType("tinyint(1)")
-                        .HasColumnName("fixed");
+                        .HasColumnName("is_fixed");
+
+                    b.Property<string>("Source")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("source");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("longtext")
+                        .HasColumnName("type");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)")
@@ -58,6 +97,60 @@ namespace Financeasy.Infra.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("financial_entry");
+                });
+
+            modelBuilder.Entity("Financeasy.Domain.models.RecurrenceRule", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)")
+                        .HasColumnName("id");
+
+                    b.Property<string>("AdjustmentRule")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("adjustment_rule");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("amount");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("category_id");
+
+                    b.Property<int?>("DayOfMonth")
+                        .HasColumnType("int")
+                        .HasColumnName("day_of_month");
+
+                    b.Property<int?>("DayOfWeek")
+                        .HasColumnType("int")
+                        .HasColumnName("day_of_week");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("end_date");
+
+                    b.Property<string>("Frequency")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("frequency");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_active");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("start_date");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("recurrence_rule");
                 });
 
             modelBuilder.Entity("Financeasy.Domain.models.User", b =>

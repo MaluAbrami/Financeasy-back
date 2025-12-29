@@ -7,7 +7,7 @@ namespace Financeasy.Domain.interfaces
     {
         Task<decimal> GetTotalAmountByType(EntryType type, Guid userId);
         Task<decimal> GetTotalAmountByTypeAndByMonth(EntryType type, Guid userId, int year, int month);
-        Task<decimal> GetTotalExpenseByCategory(string category, Guid userId);
+        Task<decimal> GetTotalExpenseByCategory(string categoryName, Guid userId);
         Task<decimal> GetTotalExpenseByMonth(int year, int month, Guid userId);
     }
 }

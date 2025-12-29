@@ -2,6 +2,9 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Financeasy.Api.Endpoints;
 using Financeasy.Application.Behaviors;
+using Financeasy.Application.Factory;
+using Financeasy.Application.Services;
+using Financeasy.Application.Strategy;
 using Financeasy.Application.UseCases.UserCases.RegisterUser;
 using Financeasy.Domain.interfaces;
 using Financeasy.Infra.Persistence;
@@ -69,6 +72,15 @@ builder.Services.AddScoped<IBaseRepository<object>, BaseRepository<object>>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IFinancialEntryRepository, FinancialEntryRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IRecurrenceRuleRepository, RecurrenceRuleRepository>();
+
+builder.Services.AddScoped<IRecurrenceStrategy, WeeklyRecurrenceStrategy>();
+builder.Services.AddScoped<IRecurrenceStrategy, MonthlyRecurrenceStrategy>();
+builder.Services.AddScoped<IRecurrenceStrategy, YearlyRecurrenceStrategy>();
+builder.Services.AddScoped<IRecurrenceStrategyFactory, RecurrenceStrategyFactory>();
+builder.Services.AddScoped<IRecurrenceEntryService, RecurrenceEntryService>();
+builder.Services.AddScoped<IDateAdjustmentService, DateAdjustmentService>();
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -149,5 +161,13 @@ app.MapGroup("/financial-entry")
 app.MapGroup("/dashboards")
     .WithTags("Dashboards")
     .MapDashboards();
+
+app.MapGroup("/categorys")
+    .WithTags("Categorys")
+    .MapCategorys();
+
+app.MapGroup("/recurrences")
+    .WithTags("Recurrences")
+    .MapRecurrenceRule();
 
 app.Run();

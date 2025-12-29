@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using Financeasy.Domain.DTO;
 
 namespace Financeasy.Domain.interfaces
 {
@@ -10,5 +11,6 @@ namespace Financeasy.Domain.interfaces
         Task<List<T>> FindAsync(Expression<Func<T, bool>> predicate);
         void Update(T entity);
         void Delete(T entity);
+        Task<GetPagedBaseResponseDTO<T>> GetPagedAsync(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderBy, bool ascending, int page, int pageSize);
     }
 }
