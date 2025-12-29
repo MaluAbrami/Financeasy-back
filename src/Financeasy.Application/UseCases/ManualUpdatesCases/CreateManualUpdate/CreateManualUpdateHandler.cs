@@ -25,36 +25,29 @@ namespace Financeasy.Application.UseCases.ManualUpdatesCases.CreateManualUpdate
 
         public async Task<Guid> Handle(CreateManualUpdateCommand request, CancellationToken cancellationToken)
         {
+            var dateTimeNow = DateTime.Now;
             var updates = await _updateRepository.GetAllAsync();
             var lastUpdateDate = new DateTime();
 
             if(updates.Count > 0)
                 lastUpdateDate = updates.Last().UpdateDate;
 
-            if(lastUpdateDate.Date == DateTime.Now.Date)
+            if(lastUpdateDate.Date == dateTimeNow.Date)
                 throw new ArgumentException("A atualização diária já foi realizada.");
 
-            var recurrences = await _recurrenceRuleRepository.FindAsync(x => x.StartDate <= lastUpdateDate.AddDays(1) && x.EndDate >= DateTime.Now);
+            var recurrences = await _recurrenceRuleRepository.FindAsync(x => (x.EndDate >= dateTimeNow || x.EndDate == null) && x.UserId == request.UserId);
 
             Update newUpdate = new Update();
 
             if(recurrences.Count > 0)
             {
                 var totalCount = 0;
-                foreach(var recurrence in recurrences)
-                {
-                    var category = await _categoryRepository.GetByIdAsync(recurrence.CategoryId);
-                    if(category is null)
-                        throw new ArgumentException($"Categoria de id {recurrence.CategoryId} não foi encontrada.");
-
-                    var count = await _recurrenceService.GenerateEntries(recurrence, category, request.UserId, cancellationToken);
-                    totalCount += count;
-                }
+                totalCount = await _recurrenceService.GenerateEntriesInManualUpdate(recurrences, request.UserId, lastUpdateDate, cancellationToken);
 
                 newUpdate = new Update
                 (
                     request.UserId,
-                    DateTime.Now,
+                    dateTimeNow,
                     totalCount
                 );   
 
@@ -67,7 +60,7 @@ namespace Financeasy.Application.UseCases.ManualUpdatesCases.CreateManualUpdate
             newUpdate = new Update
             (
                 request.UserId,
-                DateTime.Now,
+                dateTimeNow,
                 0
             );   
 

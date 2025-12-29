@@ -9,7 +9,7 @@ namespace Financeasy.Application.Strategy
             List<DateTime> dates = [];
             var current = startDate;
 
-            while(current <= endDate)
+            while(current <= endDate && current.Day <= rule.DayOfMonth!.Value)
             {
                 var daysInMonth = DateTime.DaysInMonth(current.Year, current.Month);
                 var day = Math.Min(rule.DayOfMonth!.Value, daysInMonth);
