@@ -7,6 +7,7 @@ using Financeasy.Application.Services;
 using Financeasy.Application.Strategy;
 using Financeasy.Application.UseCases.UserCases.RegisterUser;
 using Financeasy.Domain.interfaces;
+using Financeasy.Domain.models;
 using Financeasy.Infra.Persistence;
 using Financeasy.Infra.Repository;
 using Financeasy.Infra.Services;
@@ -82,6 +83,7 @@ builder.Services.AddScoped<IRecurrenceStrategy, YearlyRecurrenceStrategy>();
 builder.Services.AddScoped<IRecurrenceStrategyFactory, RecurrenceStrategyFactory>();
 builder.Services.AddScoped<IRecurrenceEntryService, RecurrenceEntryService>();
 builder.Services.AddScoped<IDateAdjustmentService, DateAdjustmentService>();
+builder.Services.AddScoped<IUpdateExecutionService, UpdateExecutionService>();
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<ITokenService, TokenService>();
