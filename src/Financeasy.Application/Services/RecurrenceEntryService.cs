@@ -16,8 +16,10 @@ namespace Financeasy.Application.Services
             _financialEntryRepository = financialEntryRepository;
         }       
 
-        public async Task GenerateEntries(RecurrenceRule rule, Category category, Guid userId, CancellationToken cancellationToken)
+        public async Task<int> GenerateEntries(RecurrenceRule rule, Category category, Guid userId, CancellationToken cancellationToken)
         {
+            var countResponse = 0;
+
             var strategy = _strategyFactory.Create(rule.Frequency);
 
             DateTime dateParam = DateTime.Today;
@@ -38,7 +40,10 @@ namespace Financeasy.Application.Services
                 );
 
                 await _financialEntryRepository.AddAsync(entry);
+                countResponse++;
             }
+
+            return countResponse;
         }
     }
 }

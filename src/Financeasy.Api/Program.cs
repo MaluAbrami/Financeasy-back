@@ -74,6 +74,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IFinancialEntryRepository, FinancialEntryRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IRecurrenceRuleRepository, RecurrenceRuleRepository>();
+builder.Services.AddScoped<IUpdateRepository, UpdateRepository>();
 
 builder.Services.AddScoped<IRecurrenceStrategy, WeeklyRecurrenceStrategy>();
 builder.Services.AddScoped<IRecurrenceStrategy, MonthlyRecurrenceStrategy>();
@@ -169,5 +170,9 @@ app.MapGroup("/categorys")
 app.MapGroup("/recurrences")
     .WithTags("Recurrences")
     .MapRecurrenceRule();
+
+app.MapGroup("/manual-update")
+    .WithTags("Manual Update")
+    .MapUpdates();
 
 app.Run();
