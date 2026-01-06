@@ -27,16 +27,20 @@ namespace Financeasy.Application.UseCases.UserCases.Login
         {
             var userExist = await _userRepository.GetUserByEmail(request.Email);
 
-            if(userExist is null)
+            if (userExist is null)
                 throw new ArgumentException("Email ou senha incorretos.");
 
-            if(!_passwordHasher.Verify(request.Password, userExist.PasswordHash))
+            if (!_passwordHasher.Verify(request.Password, userExist.PasswordHash))
                 throw new ArgumentException("Email ou senha incorretos.");
 
-            var newUpdate = await _updateExecutionService.ExecuteAsync(userExist.Id, DateTime.UtcNow, cancellationToken);
-            await _updateRepository.AddAsync(newUpdate);
-            await _unitOfWork.SaveChangesAsync();
-                
+            var updateExist = await _updateRepository.FindAsync(x => x.UserId == userExist.Id && x.UpdateDate.Date == DateTime.Now.Date);
+            if (!updateExist.Any())
+            {
+                var newUpdate = await _updateExecutionService.ExecuteAsync(userExist.Id, DateTime.UtcNow, cancellationToken);
+                await _updateRepository.AddAsync(newUpdate);
+                await _unitOfWork.SaveChangesAsync();
+            }
+
             return _tokenService.GenerateToken(userExist.Id, userExist.Email);
         }
     }

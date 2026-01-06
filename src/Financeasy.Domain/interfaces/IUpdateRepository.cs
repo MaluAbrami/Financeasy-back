@@ -4,6 +4,6 @@ namespace Financeasy.Domain.interfaces
 {
     public interface IUpdateRepository : IBaseRepository<Update>
     {
-        
+        Task<Update?> GetLastAsync();
     }
 }

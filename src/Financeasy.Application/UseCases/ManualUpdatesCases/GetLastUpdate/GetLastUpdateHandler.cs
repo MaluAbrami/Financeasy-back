@@ -14,11 +14,9 @@ namespace Financeasy.Application.UseCases.ManualUpdatesCases.GetLastUpdate
 
         public async Task<GetLastUpdateResponse> Handle(GetLastUpdate request, CancellationToken cancellationToken)
         {
-            var updates = await _updateRepository.GetAllAsync();
-            if(updates.Count == 0)
+            var lastUpdate = await _updateRepository.GetLastAsync();
+            if(lastUpdate is null)
                 return null; 
-
-            var lastUpdate = updates.Last();
 
             return new GetLastUpdateResponse { UpdateDate = lastUpdate.UpdateDate, TotalRecurrencesEntrys = lastUpdate.TotalRecurrencesEntrys };
         }

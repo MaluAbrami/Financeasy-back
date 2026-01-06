@@ -14,7 +14,8 @@ namespace Financeasy.Application.Strategy
                 var daysInMonth = DateTime.DaysInMonth(current.Year, current.Month);
                 var day = Math.Min(rule.DayOfMonth!.Value, daysInMonth);
 
-                dates.Add(new DateTime(current.Year, current.Month, day));
+                if(day == DateTime.Now.Day)
+                    dates.Add(new DateTime(current.Year, current.Month, day));
 
                 current = current.AddMonths(1);
             }
