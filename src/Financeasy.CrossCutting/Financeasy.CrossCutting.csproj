@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Financeasy.Infra\Financeasy.Infra.csproj" />
+    <ProjectReference Include="..\Financeasy.Application\Financeasy.Application.csproj" />
+    <ProjectReference Include="..\Financeasy.Domain\Financeasy.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
