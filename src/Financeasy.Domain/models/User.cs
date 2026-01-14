@@ -18,11 +18,17 @@ namespace Financeasy.Domain.models
         [Column("password")]
         public string PasswordHash { get; set; }
 
-        public User(string email, string passwordHash)
+        [Column("profile_photo")]
+        public string ProfilePhoto { get; set; }
+
+        public User(string email, string passwordHash, string profilePhoto)
         {
             Id = Guid.NewGuid();
             Email = email;
             PasswordHash = passwordHash;
+            
+            if(profilePhoto is not null)
+                ProfilePhoto = profilePhoto;
         }
     }
 }
