@@ -58,10 +58,6 @@ app.MapGroup("/users")
     .WithTags("Users")
     .MapUserEndpoints();
 
-app.MapGroup("/dashboards")
-    .WithTags("Dashboards")
-    .MapDashboards();
-
 app.MapGroup("/categorys")
     .WithTags("Categorys")
     .MapCategorys();
