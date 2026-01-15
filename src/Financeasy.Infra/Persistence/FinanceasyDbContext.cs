@@ -11,35 +11,31 @@ namespace Financeasy.Infra.Persistence
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<FinancialEntry> FinancialEntry { get; set ;}
+        public DbSet<BankAccount> BankAccount { get; set ;}
         public DbSet<Category> Categorys { get; set; }
-        public DbSet<RecurrenceRule> RecurrenceRules { get; set; }
-        public DbSet<Update> Updates { get; set; }
+        public DbSet<Card> Cards { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<FinancialEntry>()
+            modelBuilder.Entity<Category>()
                 .Property(x => x.Type)
-                .HasConversion<string>();
-
-            modelBuilder.Entity<FinancialEntry>()
-                .Property(x => x.Source)
                 .HasConversion<string>();
 
             modelBuilder.Entity<Category>()
-                .Property(x => x.Type)
+                .Property(x => x.RecurrenceType)
                 .HasConversion<string>();
 
             modelBuilder.Entity<Category>()
                 .HasIndex(e => new { e.UserId, e.Name })
                 .IsUnique();
 
-            modelBuilder.Entity<RecurrenceRule>()
-                .Property(x => x.AdjustmentRule)
+            modelBuilder.Entity<Card>()
+                .Property(x => x.Type)
                 .HasConversion<string>();
 
-            modelBuilder.Entity<RecurrenceRule>()
-                .Property(x => x.Frequency)
+            modelBuilder.Entity<Transaction>()
+                .Property(x => x.PaymentMethod)
                 .HasConversion<string>();
 
             base.OnModelCreating(modelBuilder);
