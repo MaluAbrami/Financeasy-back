@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using Financeasy.Domain.DTO;
+using Financeasy.Domain.DTO.Pagination;
 
 namespace Financeasy.Domain.interfaces
 {

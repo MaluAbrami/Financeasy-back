@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using Financeasy.Domain.DTO;
+using Financeasy.Domain.DTO.Pagination;
 using Financeasy.Domain.interfaces;
 using Financeasy.Infra.Persistence;
 using Microsoft.EntityFrameworkCore;
