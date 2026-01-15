@@ -24,6 +24,11 @@ namespace Financeasy.Domain.models
         [Column("category_id")]
         public Guid CategoryId { get; set; }
 
+        // PROPRIEDADES DE NAVEGAÇÃO
+        public Category Category { get; set; } = null!;
+        public BankAccount? BankAccount { get; set; }
+        public Card? Card { get; set; }
+
         [Column("amount")]
         public decimal Amount { get; set; }
 

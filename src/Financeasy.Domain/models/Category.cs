@@ -16,7 +16,7 @@ namespace Financeasy.Domain.models
         public Guid UserId { get; set; }
 
         [Column("name")]
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
 
         [Column("type")]
         public EntryType Type { get; set; }
