@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
 
 namespace Financeasy.Domain.models
 {
@@ -20,6 +21,13 @@ namespace Financeasy.Domain.models
 
         [Column("profile_photo")]
         public string? ProfilePhoto { get; set; }
+
+        [Column("alert_limit")]
+        public decimal AlertLimit { get; set; }
+
+        public User()
+        {
+        }
 
         public User(string email, string passwordHash, string? profilePhoto)
         {
