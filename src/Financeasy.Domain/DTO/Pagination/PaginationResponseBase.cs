@@ -1,4 +1,4 @@
-namespace Financeasy.Domain.DTO
+namespace Financeasy.Domain.DTO.Pagination
 {
     public record PaginationResponseBase
     {

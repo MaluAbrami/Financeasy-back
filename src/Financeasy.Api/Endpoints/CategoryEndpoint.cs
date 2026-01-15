@@ -4,7 +4,8 @@ using Financeasy.Application.UseCases.CategoryCases.GetAllCategorys;
 using Financeasy.Application.UseCases.CategoryCases.GetAllCategorysPaged;
 using Financeasy.Application.UseCases.CategoryCases.GetAllFixedCategorys;
 using Financeasy.Application.UseCases.CategoryCases.GetCategoryById;
-using Financeasy.Domain.DTO;
+using Financeasy.Domain.DTO.Category;
+using Financeasy.Domain.DTO.Pagination;
 using Financeasy.Domain.Enums;
 using MediatR;
 
@@ -14,8 +15,8 @@ namespace Financeasy.Api.Endpoints
     {
         public static RouteGroupBuilder MapCategorys(this RouteGroupBuilder group)
         {
-            // group.MapPost("", CreateCategory)
-            //     .RequireAuthorization();
+            group.MapPost("", CreateCategory)
+                .RequireAuthorization();
                 
             group.MapGet("/all/{page}/{pageSize}/{orderBy}/{direction}", GetAllCategorysPaged)
                 .RequireAuthorization();
@@ -35,16 +36,16 @@ namespace Financeasy.Api.Endpoints
             return group;
         }
 
-        // private static async Task<IResult> CreateCategory(CreateCategoryRequestDTO request, HttpContext context, IMediator mediator)
-        // {
-        //     var userId = context.User.FindFirst("userId")?.Value;
-        //     if(userId is null)
-        //         return Results.Unauthorized();
+        private static async Task<IResult> CreateCategory(CreateCategoryRequestDTO request, HttpContext context, IMediator mediator)
+        {
+            var userId = context.User.FindFirst("userId")?.Value;
+            if(userId is null)
+                return Results.Unauthorized();
 
-        //     await mediator.Send(new CreateCategoryCommand { UserId = Guid.Parse(userId), Name = request.Name, Type = request.Type, IsFixed = request.IsFixed, Recurrence = request.Recurrence } );
+            await mediator.Send(new CreateCategoryCommand { UserId = Guid.Parse(userId), Name = request.Name, Type = request.Type, RecurrenceType = request.RecurrenceType} );
 
-        //     return Results.Created();
-        // }
+            return Results.Created();
+        }
 
         private static async Task<IResult> GetAllCategorysPaged(int page, int pageSize, CategoryOrderBy orderBy, SortDirection direction, HttpContext context, IMediator mediator)
         {

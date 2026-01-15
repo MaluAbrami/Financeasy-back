@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
-using Financeasy.Domain.DTO;
+using Financeasy.Domain.DTO.Category;
+using Financeasy.Domain.DTO.Pagination;
 using Financeasy.Domain.Enums;
 using Financeasy.Domain.interfaces;
 using Financeasy.Domain.models;
@@ -10,12 +11,10 @@ namespace Financeasy.Application.UseCases.CategoryCases.GetAllCategorysPaged
     public class GetAllCategoryPagedHandler : IRequestHandler<GetAllCategorysPaged, GetAllCategorysPagedResponse>
     {
         private readonly ICategoryRepository _categoryRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public GetAllCategoryPagedHandler(ICategoryRepository categoryRepository, IUnitOfWork unitOfWork)
+        public GetAllCategoryPagedHandler(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<GetAllCategorysPagedResponse> Handle(GetAllCategorysPaged request, CancellationToken cancellationToken)
@@ -46,7 +45,7 @@ namespace Financeasy.Application.UseCases.CategoryCases.GetAllCategorysPaged
                     Id = category.Id,
                     Name = category.Name,
                     Type = category.Type,
-                    IsFixed = category.IsFixed
+                    RecurrenceType = category.RecurrenceType
                 };
                 
                 responseList.Add(categoryResponse);

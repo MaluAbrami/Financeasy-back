@@ -1,4 +1,5 @@
-using Financeasy.Domain.DTO;
+using Financeasy.Domain.DTO.Category;
+using Financeasy.Domain.DTO.Pagination;
 using Financeasy.Domain.Enums;
 using MediatR;
 

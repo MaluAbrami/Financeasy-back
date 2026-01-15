@@ -1,4 +1,4 @@
-using Financeasy.Domain.DTO;
+using Financeasy.Domain.DTO.Category;
 using Financeasy.Domain.interfaces;
 using MediatR;
 
@@ -26,7 +26,7 @@ namespace Financeasy.Application.UseCases.CategoryCases.GetAllCategorys
                     Id = category.Id,
                     Name = category.Name,
                     Type = category.Type,
-                    IsFixed = category.IsFixed
+                    RecurrenceType = category.RecurrenceType
                 };
 
                 listResponse.Add(categoryResponse);

@@ -6,12 +6,10 @@ namespace Financeasy.Application.UseCases.CategoryCases.GetCategoryById
     public class GetCategoryByIdHandler : IRequestHandler<GetCategoryById, GetCategoryByIdResponse>
     {
         private readonly ICategoryRepository _categoryRepository;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public GetCategoryByIdHandler(ICategoryRepository categoryRepository, IUnitOfWork unitOfWork)
+        public GetCategoryByIdHandler(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<GetCategoryByIdResponse> Handle(GetCategoryById request, CancellationToken cancellationToken)
@@ -28,7 +26,7 @@ namespace Financeasy.Application.UseCases.CategoryCases.GetCategoryById
             {
                 Name = categoryExists.Name,
                 Type = categoryExists.Type,
-                IsFixed = categoryExists.IsFixed
+                RecurrenceType = categoryExists.RecurrenceType
             };
         }
     }

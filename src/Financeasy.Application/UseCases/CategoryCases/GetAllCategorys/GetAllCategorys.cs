@@ -1,4 +1,4 @@
-using Financeasy.Domain.DTO;
+using Financeasy.Domain.DTO.Category;
 using MediatR;
 
 namespace Financeasy.Application.UseCases.CategoryCases.GetAllCategorys
