@@ -1,4 +1,4 @@
-using Financeasy.Domain.DTO;
+using Financeasy.Domain.DTO.User;
 using MediatR;
 
 namespace Financeasy.Application.UseCases.UserCases.UpdateUser

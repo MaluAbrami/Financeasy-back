@@ -20,7 +20,7 @@ namespace Financeasy.Domain.models
         public string PasswordHash { get; set; }
 
         [Column("profile_photo")]
-        public string? ProfilePhoto { get; set; }
+        public string? ProfilePhoto { get; set; } = string.Empty;
 
         [Column("alert_limit")]
         public decimal AlertLimit { get; set; }
@@ -29,14 +29,13 @@ namespace Financeasy.Domain.models
         {
         }
 
-        public User(string email, string passwordHash, string? profilePhoto)
+        public User(string email, string passwordHash, string? profilePhoto, decimal alertLimit)
         {
             Id = Guid.NewGuid();
             Email = email;
             PasswordHash = passwordHash;
-
-            if(profilePhoto is not null)
-                ProfilePhoto = profilePhoto;
+            ProfilePhoto = profilePhoto;
+            AlertLimit = alertLimit;
         }
     }
 }

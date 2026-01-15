@@ -24,7 +24,8 @@ namespace Financeasy.Application.UseCases.UserCases.RegisterUser
             if(alreadyExist is not null)
                 throw new ArgumentException("Já existe um usuário com esse email");
 
-            var newUser = new User(request.Email, _passwordHasher.Hash(request.Password));
+            var newUser = new User(request.Email, _passwordHasher.Hash(request.Password), request.ProfilePhoto, request.AlertLimit);
+            
             await _userRepository.AddAsync(newUser);
             await _unitOfWork.SaveChangesAsync();
 
