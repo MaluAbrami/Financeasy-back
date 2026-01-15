@@ -18,7 +18,7 @@ namespace Financeasy.Application.UseCases.CategoryCases.CreateCategory
         public async Task<Guid> Handle(CreateCategoryCommand request, CancellationToken cancellationToken)
         {
             var duplicateName = await _categoryRepository.FindAsync(x => x.Name == request.Name && x.UserId == request.UserId);
-            if(duplicateName.Count > 0)
+            if(duplicateName.Any())
                 throw new ArgumentException("Já existe uma categoria com esse nome.");
 
             var newCategory = new Category(request.UserId, request.Name, request.Type, request.RecurrenceType);
