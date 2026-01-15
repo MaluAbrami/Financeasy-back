@@ -62,4 +62,8 @@ app.MapGroup("/categorys")
     .WithTags("Categorys")
     .MapCategorys();
 
+app.MapGroup("/bank-accounts")
+    .WithTags("Bank Accounts")
+    .MapBankAccounts();
+
 app.Run();
