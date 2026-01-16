@@ -9,6 +9,9 @@ namespace Financeasy.Domain.models
         [Column("id")]
         public Guid Id { get; set; }
 
+        [Column("user_id")]
+        public Guid UserId { get; set; }
+
         [Column("bank_account_id")]
         public Guid BankAccountId { get; set; }
 
@@ -31,13 +34,14 @@ namespace Financeasy.Domain.models
         {
         }
 
-        public Card(Guid bankAccountId, string name, decimal creditLimit, decimal availableLimit, int closingDay, int dueDay)
+        public Card(Guid userId, Guid bankAccountId, string name, decimal creditLimit, int closingDay, int dueDay)
         {
             Id = Guid.NewGuid();
+            UserId = userId;
             BankAccountId = bankAccountId;
             Name = name;
             CreditLimit = creditLimit;
-            AvailableLimit = availableLimit;
+            AvailableLimit = creditLimit;
             ClosingDay = closingDay;
             DueDay = dueDay;
         }
