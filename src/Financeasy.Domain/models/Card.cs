@@ -15,9 +15,6 @@ namespace Financeasy.Domain.models
         [Column("name")]
         public string Name { get; set; }
 
-        [Column("type")]
-        public CardType Type { get; set; }
-
         [Column("credit_limit")]
         public decimal CreditLimit { get; set; }
 
@@ -34,20 +31,15 @@ namespace Financeasy.Domain.models
         {
         }
 
-        public Card(Guid bankAccountId, string name, CardType type, decimal creditLimit, decimal availableLimit, int closingDay, int dueDay)
+        public Card(Guid bankAccountId, string name, decimal creditLimit, decimal availableLimit, int closingDay, int dueDay)
         {
             Id = Guid.NewGuid();
             BankAccountId = bankAccountId;
             Name = name;
-            Type = type;
-
-            if(type == CardType.Credit)
-            {
-                CreditLimit = creditLimit;
-                AvailableLimit = availableLimit;
-                ClosingDay = closingDay;
-                DueDay = dueDay;
-            }
+            CreditLimit = creditLimit;
+            AvailableLimit = availableLimit;
+            ClosingDay = closingDay;
+            DueDay = dueDay;
         }
     }
 }
