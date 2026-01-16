@@ -45,5 +45,10 @@ namespace Financeasy.Domain.models
             ClosingDay = closingDay;
             DueDay = dueDay;
         }
+
+        public void DecreaseAvailableLimit(decimal value)
+        {
+            AvailableLimit -= value;
+        }
     }
 }

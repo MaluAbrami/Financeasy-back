@@ -29,13 +29,19 @@ namespace Financeasy.Domain.models
         {
         }
 
-        public CardInvoice(Guid cardId, DateTime closingDate, DateTime dueDate, decimal totalAmount, bool isPaid)
+        public CardInvoice(Guid cardId, DateTime closingDate, DateTime dueDate, decimal totalAmount)
         {
             Id = Guid.NewGuid();
+            CardId = cardId;
             ClosingDate = closingDate;
             DueDate = dueDate;
             TotalAmount = totalAmount;
-            IsPaid = isPaid;
+            IsPaid = false;
+        }
+
+        public void AddAmount(decimal amount)
+        {
+            TotalAmount += amount;
         }
     }
 }

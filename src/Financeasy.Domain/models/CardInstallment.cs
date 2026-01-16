@@ -17,6 +17,9 @@ namespace Financeasy.Domain.models
         [Column("number")]
         public int Number { get; set; }
 
+        [Column("total_installments")]
+        public int TotalInstallments { get; set; }
+
         [Column("amount")]
         public decimal Amount { get; set; }
 
@@ -27,14 +30,15 @@ namespace Financeasy.Domain.models
         {
         }
 
-        public CardInstallment(Guid cardPurchaseId, Guid cardInvoiceId, int number, decimal amount, bool paid)
+        public CardInstallment(Guid cardPurchaseId, Guid cardInvoiceId, int number, int totalInstallments, decimal amount)
         {
             Id = Guid.NewGuid();
             CardPurchaseId = cardPurchaseId;
             CardInvoiceId = cardInvoiceId;
             Number = number;
+            TotalInstallments = totalInstallments;
             Amount = amount;
-            Paid = paid;
+            Paid = false;
         }
     }
 }

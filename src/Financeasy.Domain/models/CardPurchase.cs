@@ -24,7 +24,7 @@ namespace Financeasy.Domain.models
         public DateTime PurchaseDate { get; set; }
 
         [Column("description")]
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; } = string.Empty;
 
         public ICollection<CardInstallment> InstallmentsList { get; set; }
 
@@ -32,7 +32,7 @@ namespace Financeasy.Domain.models
         {
         }
 
-        public CardPurchase(Guid cardId, Guid categoryId, decimal totalAmount, int installments, DateTime purchaseDate, string description)
+        public CardPurchase(Guid cardId, Guid categoryId, decimal totalAmount, int installments, DateTime purchaseDate, string? description)
         {
             Id = Guid.NewGuid();
             CardId = cardId;
