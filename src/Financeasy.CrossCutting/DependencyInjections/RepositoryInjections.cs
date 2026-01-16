@@ -16,6 +16,9 @@ namespace Financeasy.CrossCutting.DependencyInjections
             services.AddScoped<IBankAccountRepository, BankAccountRepository>();
             services.AddScoped<ICardRepository, CardRepository>();
             services.AddScoped<ITransactionRepository, TransactionRepository>();
+            services.AddScoped<ICardPurchaseRepository, CardPurchaseRepository>();
+            services.AddScoped<ICardInstallmentRepository, CardInstallmentRepository>();
+            services.AddScoped<ICardInvoiceRepository, CardInvoiceRepository>();
 
             return services;
         }
