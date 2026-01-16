@@ -18,16 +18,13 @@ namespace Financeasy.Domain.models
         [Column("bank_account_id")]
         public Guid BankAccountId { get; set; }
 
-        [Column("card_id")]
-        public Guid CardId { get; set; }
-
         [Column("category_id")]
         public Guid CategoryId { get; set; }
+
 
         // PROPRIEDADES DE NAVEGAÇÃO
         public Category Category { get; set; } = null!;
         public BankAccount? BankAccount { get; set; }
-        public Card? Card { get; set; }
 
         [Column("amount")]
         public decimal Amount { get; set; }
@@ -42,13 +39,12 @@ namespace Financeasy.Domain.models
         {
         }
 
-        public Transaction(PaymentMethod paymentMethod, Guid userId, Guid bankAccountId, Guid cardId, Guid categoryId, decimal amount, DateTime date, string description)
+        public Transaction(PaymentMethod paymentMethod, Guid userId, Guid bankAccountId, Guid categoryId, decimal amount, DateTime date, string description)
         {
             Id = Guid.NewGuid();
             PaymentMethod = paymentMethod;
             UserId = userId;
             BankAccountId = bankAccountId;
-            CardId = cardId;
             CategoryId = categoryId;
             Amount = amount;
             Date = date;
