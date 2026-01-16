@@ -1,3 +1,4 @@
+using Financeasy.Application.Services;
 using Financeasy.Domain.interfaces;
 using Financeasy.Infra.Services;
 using Financeasy.Infra.Util;
@@ -11,6 +12,7 @@ namespace Financeasy.CrossCutting.DependencyInjections
         {
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<ICardPurchaseDomainService, CardPurchaseDomainService>();
 
             return services;
         }

@@ -4,7 +4,6 @@ namespace Financeasy.Application.UseCases.CardPurchaseCases.CreateCardPurchase
 {
     public record CreateCardPurchaseCommand : IRequest<Guid>
     {
-        public Guid UserId { get; set; }
         public Guid CardId { get; set; }
         public Guid CategoryId { get; set; }
         public decimal TotalAmount { get; set; }

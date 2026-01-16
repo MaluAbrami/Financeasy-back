@@ -70,4 +70,8 @@ app.MapGroup("/cards")
     .WithTags("Cards")
     .MapCards();
 
+app.MapGroup("/card-purchases")
+    .WithTags("Card Purchases")
+    .MapCards();
+
 app.Run();
