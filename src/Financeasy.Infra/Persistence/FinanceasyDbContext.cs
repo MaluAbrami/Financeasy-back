@@ -37,6 +37,9 @@ namespace Financeasy.Infra.Persistence
                 .Property(x => x.PaymentMethod)
                 .HasConversion<string>();
 
+            modelBuilder.Entity<Card>()
+                .HasIndex(x => new { x.BankAccountId, x.Name }).IsUnique();
+
             base.OnModelCreating(modelBuilder);
         }
     }

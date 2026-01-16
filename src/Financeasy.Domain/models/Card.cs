@@ -30,11 +30,14 @@ namespace Financeasy.Domain.models
         [Column("due_day")]
         public int DueDay { get; set; }
 
+        [Column("category_id")]
+        public Guid CategoryId { get; set; }
+
         public Card()
         {
         }
 
-        public Card(Guid userId, Guid bankAccountId, string name, decimal creditLimit, int closingDay, int dueDay)
+        public Card(Guid userId, Guid bankAccountId, string name, decimal creditLimit, int closingDay, int dueDay, Guid categoryId)
         {
             Id = Guid.NewGuid();
             UserId = userId;
@@ -44,6 +47,7 @@ namespace Financeasy.Domain.models
             AvailableLimit = creditLimit;
             ClosingDay = closingDay;
             DueDay = dueDay;
+            CategoryId = categoryId;
         }
 
         public void DecreaseAvailableLimit(decimal value)

@@ -24,20 +24,22 @@ namespace Financeasy.Application.UseCases.CardCases.CreateCard
             if(nameDuplicate.Any())
                 throw new ArgumentException("Já existe um cartão com esse nome no mesmo banco.");
 
-            Card newCard = new Card(
-                request.UserId,
-                request.BankAccountId,
-                request.Name,
-                request.CreditLimit,
-                request.ClosingDay,
-                request.DueDay
-            );
 
             Category newCategory = new Category(
                 request.UserId,
                 $"Fatura {request.Name}",
                 EntryType.Expense,
                 RecurrenceType.Monthly
+            );
+
+            Card newCard = new Card(
+                request.UserId,
+                request.BankAccountId,
+                request.Name,
+                request.CreditLimit,
+                request.ClosingDay,
+                request.DueDay,
+                newCategory.Id
             );
 
             await _categoryRepository.AddAsync(newCategory);
