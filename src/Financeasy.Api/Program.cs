@@ -74,4 +74,8 @@ app.MapGroup("/card-purchases")
     .WithTags("Card Purchases")
     .MapCardPurchases();
 
+app.MapGroup("/card-invoices")
+    .WithTags("Card Invoices")
+    .MapCardInvoice();
+
 app.Run();
