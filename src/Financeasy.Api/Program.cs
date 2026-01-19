@@ -72,6 +72,6 @@ app.MapGroup("/cards")
 
 app.MapGroup("/card-purchases")
     .WithTags("Card Purchases")
-    .MapCards();
+    .MapCardPurchases();
 
 app.Run();
