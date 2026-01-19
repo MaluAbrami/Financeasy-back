@@ -1,4 +1,4 @@
-using Financeasy.Application.UseCases.CardInvoiceCases.PayCardInvoiceCommand;
+using Financeasy.Application.UseCases.CardInvoiceCases.PayCardInvoice;
 using Financeasy.Domain.DTO.CardInvoice;
 using MediatR;
 

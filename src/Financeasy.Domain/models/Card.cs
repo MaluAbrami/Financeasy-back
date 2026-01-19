@@ -54,5 +54,10 @@ namespace Financeasy.Domain.models
         {
             AvailableLimit -= value;
         }
+
+        public void IncreaseAvailableLimit(decimal value)
+        {
+            AvailableLimit += value;
+        }
     }
 }

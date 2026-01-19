@@ -10,17 +10,20 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.PayCardInvoice
         private readonly ICardInvoiceRepository _cardInvoiceRepository;
         private readonly ITransactionRepository _transactionRepository;
         private readonly ICardRepository _cardRepository;
+        private readonly IBankAccountRepository _bankAccountRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public PayCardInvoiceHandler(
             ICardInvoiceRepository cardInvoiceRepository, 
             ITransactionRepository transactionRepository, 
             ICardRepository cardRepository,
+            IBankAccountRepository bankAccountRepository,
             IUnitOfWork unitOfWork)
         {
             _cardInvoiceRepository = cardInvoiceRepository;
             _transactionRepository = transactionRepository;
             _cardRepository = cardRepository;
+            _bankAccountRepository = bankAccountRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -37,6 +40,8 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.PayCardInvoice
 
             var card = await _cardRepository.GetByIdAsync(request.CardId);
 
+            var bankExists = await _bankAccountRepository.GetByIdAsync(card.BankAccountId);
+
             var newTransaction = new Transaction(
                 PaymentMethod.Transfer,
                 request.UserId,
@@ -51,7 +56,9 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.PayCardInvoice
 
             cardInvoiceExist.IsPaid = true;
 
-            card.AvailableLimit += cardInvoiceExist.TotalAmount;
+            card.IncreaseAvailableLimit(cardInvoiceExist.TotalAmount);
+
+            bankExists.DecreaseBalance(cardInvoiceExist.TotalAmount);
 
             await _unitOfWork.SaveChangesAsync();
 

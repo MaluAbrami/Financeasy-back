@@ -28,5 +28,15 @@ namespace Financeasy.Domain.models
             Bank = bank;
             Balance = balance;
         }
+
+        public void DecreaseBalance(decimal amount)
+        {
+            Balance -= amount;
+        }
+
+        public void IncreaseBalance(decimal amount)
+        {
+            Balance += amount;
+        }
     }
 }
