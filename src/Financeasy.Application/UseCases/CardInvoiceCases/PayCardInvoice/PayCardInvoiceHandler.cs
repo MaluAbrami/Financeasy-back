@@ -11,6 +11,7 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.PayCardInvoice
         private readonly ITransactionRepository _transactionRepository;
         private readonly ICardRepository _cardRepository;
         private readonly IBankAccountRepository _bankAccountRepository;
+        private readonly ICardInstallmentRepository _cardInstallmentRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public PayCardInvoiceHandler(
@@ -18,12 +19,14 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.PayCardInvoice
             ITransactionRepository transactionRepository, 
             ICardRepository cardRepository,
             IBankAccountRepository bankAccountRepository,
+            ICardInstallmentRepository cardInstallmentRepository,
             IUnitOfWork unitOfWork)
         {
             _cardInvoiceRepository = cardInvoiceRepository;
             _transactionRepository = transactionRepository;
             _cardRepository = cardRepository;
             _bankAccountRepository = bankAccountRepository;
+            _cardInstallmentRepository = cardInstallmentRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -55,6 +58,12 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.PayCardInvoice
             await _transactionRepository.AddAsync(newTransaction);
 
             cardInvoiceExist.IsPaid = true;
+
+            var cardInstallments = await _cardInstallmentRepository.FindAsync(x => x.CardInvoiceId == cardInvoiceExist.Id);
+            foreach ( var installment in cardInstallments)
+            {
+                installment.Paid = true;
+            }
 
             card.IncreaseAvailableLimit(cardInvoiceExist.TotalAmount);
 
