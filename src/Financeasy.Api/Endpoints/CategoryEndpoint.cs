@@ -47,7 +47,13 @@ namespace Financeasy.Api.Endpoints
             return Results.Created();
         }
 
-        private static async Task<IResult> GetAllCategorysPaged(int page, int pageSize, CategoryOrderBy orderBy, SortDirection direction, HttpContext context, IMediator mediator)
+        private static async Task<IResult> GetAllCategorysPaged(
+            HttpContext context, 
+            IMediator mediator,
+            int page = 1, 
+            int pageSize = 10, 
+            CategoryOrderBy orderBy = CategoryOrderBy.Name, 
+            SortDirection direction = SortDirection.Asc)
         {
             var userId = context.User.FindFirst("userId")?.Value;
             if(userId is null)
