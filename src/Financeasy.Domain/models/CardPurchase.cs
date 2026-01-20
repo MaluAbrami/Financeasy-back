@@ -8,6 +8,9 @@ namespace Financeasy.Domain.models
         [Column("id")]
         public Guid Id { get; set; }
 
+        [Column("user_id")]
+        public Guid UserId { get; set; }
+
         [Column("card_id")]
         public Guid CardId { get; set; }
 
@@ -28,13 +31,17 @@ namespace Financeasy.Domain.models
 
         public ICollection<CardInstallment> InstallmentsList { get; set; }
 
+        public Card Card { get; set; }
+        public Category Category { get; set; }
+
         public CardPurchase()
         {
         }
 
-        public CardPurchase(Guid cardId, Guid categoryId, decimal totalAmount, int installments, DateTime purchaseDate, string? description)
+        public CardPurchase(Guid userId, Guid cardId, Guid categoryId, decimal totalAmount, int installments, DateTime purchaseDate, string? description)
         {
             Id = Guid.NewGuid();
+            UserId = userId;
             CardId = cardId;
             CategoryId = categoryId;
             TotalAmount = totalAmount;

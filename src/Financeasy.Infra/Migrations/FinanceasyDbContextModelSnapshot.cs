@@ -195,7 +195,15 @@ namespace Financeasy.Infra.Migrations
                         .HasColumnType("decimal(18,2)")
                         .HasColumnName("total_amount");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)")
+                        .HasColumnName("user_id");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CardId");
+
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("card_purchase");
                 });
@@ -323,6 +331,25 @@ namespace Financeasy.Infra.Migrations
                         .HasForeignKey("CardPurchaseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Financeasy.Domain.models.CardPurchase", b =>
+                {
+                    b.HasOne("Financeasy.Domain.models.Card", "Card")
+                        .WithMany()
+                        .HasForeignKey("CardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Financeasy.Domain.models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Card");
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Financeasy.Domain.models.Transaction", b =>

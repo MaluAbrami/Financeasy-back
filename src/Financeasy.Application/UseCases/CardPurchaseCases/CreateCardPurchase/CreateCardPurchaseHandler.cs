@@ -30,6 +30,7 @@ namespace Financeasy.Application.UseCases.CardPurchaseCases.CreateCardPurchase
                 throw new ArgumentOutOfRangeException("Não há limite suficiente disponível no cartão de crédito escolhido");
 
             var newCardPurchase = new CardPurchase(
+                request.UserId,
                 request.CardId,
                 request.CategoryId,
                 request.TotalAmount,

@@ -1,10 +1,7 @@
-using MediatR;
-
-namespace Financeasy.Application.UseCases.CardPurchaseCases.CreateCardPurchase
+namespace Financeasy.Domain.DTO.CardPurchase
 {
-    public record CreateCardPurchaseCommand : IRequest<Guid>
+    public record CreateCardPurchaseDTO
     {
-        public Guid UserId { get; set; }
         public Guid CardId { get; set; }
         public Guid CategoryId { get; set; }
         public decimal TotalAmount { get; set; }
