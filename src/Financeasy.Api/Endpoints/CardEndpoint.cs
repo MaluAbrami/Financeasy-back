@@ -1,4 +1,5 @@
 using Financeasy.Application.UseCases.CardCases.CreateCard;
+using Financeasy.Application.UseCases.CardCases.DeleteCard;
 using Financeasy.Application.UseCases.CardCases.GetAllCards;
 using Financeasy.Domain.DTO.Card;
 using Financeasy.Domain.DTO.Pagination;
@@ -15,6 +16,9 @@ namespace Financeasy.Api.Endpoints
                 .RequireAuthorization();
 
             group.MapGet("/get-all/{page}/{pageSize}/{orderBy}/{direction}", GetAllCards)
+                .RequireAuthorization();
+
+            group.MapDelete("/{cardId}", DeleteCard)
                 .RequireAuthorization();
 
             return group;
@@ -66,6 +70,22 @@ namespace Financeasy.Api.Endpoints
             );
 
             return Results.Ok(cards);
+        }
+
+        private static async Task<IResult> DeleteCard(Guid cardId, HttpContext context, IMediator mediator)
+        {
+            var userId = context.User.FindFirst("userId")?.Value;
+
+            if(userId is null)
+                return Results.Unauthorized();
+
+            await mediator.Send(new DeleteCardCommand { 
+                    UserId = Guid.Parse(userId), 
+                    CardId = cardId
+                }
+            );
+
+            return Results.NoContent();
         }
     }
 }
