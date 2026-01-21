@@ -33,6 +33,8 @@ namespace Financeasy.Domain.models
         [Column("category_id")]
         public Guid CategoryId { get; set; }
 
+        public BankAccount BankAccount { get; set; }
+
         public Card()
         {
         }
