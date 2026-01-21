@@ -30,26 +30,6 @@ namespace Financeasy.Infra.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "card",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    user_id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    bank_account_id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    name = table.Column<string>(type: "varchar(255)", nullable: false),
-                    credit_limit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    available_limit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    closing_day = table.Column<int>(type: "int", nullable: false),
-                    due_day = table.Column<int>(type: "int", nullable: false),
-                    category_id = table.Column<Guid>(type: "char(36)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_card", x => x.id);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "card_invoice",
                 columns: table => new
                 {
@@ -99,31 +79,28 @@ namespace Financeasy.Infra.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "card_purchase",
+                name: "card",
                 columns: table => new
                 {
                     id = table.Column<Guid>(type: "char(36)", nullable: false),
                     user_id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    card_id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    bank_account_id = table.Column<Guid>(type: "char(36)", nullable: false),
                     category_id = table.Column<Guid>(type: "char(36)", nullable: false),
-                    total_amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    installments = table.Column<int>(type: "int", nullable: false),
-                    purchase_date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    description = table.Column<string>(type: "longtext", nullable: true)
+                    name = table.Column<string>(type: "varchar(255)", nullable: false),
+                    credit_limit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    available_limit = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    closing_day = table.Column<int>(type: "int", nullable: false),
+                    due_day = table.Column<int>(type: "int", nullable: false),
+                    is_active = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    deleted_at = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_card_purchase", x => x.id);
+                    table.PrimaryKey("PK_card", x => x.id);
                     table.ForeignKey(
-                        name: "FK_card_purchase_card_card_id",
-                        column: x => x.card_id,
-                        principalTable: "card",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_card_purchase_category_category_id",
-                        column: x => x.category_id,
-                        principalTable: "category",
+                        name: "FK_card_bank_account_bank_account_id",
+                        column: x => x.bank_account_id,
+                        principalTable: "bank_account",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -153,6 +130,37 @@ namespace Financeasy.Infra.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_transaction_category_category_id",
+                        column: x => x.category_id,
+                        principalTable: "category",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "card_purchase",
+                columns: table => new
+                {
+                    id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    user_id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    card_id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    category_id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    total_amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    installments = table.Column<int>(type: "int", nullable: false),
+                    purchase_date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    description = table.Column<string>(type: "longtext", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_card_purchase", x => x.id);
+                    table.ForeignKey(
+                        name: "FK_card_purchase_card_card_id",
+                        column: x => x.card_id,
+                        principalTable: "card",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_card_purchase_category_category_id",
                         column: x => x.category_id,
                         principalTable: "category",
                         principalColumn: "id",
@@ -252,13 +260,13 @@ namespace Financeasy.Infra.Migrations
                 name: "card_purchase");
 
             migrationBuilder.DropTable(
-                name: "bank_account");
-
-            migrationBuilder.DropTable(
                 name: "card");
 
             migrationBuilder.DropTable(
                 name: "category");
+
+            migrationBuilder.DropTable(
+                name: "bank_account");
         }
     }
 }

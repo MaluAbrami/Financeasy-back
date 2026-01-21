@@ -71,9 +71,17 @@ namespace Financeasy.Infra.Migrations
                         .HasColumnType("decimal(18,2)")
                         .HasColumnName("credit_limit");
 
+                    b.Property<DateTime>("DeletedAt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("deleted_at");
+
                     b.Property<int>("DueDay")
                         .HasColumnType("int")
                         .HasColumnName("due_day");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_active");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -316,6 +324,17 @@ namespace Financeasy.Infra.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("users");
+                });
+
+            modelBuilder.Entity("Financeasy.Domain.models.Card", b =>
+                {
+                    b.HasOne("Financeasy.Domain.models.BankAccount", "BankAccount")
+                        .WithMany()
+                        .HasForeignKey("BankAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BankAccount");
                 });
 
             modelBuilder.Entity("Financeasy.Domain.models.CardInstallment", b =>
