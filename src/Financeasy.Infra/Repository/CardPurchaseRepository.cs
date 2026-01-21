@@ -41,6 +41,7 @@ namespace Financeasy.Infra.Repository
                     .Take(pageSize)
                     .Select(x => new GetCardPurchaseResponseDTO
                     {
+                        Id = x.Id,
                         CardName = x.Card!.Name,
                         CategoryName = x.Category.Name,
                         TotalAmount = x.TotalAmount,

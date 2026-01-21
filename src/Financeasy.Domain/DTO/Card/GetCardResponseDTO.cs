@@ -2,6 +2,7 @@ namespace Financeasy.Domain.DTO.Card
 {
     public record GetCardResponseDTO
     {
+        public Guid Id { get; set; }
         public string BankAccountName { get; set; }
         public string Name { get; set; }
         public decimal CreditLimit { get; set; }

@@ -50,6 +50,7 @@ namespace Financeasy.Infra.Repository
                     .Take(pageSize)
                     .Select(x => new GetTransactionResponseDTO
                     {
+                        Id = x.Id,
                         BankAccountName = x.BankAccount!.Bank,
                         CategoryName = x.Category.Name,
                         PaymentMethod = x.PaymentMethod,
