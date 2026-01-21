@@ -6,11 +6,16 @@ namespace Financeasy.Application.UseCases.CardCases.DeleteCard
     public class DeleteCardHandler : IRequestHandler<DeleteCardCommand, DeleteCardCommand>
     {
         private readonly ICardRepository _cardRepository;
+        private readonly ICardPurchaseRepository _cardPurchaseRepository;
         private readonly IUnitOfWork _unitOfWork;
         
-        public DeleteCardHandler(ICardRepository cardRepository, IUnitOfWork unitOfWork)
+        public DeleteCardHandler(
+            ICardRepository cardRepository, 
+            ICardPurchaseRepository cardPurchaseRepository,
+            IUnitOfWork unitOfWork)
         {
             _cardRepository = cardRepository;
+            _cardPurchaseRepository = cardPurchaseRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -24,7 +29,12 @@ namespace Financeasy.Application.UseCases.CardCases.DeleteCard
             if(card.UserId != request.UserId)
                 throw new UnauthorizedAccessException("Usuário não tem acesso a esta ação.");
 
-            _cardRepository.Delete(card);
+            var purchases = await _cardPurchaseRepository.FindAsync(x => x.CardId == request.CardId);
+            if(purchases.Any())
+                card.DisableCard();  
+            else
+                _cardRepository.Delete(card);
+
             await _unitOfWork.SaveChangesAsync();
 
             return request;

@@ -15,6 +15,9 @@ namespace Financeasy.Domain.models
         [Column("bank_account_id")]
         public Guid BankAccountId { get; set; }
 
+        [Column("category_id")]
+        public Guid CategoryId { get; set; }
+
         [Column("name")]
         public string Name { get; set; }
 
@@ -30,8 +33,11 @@ namespace Financeasy.Domain.models
         [Column("due_day")]
         public int DueDay { get; set; }
 
-        [Column("category_id")]
-        public Guid CategoryId { get; set; }
+        [Column("is_active")]
+        public bool IsActive { get; set; }
+
+        [Column("deleted_at")]
+        public DateTime DeletedAt { get; set; }
 
         public BankAccount BankAccount { get; set; }
 
@@ -50,6 +56,14 @@ namespace Financeasy.Domain.models
             ClosingDay = closingDay;
             DueDay = dueDay;
             CategoryId = categoryId;
+            IsActive = true;
+            DeletedAt = new DateTime();
+        }
+
+        public void DisableCard()
+        {
+            IsActive = false;
+            DeletedAt = DateTime.Now;
         }
 
         public void DecreaseAvailableLimit(decimal value)
