@@ -12,7 +12,7 @@ namespace Financeasy.Infra.UnitOfWork
             _context = context;
         }
 
-        public async Task<int> SaveChangesAsync()
+        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
         {
             return await _context.SaveChangesAsync();
         }

@@ -27,11 +27,11 @@ namespace Financeasy.Application.UseCases.TransactionCases.CreateTransaction
 
         public async Task<Guid> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
         {
-            var bankExists = await _bankAccountRepository.GetByIdAsync(request.BankAccountId);
+            var bankExists = await _bankAccountRepository.GetByIdAsync(request.BankAccountId, cancellationToken);
             if(bankExists is null || bankExists.UserId != request.UserId)
                 throw new ArgumentException("Conta bancária inválida");
 
-            var categoryExists = await _categoryRepository.GetByIdAndUserId(request.CategoryId, request.UserId); 
+            var categoryExists = await _categoryRepository.GetByIdAndUserId(request.CategoryId, request.UserId, cancellationToken); 
             if(categoryExists is null)
                 throw new ArgumentException("Categoria não encontrada");
 
@@ -45,14 +45,14 @@ namespace Financeasy.Application.UseCases.TransactionCases.CreateTransaction
                 request.Description
             );
 
-            await _transactionRepository.AddAsync(newTransaction);
+            await _transactionRepository.AddAsync(newTransaction, cancellationToken);
 
             if(categoryExists.Type == EntryType.Income)
                 bankExists.IncreaseBalance(newTransaction.Amount);
             else
                 bankExists.DecreaseBalance(newTransaction.Amount);
 
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return newTransaction.Id;
         }

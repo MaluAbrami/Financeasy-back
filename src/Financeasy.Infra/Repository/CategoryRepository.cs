@@ -15,7 +15,7 @@ namespace Financeasy.Infra.Repository
             _context = context;
         }
 
-        public async Task<Category?> GetByIdAndUserId(Guid id, Guid userId)
+        public async Task<Category?> GetByIdAndUserId(Guid id, Guid userId, CancellationToken cancellationToken)
         {
             return await _context.Categorys.FirstOrDefaultAsync(x => x.Id == id && x.UserId == userId);
         }

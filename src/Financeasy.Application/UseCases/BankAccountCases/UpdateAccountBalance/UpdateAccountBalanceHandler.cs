@@ -16,7 +16,7 @@ namespace Financeasy.Application.UseCases.BankAccountCases.UpdateAccountBalance
 
         public async Task<UpdateAccountBalanceResponse> Handle(UpdateAccountBalance request, CancellationToken cancellationToken)
         {
-            var bankAccount = await _bankAccountRepository.GetByIdAsync(request.Id);
+            var bankAccount = await _bankAccountRepository.GetByIdAsync(request.Id, cancellationToken);
 
             if(bankAccount is null)
                 throw new ArgumentException("Conta bancária não encontrada");
@@ -26,7 +26,7 @@ namespace Financeasy.Application.UseCases.BankAccountCases.UpdateAccountBalance
 
             bankAccount.Balance = request.Balance;
 
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return new UpdateAccountBalanceResponse
             {

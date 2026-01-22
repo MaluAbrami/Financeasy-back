@@ -14,7 +14,7 @@ namespace Financeasy.Infra.Repository
             _context = context;
         }
 
-        public async Task<CardInvoice> GetOrCreateAsync(Guid cardId, DateTime closingDate, DateTime dueDate)
+        public async Task<CardInvoice> GetOrCreateAsync(Guid cardId, DateTime closingDate, DateTime dueDate, CancellationToken cancellationToken)
         {
             var invoice = await _context.CardInvoices.FirstOrDefaultAsync(
                 x => x.CardId == cardId &&

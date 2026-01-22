@@ -12,6 +12,7 @@ namespace Financeasy.Domain.interfaces
             Expression<Func<Transaction, object>> orderBy,
             bool ascending,
             int page,
-            int pageSize);
+            int pageSize,
+            CancellationToken cancellationToken);
     }
 }

@@ -17,7 +17,7 @@ namespace Financeasy.Infra.Repository
             _dbSet = context.Set<T>();
         }
 
-        public async Task AddAsync(T entity)
+        public async Task AddAsync(T entity, CancellationToken cancellationToken)
         {
             await _dbSet.AddAsync(entity);
         }
@@ -27,22 +27,22 @@ namespace Financeasy.Infra.Repository
             _dbSet.Remove(entity);
         }
 
-        public async Task<List<T>> FindAsync(Expression<Func<T, bool>> predicate)
+        public async Task<List<T>> FindAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
         {
             return await _dbSet.Where(predicate).ToListAsync();
         }
 
-        public async Task<List<T>> GetAllAsync()
+        public async Task<List<T>> GetAllAsync(CancellationToken cancellationToken)
         {
             return await _dbSet.ToListAsync();
         }
 
-        public async Task<T?> GetByIdAsync(Guid id)
+        public async Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
         {
             return await _dbSet.FindAsync(id);
         }
 
-        public async Task<GetPagedBaseResponseDTO<T>> GetPagedAsync(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderBy, bool ascending, int page, int pageSize)
+        public async Task<GetPagedBaseResponseDTO<T>> GetPagedAsync(Expression<Func<T, bool>> filter, Expression<Func<T, object>> orderBy, bool ascending, int page, int pageSize, CancellationToken cancellationToken)
         {
             IQueryable<T> query = _dbSet;
 

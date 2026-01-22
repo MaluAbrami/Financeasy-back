@@ -20,7 +20,7 @@ namespace Financeasy.Application.UseCases.CardCases.CreateCard
 
         public async Task<Guid> Handle(CreateCardCommand request, CancellationToken cancellationToken)
         {
-            var nameDuplicate = await _cardRepository.FindAsync(x => x.Name == request.Name && x.BankAccountId == request.BankAccountId);
+            var nameDuplicate = await _cardRepository.FindAsync(x => x.Name == request.Name && x.BankAccountId == request.BankAccountId, cancellationToken);
             if(nameDuplicate.Any())
                 throw new ArgumentException("Já existe um cartão com esse nome no mesmo banco.");
 
@@ -42,9 +42,9 @@ namespace Financeasy.Application.UseCases.CardCases.CreateCard
                 newCategory.Id
             );
 
-            await _categoryRepository.AddAsync(newCategory);
-            await _cardRepository.AddAsync(newCard);
-            await _unitOfWork.SaveChangesAsync();
+            await _categoryRepository.AddAsync(newCategory, cancellationToken);
+            await _cardRepository.AddAsync(newCard, cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return newCard.Id;
         }

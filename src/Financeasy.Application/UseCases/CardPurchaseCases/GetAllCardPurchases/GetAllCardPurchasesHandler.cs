@@ -33,7 +33,8 @@ namespace Financeasy.Application.UseCases.CardPurchaseCases.GetAllCardPurchases
                 ? true
                 : false,
                 request.Pagination.Page,
-                request.Pagination.PageSize
+                request.Pagination.PageSize,
+                cancellationToken
             );
 
             return new GetAllCardPurchasesResponse

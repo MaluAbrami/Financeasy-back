@@ -17,6 +17,12 @@ namespace Financeasy.Domain.models
         [Column("balance")]
         public decimal Balance { get; set; }
 
+        [Column("is_active")]
+        public bool IsActive { get; set; }
+
+        [Column("deleted_at")]
+        public DateTime DeletedAt { get; set; }
+
         public BankAccount()
         {
         }
@@ -27,6 +33,14 @@ namespace Financeasy.Domain.models
             UserId = userId;
             Bank = bank;
             Balance = balance;
+            IsActive = true;
+            DeletedAt = new DateTime();
+        }
+
+        public void DisableBankAccount()
+        {
+            IsActive = false;
+            DeletedAt = DateTime.Now;
         }
 
         public void DecreaseBalance(decimal amount)

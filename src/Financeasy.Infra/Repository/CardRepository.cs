@@ -21,7 +21,8 @@ namespace Financeasy.Infra.Repository
             Expression<Func<Card, object>> orderBy,
             bool ascending,
             int page,
-            int pageSize)
+            int pageSize,
+            CancellationToken cancellationToken)
         {
             IQueryable<Card> query = _dbContext.Cards;
 

@@ -14,7 +14,7 @@ namespace Financeasy.Application.UseCases.UserCases.GetUserByEmail
 
         public async Task<GetUserByEmailResponse> Handle(GetUserByEmailQuery request, CancellationToken cancellationToken)
         {
-            var userExist = await _userRepository.GetUserByEmail(request.Email);
+            var userExist = await _userRepository.GetUserByEmail(request.Email, cancellationToken);
 
             if(userExist is null)
                 throw new ArgumentException($"Não existe usuário com o email {request.Email}");

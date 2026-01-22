@@ -19,7 +19,7 @@ namespace Financeasy.Application.UseCases.UserCases.UpdateUser
 
         public async Task<UpdateUserCommand> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var userExist = await _userRepository.GetByIdAsync(request.UserId);
+            var userExist = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
 
             if(userExist is null)
                 throw new ArgumentException($"Usuário com id {request.UserId} não existe.");
@@ -34,7 +34,7 @@ namespace Financeasy.Application.UseCases.UserCases.UpdateUser
                 userExist.Email = request.User.Email;
 
             _userRepository.Update(userExist);
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
             
             return request;
         }

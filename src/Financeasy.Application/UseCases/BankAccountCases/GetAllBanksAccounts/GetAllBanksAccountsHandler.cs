@@ -34,7 +34,8 @@ namespace Financeasy.Application.UseCases.BankAccountCases.GetAllBanksAccounts
                 ? true
                 : false,
                 request.Pagination.Page,
-                request.Pagination.PageSize
+                request.Pagination.PageSize,
+                cancellationToken
             );
 
             List<GetBankAccountDTO> list = [];

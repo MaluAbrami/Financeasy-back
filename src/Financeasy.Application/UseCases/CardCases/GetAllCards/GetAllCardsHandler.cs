@@ -36,7 +36,8 @@ namespace Financeasy.Application.UseCases.CardCases.GetAllCards
                 ? true
                 : false,
                 request.Pagination.Page,
-                request.Pagination.PageSize
+                request.Pagination.PageSize,
+                cancellationToken
             );
 
             return new GetAllCardsResponse

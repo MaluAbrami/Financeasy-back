@@ -8,19 +8,17 @@ namespace Financeasy.Application.UseCases.UserCases.Login
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHasher _passwordHasher;
         private readonly ITokenService _tokenService;
-        private readonly IUnitOfWork _unitOfWork;
 
-        public LoginHandler(IUserRepository userRepository, IPasswordHasher passwordHasher, ITokenService tokenService, IUnitOfWork unitOfWork)
+        public LoginHandler(IUserRepository userRepository, IPasswordHasher passwordHasher, ITokenService tokenService)
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
             _tokenService = tokenService;
-            _unitOfWork = unitOfWork;
         }
 
         public async Task<string> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            var userExist = await _userRepository.GetUserByEmail(request.Email);
+            var userExist = await _userRepository.GetUserByEmail(request.Email, cancellationToken);
 
             if (userExist is null)
                 throw new ArgumentException("Email ou senha incorretos.");

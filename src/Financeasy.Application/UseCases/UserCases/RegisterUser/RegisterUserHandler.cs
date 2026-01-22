@@ -19,15 +19,15 @@ namespace Financeasy.Application.UseCases.UserCases.RegisterUser
 
         public async Task<Guid> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
-            var alreadyExist = await _userRepository.GetUserByEmail(request.Email);
+            var alreadyExist = await _userRepository.GetUserByEmail(request.Email, cancellationToken);
 
             if(alreadyExist is not null)
                 throw new ArgumentException("Já existe um usuário com esse email");
 
             var newUser = new User(request.Email, _passwordHasher.Hash(request.Password), request.ProfilePhoto, request.AlertLimit);
             
-            await _userRepository.AddAsync(newUser);
-            await _unitOfWork.SaveChangesAsync();
+            await _userRepository.AddAsync(newUser, cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return newUser.Id;
         }

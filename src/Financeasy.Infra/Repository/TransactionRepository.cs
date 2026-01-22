@@ -30,7 +30,8 @@ namespace Financeasy.Infra.Repository
             Expression<Func<Transaction, object>> orderBy,
             bool ascending,
             int page,
-            int pageSize)
+            int pageSize,
+            CancellationToken cancellationToken)
         {
             IQueryable<Transaction> query = _dbContext.Transactions;
 

@@ -32,7 +32,7 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.PayCardInvoice
 
         public async Task<Guid> Handle(PayCardInvoiceCommand request, CancellationToken cancellationToken)
         {
-            var cardInvoice = await _cardInvoiceRepository.FindAsync(x => x.CardId == request.CardId && x.ClosingDate == request.ClosingDate);
+            var cardInvoice = await _cardInvoiceRepository.FindAsync(x => x.CardId == request.CardId && x.ClosingDate == request.ClosingDate, cancellationToken);
             if(!cardInvoice.Any())
                 throw new ArgumentException($"Não foi encontrado nenhuma fatura para a data {request.ClosingDate.Date}");
 
@@ -41,9 +41,9 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.PayCardInvoice
             if(cardInvoiceExist.IsPaid)
                 throw new ArgumentException("Essa fatura já está paga.");
 
-            var card = await _cardRepository.GetByIdAsync(request.CardId);
+            var card = await _cardRepository.GetByIdAsync(request.CardId, cancellationToken);
 
-            var bankExists = await _bankAccountRepository.GetByIdAsync(card.BankAccountId);
+            var bankExists = await _bankAccountRepository.GetByIdAsync(card.BankAccountId, cancellationToken);
 
             var newTransaction = new Transaction(
                 PaymentMethod.Transfer,
@@ -55,11 +55,11 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.PayCardInvoice
                 "Pagamento de fatura do cartão de crédito"
             );
 
-            await _transactionRepository.AddAsync(newTransaction);
+            await _transactionRepository.AddAsync(newTransaction, cancellationToken);
 
             cardInvoiceExist.IsPaid = true;
 
-            var cardInstallments = await _cardInstallmentRepository.FindAsync(x => x.CardInvoiceId == cardInvoiceExist.Id);
+            var cardInstallments = await _cardInstallmentRepository.FindAsync(x => x.CardInvoiceId == cardInvoiceExist.Id, cancellationToken);
             foreach ( var installment in cardInstallments)
             {
                 installment.Paid = true;
@@ -69,7 +69,7 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.PayCardInvoice
 
             bankExists.DecreaseBalance(cardInvoiceExist.TotalAmount);
 
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return cardInvoiceExist.Id;
         }

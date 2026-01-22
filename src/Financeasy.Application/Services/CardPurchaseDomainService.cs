@@ -17,7 +17,8 @@ namespace Financeasy.Application.Services
         public async Task GenerateInvoicesAndInstallmentsAsync(
             Card card,
             CardPurchase purchase,
-            DateTime purchaseDate
+            DateTime purchaseDate,
+            CancellationToken cancellationToken
         )
         {
             var installmentValue = purchase.TotalAmount / purchase.Installments;
@@ -41,7 +42,7 @@ namespace Financeasy.Application.Services
                     card.DueDay
                 );
 
-                var invoice = await _cardInvoiceRepository.GetOrCreateAsync(card.Id, closingDate, dueDate);
+                var invoice = await _cardInvoiceRepository.GetOrCreateAsync(card.Id, closingDate, dueDate, cancellationToken);
                 invoice.AddAmount(installmentValue);
 
                 var newCardInstallment = new CardInstallment(
@@ -52,7 +53,7 @@ namespace Financeasy.Application.Services
                     installmentValue
                 );
 
-                await _cardInstallmentRepository.AddAsync(newCardInstallment);
+                await _cardInstallmentRepository.AddAsync(newCardInstallment, cancellationToken);
             }
         }
     }

@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Financeasy.Application.UseCases.UserCases.DeleteUser
 {
-    public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, DeleteUserCommand>
+    public class DeleteUserHandler : IRequestHandler<DeleteUserCommand, Unit>
     {
         private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -18,17 +18,17 @@ namespace Financeasy.Application.UseCases.UserCases.DeleteUser
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<DeleteUserCommand> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-            var userExist = await _userRepository.GetByIdAsync(request.UserId);
+            var userExist = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
 
             if(userExist is null)
                 throw new ArgumentException($"Usuário com id {request.UserId} não existe.");
 
             _userRepository.Delete(userExist);
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return request;
+            return Unit.Value;
         }
     }
 }

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Financeasy.Application.UseCases.TransactionCases.DeleteTransaction
 {
-    public class DeleteTransactionHandler : IRequestHandler<DeleteTransactionCommand, DeleteTransactionCommand>
+    public class DeleteTransactionHandler : IRequestHandler<DeleteTransactionCommand, Unit>
     {
         private readonly ITransactionRepository _transactionRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -15,7 +15,7 @@ namespace Financeasy.Application.UseCases.TransactionCases.DeleteTransaction
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<DeleteTransactionCommand> Handle(DeleteTransactionCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteTransactionCommand request, CancellationToken cancellationToken)
         {
             var transaction = await _transactionRepository.GetTransactionWithCategoryAndBank(request.TransactionId);
 
@@ -31,9 +31,9 @@ namespace Financeasy.Application.UseCases.TransactionCases.DeleteTransaction
                 transaction.BankAccount!.DecreaseBalance(transaction.Amount);
 
             _transactionRepository.Delete(transaction);
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return request;
+            return Unit.Value;
         }
     }
 }

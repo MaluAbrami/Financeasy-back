@@ -22,7 +22,7 @@ namespace Financeasy.Application.UseCases.CardPurchaseCases.CreateCardPurchase
 
         public async Task<Guid> Handle(CreateCardPurchaseCommand request, CancellationToken cancellationToken)
         {
-            var cardExist = await _cardRepository.GetByIdAsync(request.CardId);
+            var cardExist = await _cardRepository.GetByIdAsync(request.CardId, cancellationToken);
             if (cardExist is null)
                 throw new ArgumentException($"Não foi encontrado nenhum cartão com esse id {request.CardId}");
 
@@ -39,13 +39,13 @@ namespace Financeasy.Application.UseCases.CardPurchaseCases.CreateCardPurchase
                 request.Description
             );
 
-            await _cardPurchaseRepository.AddAsync(newCardPurchase);
+            await _cardPurchaseRepository.AddAsync(newCardPurchase, cancellationToken);
 
-            await _purchaseDomainService.GenerateInvoicesAndInstallmentsAsync(cardExist, newCardPurchase, newCardPurchase.PurchaseDate);
+            await _purchaseDomainService.GenerateInvoicesAndInstallmentsAsync(cardExist, newCardPurchase, newCardPurchase.PurchaseDate, cancellationToken);
 
             cardExist.DecreaseAvailableLimit(newCardPurchase.TotalAmount);
 
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return newCardPurchase.Id;
         }

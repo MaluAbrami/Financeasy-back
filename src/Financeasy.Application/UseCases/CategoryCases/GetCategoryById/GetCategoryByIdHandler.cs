@@ -14,7 +14,7 @@ namespace Financeasy.Application.UseCases.CategoryCases.GetCategoryById
 
         public async Task<GetCategoryByIdResponse> Handle(GetCategoryById request, CancellationToken cancellationToken)
         {
-            var categoryExists = await _categoryRepository.GetByIdAndUserId(request.Id, request.UserId);
+            var categoryExists = await _categoryRepository.GetByIdAndUserId(request.Id, request.UserId, cancellationToken);
 
             if(categoryExists is null)
                 throw new ArgumentException($"Categoria de id {request.Id} não foi encontrada.");

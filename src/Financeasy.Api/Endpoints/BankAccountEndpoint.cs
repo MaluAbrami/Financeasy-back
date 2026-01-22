@@ -1,4 +1,5 @@
 using Financeasy.Application.UseCases.BankAccountCases.CreateBankAccount;
+using Financeasy.Application.UseCases.BankAccountCases.DeleteBankAccount;
 using Financeasy.Application.UseCases.BankAccountCases.GetAllBanksAccounts;
 using Financeasy.Application.UseCases.BankAccountCases.UpdateAccountBalance;
 using Financeasy.Domain.DTO.BankAccount;
@@ -19,6 +20,9 @@ namespace Financeasy.Api.Endpoints
                 .RequireAuthorization();
 
             group.MapGet("/get-all/{page}/{pageSize}/{orderBy}/{direction}", GetAllBanksAccounts)
+                .RequireAuthorization();
+
+            group.MapDelete("/{id}", DeleteBankAccount)
                 .RequireAuthorization();
 
             return group;
@@ -75,6 +79,18 @@ namespace Financeasy.Api.Endpoints
             );
 
             return Results.Ok(banksAccounts);
+        }
+
+        private static async Task<IResult> DeleteBankAccount(Guid id, HttpContext context, IMediator mediator)
+        {
+            var userId = context.User.FindFirst("userId")?.Value;
+
+            if(userId is null)
+                return Results.Unauthorized();
+
+            await mediator.Send(new DeleteBankAccountCommand { UserId = Guid.Parse(userId), BankAccountId = id } );
+
+            return Results.NoContent();
         }
     }
 }

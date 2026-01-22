@@ -17,7 +17,7 @@ namespace Financeasy.Application.UseCases.CategoryCases.GetAllFixedCategorys
 
         public async Task<GetAllCategorysRespone> Handle(GetAllFixedCategorys request, CancellationToken cancellationToken)
         {
-            var categorys = await _categoryRepository.FindAsync(x => x.UserId == request.UserId && x.RecurrenceType != RecurrenceType.None);
+            var categorys = await _categoryRepository.FindAsync(x => x.UserId == request.UserId && x.RecurrenceType != RecurrenceType.None, cancellationToken);
 
             List<CategoryResponseDTO> listResponse = [];
 

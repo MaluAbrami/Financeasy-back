@@ -35,7 +35,8 @@ namespace Financeasy.Application.UseCases.CategoryCases.GetAllCategorysPaged
                 ? true
                 : false,
                 request.Pagination.Page,
-                request.Pagination.PageSize
+                request.Pagination.PageSize,
+                cancellationToken
             );
 
             foreach(var category in responsePaged.List)

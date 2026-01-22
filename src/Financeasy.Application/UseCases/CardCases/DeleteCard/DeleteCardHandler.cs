@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Financeasy.Application.UseCases.CardCases.DeleteCard
 {
-    public class DeleteCardHandler : IRequestHandler<DeleteCardCommand, DeleteCardCommand>
+    public class DeleteCardHandler : IRequestHandler<DeleteCardCommand, Unit>
     {
         private readonly ICardRepository _cardRepository;
         private readonly ICardPurchaseRepository _cardPurchaseRepository;
@@ -19,9 +19,9 @@ namespace Financeasy.Application.UseCases.CardCases.DeleteCard
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<DeleteCardCommand> Handle(DeleteCardCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteCardCommand request, CancellationToken cancellationToken)
         {
-            var card = await _cardRepository.GetByIdAsync(request.CardId);
+            var card = await _cardRepository.GetByIdAsync(request.CardId, cancellationToken);
 
             if(card is null)
                 throw new ArgumentException("Cartão não encontrado.");
@@ -29,15 +29,15 @@ namespace Financeasy.Application.UseCases.CardCases.DeleteCard
             if(card.UserId != request.UserId)
                 throw new UnauthorizedAccessException("Usuário não tem acesso a esta ação.");
 
-            var purchases = await _cardPurchaseRepository.FindAsync(x => x.CardId == request.CardId);
+            var purchases = await _cardPurchaseRepository.FindAsync(x => x.CardId == request.CardId, cancellationToken);
             if(purchases.Any())
                 card.DisableCard();  
             else
                 _cardRepository.Delete(card);
 
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return request;
+            return Unit.Value;
         }
     }
 }

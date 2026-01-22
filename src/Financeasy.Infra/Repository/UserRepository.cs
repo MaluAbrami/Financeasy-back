@@ -15,7 +15,7 @@ namespace Financeasy.Infra.Repository
             _context = context;
         }
 
-        public async Task<User?> GetUserByEmail(string email)
+        public async Task<User?> GetUserByEmail(string email, CancellationToken cancellationToken)
         {
             return await _context.Users
                 .AsNoTracking()

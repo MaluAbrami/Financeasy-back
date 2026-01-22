@@ -15,7 +15,7 @@ namespace Financeasy.Application.UseCases.CategoryCases.GetAllCategorys
 
         public async Task<GetAllCategorysRespone> Handle(GetAllCategorys request, CancellationToken cancellationToken)
         {
-            var categories = await _categoryRepository.FindAsync(x => x.UserId == request.UserId);
+            var categories = await _categoryRepository.FindAsync(x => x.UserId == request.UserId, cancellationToken);
 
             List<CategoryResponseDTO> listResponse = [];
 
