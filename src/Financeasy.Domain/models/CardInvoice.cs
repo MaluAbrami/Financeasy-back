@@ -39,6 +39,11 @@ namespace Financeasy.Domain.models
             IsPaid = false;
         }
 
+        public void DecreaseAmount(decimal amount)
+        {
+            TotalAmount -= amount;
+        }
+
         public void AddAmount(decimal amount)
         {
             TotalAmount += amount;

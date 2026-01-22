@@ -10,5 +10,10 @@ namespace Financeasy.Application.Services
             DateTime purchaseDate,
             CancellationToken cancellationToken
         );
+
+        Task DeleteInstallmentsAndDecreaseInvoiceAsync(
+            Guid cardPurchaseId, 
+            CancellationToken cancellationToken
+        );
     }
 }

@@ -56,5 +56,21 @@ namespace Financeasy.Application.Services
                 await _cardInstallmentRepository.AddAsync(newCardInstallment, cancellationToken);
             }
         }
+
+        public async Task DeleteInstallmentsAndDecreaseInvoiceAsync(Guid cardPurchaseId, CancellationToken cancellationToken)
+        {
+            var installments = await _cardInstallmentRepository.FindAsync(x => x.CardPurchaseId == cardPurchaseId, cancellationToken);
+
+            if(installments.Any())
+            {
+                foreach(var installment in installments)
+                {
+                    var invoice = await _cardInvoiceRepository.GetByIdAsync(installment.CardInvoiceId, cancellationToken);
+                    invoice!.DecreaseAmount(installment.Amount);
+
+                    _cardInstallmentRepository.Delete(installment);
+                }
+            }
+        }
     }
 }
