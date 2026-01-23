@@ -46,11 +46,11 @@ namespace Financeasy.Application.UseCases.CardPurchaseCases.CreateCardPurchase
                 request.Description
             );
 
-            var category = await _categoryRepository.GetByIdAsync(newCardPurchase.CategoryId, cancellationToken);
+            var cardCategory = await _categoryRepository.GetByIdAsync(newCardPurchase.CategoryId, cancellationToken);
 
             await _cardPurchaseRepository.AddAsync(newCardPurchase, cancellationToken);
 
-            await _purchaseDomainService.GenerateInvoicesAndInstallmentsAsync(cardExist, newCardPurchase, category!.Name, newCardPurchase.PurchaseDate, cancellationToken);
+            await _purchaseDomainService.GenerateInvoicesAndInstallmentsAsync(cardExist, newCardPurchase, cardCategory!.Name, newCardPurchase.PurchaseDate, cancellationToken);
 
             cardExist.DecreaseAvailableLimit(newCardPurchase.TotalAmount);
 
