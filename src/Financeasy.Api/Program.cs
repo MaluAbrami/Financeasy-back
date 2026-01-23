@@ -82,4 +82,8 @@ app.MapGroup("/transactions")
     .WithTags("Transactions")
     .MapTransaction();
 
+app.MapGroup("/card-installments")
+    .WithTags("Card Installments")
+    .MapCardInstallment();
+
 app.Run();
