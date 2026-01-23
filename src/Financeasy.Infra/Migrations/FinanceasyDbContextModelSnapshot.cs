@@ -35,6 +35,14 @@ namespace Financeasy.Infra.Migrations
                         .HasColumnType("longtext")
                         .HasColumnName("bank");
 
+                    b.Property<DateTime>("DeletedAt")
+                        .HasColumnType("datetime(6)")
+                        .HasColumnName("deleted_at");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_active");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)")
                         .HasColumnName("user_id");
@@ -118,6 +126,11 @@ namespace Financeasy.Infra.Migrations
                     b.Property<Guid>("CardPurchaseId")
                         .HasColumnType("char(36)")
                         .HasColumnName("card_purchase_id");
+
+                    b.Property<string>("CategoryName")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("category_name");
 
                     b.Property<int>("Number")
                         .HasColumnType("int")
@@ -345,11 +358,13 @@ namespace Financeasy.Infra.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Financeasy.Domain.models.CardPurchase", null)
+                    b.HasOne("Financeasy.Domain.models.CardPurchase", "CardPurchase")
                         .WithMany("InstallmentsList")
                         .HasForeignKey("CardPurchaseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("CardPurchase");
                 });
 
             modelBuilder.Entity("Financeasy.Domain.models.CardPurchase", b =>

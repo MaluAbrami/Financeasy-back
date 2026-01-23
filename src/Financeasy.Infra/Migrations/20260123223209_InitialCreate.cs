@@ -21,7 +21,9 @@ namespace Financeasy.Infra.Migrations
                     id = table.Column<Guid>(type: "char(36)", nullable: false),
                     user_id = table.Column<Guid>(type: "char(36)", nullable: false),
                     bank = table.Column<string>(type: "longtext", nullable: false),
-                    balance = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    balance = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    is_active = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    deleted_at = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -175,6 +177,7 @@ namespace Financeasy.Infra.Migrations
                     id = table.Column<Guid>(type: "char(36)", nullable: false),
                     card_purchase_id = table.Column<Guid>(type: "char(36)", nullable: false),
                     card_invoice_id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    category_name = table.Column<string>(type: "longtext", nullable: false),
                     number = table.Column<int>(type: "int", nullable: false),
                     total_installments = table.Column<int>(type: "int", nullable: false),
                     amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
