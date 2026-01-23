@@ -7,15 +7,18 @@ namespace Financeasy.Application.UseCases.CardCases.DeleteCard
     {
         private readonly ICardRepository _cardRepository;
         private readonly ICardPurchaseRepository _cardPurchaseRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly IUnitOfWork _unitOfWork;
         
         public DeleteCardHandler(
             ICardRepository cardRepository, 
             ICardPurchaseRepository cardPurchaseRepository,
+            ICategoryRepository categoryRepository,
             IUnitOfWork unitOfWork)
         {
             _cardRepository = cardRepository;
             _cardPurchaseRepository = cardPurchaseRepository;
+            _categoryRepository = categoryRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -33,7 +36,12 @@ namespace Financeasy.Application.UseCases.CardCases.DeleteCard
             if(purchases.Any())
                 card.DisableCard();  
             else
+            {
+                var category = await _categoryRepository.GetByIdAsync(card.CategoryId, cancellationToken);
+                _categoryRepository.Delete(category);
+
                 _cardRepository.Delete(card);
+            }
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
