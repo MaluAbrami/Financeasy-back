@@ -1,3 +1,4 @@
+using Financeasy.Application.UseCases.CardInvoiceCases.GetCardInvoiceByPeriod;
 using Financeasy.Application.UseCases.CardInvoiceCases.PayCardInvoice;
 using Financeasy.Domain.DTO.CardInvoice;
 using MediatR;
@@ -9,6 +10,9 @@ namespace Financeasy.Api.Endpoints
         public static RouteGroupBuilder MapCardInvoice(this RouteGroupBuilder group)
         {
             group.MapPost("/pay-card-invoice", PayCardInvoice)
+                .RequireAuthorization();
+
+            group.MapGet("/get-by-period/{cardId}/{month}/{year}", GetInvoiceByPeriod)
                 .RequireAuthorization();
 
             return group;
@@ -23,6 +27,17 @@ namespace Financeasy.Api.Endpoints
             await mediator.Send(new PayCardInvoiceCommand { UserId = Guid.Parse(userId), CardId = request.CardId, ClosingDate = request.ClosingDate });
 
             return Results.Ok();
+        }
+
+        private static async Task<IResult> GetInvoiceByPeriod(Guid cardId, int month, int year, HttpContext context, IMediator mediator)
+        {
+            var userId = context.User.FindFirst("userId")?.Value;
+            if(userId is null)
+                return Results.Unauthorized();
+
+            var response = await mediator.Send(new GetInvoiceByPeriodQuery { CardId = cardId, Month = month, Year = year });
+
+            return Results.Ok(response);
         }
     }
 }
