@@ -2,7 +2,6 @@ using Financeasy.Application.UseCases.CategoryCases.CreateCategory;
 using Financeasy.Application.UseCases.CategoryCases.DeleteCategory;
 using Financeasy.Application.UseCases.CategoryCases.GetAllCategorys;
 using Financeasy.Application.UseCases.CategoryCases.GetAllCategorysPaged;
-using Financeasy.Application.UseCases.CategoryCases.GetAllFixedCategorys;
 using Financeasy.Application.UseCases.CategoryCases.GetCategoryById;
 using Financeasy.Domain.DTO.Category;
 using Financeasy.Domain.DTO.Pagination;
@@ -22,9 +21,6 @@ namespace Financeasy.Api.Endpoints
                 .RequireAuthorization();
 
             group.MapGet("/all", GetAllCategorys)
-                .RequireAuthorization();
-
-            group.MapGet("/all-fixed", GetAllFixedCategorys)
                 .RequireAuthorization();
 
             group.MapGet("/{id}", GetCategoryById)
@@ -71,17 +67,6 @@ namespace Financeasy.Api.Endpoints
                 return Results.Unauthorized();
 
             var response = await mediator.Send(new GetAllCategorys { UserId = Guid.Parse(userId) } );
-
-            return Results.Ok(response);
-        }
-
-        private static async Task<IResult> GetAllFixedCategorys(HttpContext context, IMediator mediator)
-        {
-            var userId = context.User.FindFirst("userId")?.Value;
-            if(userId is null)
-                return Results.Unauthorized();
-
-            var response = await mediator.Send(new GetAllFixedCategorys { UserId = Guid.Parse(userId) });
 
             return Results.Ok(response);
         }
