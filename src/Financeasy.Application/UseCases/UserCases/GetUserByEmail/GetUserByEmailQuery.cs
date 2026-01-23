@@ -8,7 +8,7 @@ namespace Financeasy.Application.UseCases.UserCases.GetUserByEmail
         public string Email { get; set; }
     }
 
-    public record GetUserByEmailQuery : IRequest<GetUserByEmailResponse>
+    public record GetUserByEmailQuery : IRequest<GetUserByEmailResponse?>
     {
         public required string Email { get; set; }
     }

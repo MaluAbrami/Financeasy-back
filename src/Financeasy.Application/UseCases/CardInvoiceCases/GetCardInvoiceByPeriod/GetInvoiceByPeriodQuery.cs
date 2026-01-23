@@ -10,7 +10,7 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.GetCardInvoiceByPerio
         public bool IsPaid { get; set; }
     }
 
-    public record GetInvoiceByPeriodQuery : IRequest<GetInvoiceByPeriodResponse>
+    public record GetInvoiceByPeriodQuery : IRequest<GetInvoiceByPeriodResponse?>
     {
         public Guid CardId { get; set; }
         public int Month { get; set; }

@@ -4,7 +4,7 @@ using MediatR;
 
 namespace Financeasy.Application.UseCases.CardInvoiceCases.GetCardInvoiceByPeriod
 {
-    public class GetInvoiceByPeriodHandler : IRequestHandler<GetInvoiceByPeriodQuery, GetInvoiceByPeriodResponse>
+    public class GetInvoiceByPeriodHandler : IRequestHandler<GetInvoiceByPeriodQuery, GetInvoiceByPeriodResponse?>
     {
         private readonly ICardInvoiceRepository _cardInvoiceRepository;
 
