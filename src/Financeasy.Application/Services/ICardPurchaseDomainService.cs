@@ -7,6 +7,7 @@ namespace Financeasy.Application.Services
         Task GenerateInvoicesAndInstallmentsAsync(
             Card card,
             CardPurchase purchase,
+            string categoryName,
             DateTime purchaseDate,
             CancellationToken cancellationToken
         );

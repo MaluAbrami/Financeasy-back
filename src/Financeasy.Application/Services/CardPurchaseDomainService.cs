@@ -17,6 +17,7 @@ namespace Financeasy.Application.Services
         public async Task GenerateInvoicesAndInstallmentsAsync(
             Card card,
             CardPurchase purchase,
+            string categoryName,
             DateTime purchaseDate,
             CancellationToken cancellationToken
         )
@@ -48,6 +49,7 @@ namespace Financeasy.Application.Services
                 var newCardInstallment = new CardInstallment(
                     purchase.Id,
                     invoice.Id,
+                    categoryName,
                     i + 1,
                     purchase.Installments,
                     installmentValue

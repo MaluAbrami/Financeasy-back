@@ -9,13 +9,20 @@ namespace Financeasy.Application.UseCases.CardPurchaseCases.CreateCardPurchase
     {
         private readonly ICardPurchaseRepository _cardPurchaseRepository;
         private readonly ICardRepository _cardRepository;
+        private readonly ICategoryRepository _categoryRepository;
         private readonly ICardPurchaseDomainService _purchaseDomainService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateCardPurchaseHandler(ICardPurchaseRepository cardPurchaseRepository, ICardRepository cardRepository, ICardPurchaseDomainService purchaseDomainService, IUnitOfWork unitOfWork)
+        public CreateCardPurchaseHandler(
+            ICardPurchaseRepository cardPurchaseRepository, 
+            ICardRepository cardRepository, 
+            ICategoryRepository categoryRepository,
+            ICardPurchaseDomainService purchaseDomainService, 
+            IUnitOfWork unitOfWork)
         {
             _cardPurchaseRepository = cardPurchaseRepository;
             _cardRepository = cardRepository;
+            _categoryRepository = categoryRepository;
             _purchaseDomainService = purchaseDomainService;
             _unitOfWork = unitOfWork;
         }
@@ -39,9 +46,11 @@ namespace Financeasy.Application.UseCases.CardPurchaseCases.CreateCardPurchase
                 request.Description
             );
 
+            var category = await _categoryRepository.GetByIdAsync(newCardPurchase.CategoryId, cancellationToken);
+
             await _cardPurchaseRepository.AddAsync(newCardPurchase, cancellationToken);
 
-            await _purchaseDomainService.GenerateInvoicesAndInstallmentsAsync(cardExist, newCardPurchase, newCardPurchase.PurchaseDate, cancellationToken);
+            await _purchaseDomainService.GenerateInvoicesAndInstallmentsAsync(cardExist, newCardPurchase, category!.Name, newCardPurchase.PurchaseDate, cancellationToken);
 
             cardExist.DecreaseAvailableLimit(newCardPurchase.TotalAmount);
 
