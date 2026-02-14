@@ -58,8 +58,8 @@ app.MapGroup("/users")
     .WithTags("Users")
     .MapUserEndpoints();
 
-app.MapGroup("/categorys")
-    .WithTags("Categorys")
+app.MapGroup("/categories")
+    .WithTags("Categories")
     .MapCategorys();
 
 app.MapGroup("/bank-accounts")

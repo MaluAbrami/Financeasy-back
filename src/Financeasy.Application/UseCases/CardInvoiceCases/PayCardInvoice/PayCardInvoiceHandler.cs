@@ -30,6 +30,7 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.PayCardInvoice
             _unitOfWork = unitOfWork;
         }
 
+        // TODO: Refatorar esse fluxo pela questão de poder ter parcelas que foram pagas e outras que não foram pagas em uma mesma fatura
         public async Task<Guid> Handle(PayCardInvoiceCommand request, CancellationToken cancellationToken)
         {
             var cardInvoice = await _cardInvoiceRepository.FindAsync(x => x.CardId == request.CardId && x.ClosingDate == request.ClosingDate, cancellationToken);
