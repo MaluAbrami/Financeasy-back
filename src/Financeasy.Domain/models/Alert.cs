@@ -38,9 +38,8 @@ namespace Financeasy.Domain.models
 
         public void Paid()
         {
-            var dueDateActual = DueDate;
             DueDate = NextDueDate;
-            NextDueDate = DefineNextDueDate(RecurrenceType, dueDateActual);
+            NextDueDate = DefineNextDueDate(RecurrenceType, DueDate);
         }
 
         private DateTime DefineNextDueDate(RecurrenceType recurrenceType, DateTime dueDate)

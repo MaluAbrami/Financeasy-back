@@ -40,6 +40,7 @@ namespace Financeasy.Infra.Repository
                     .Skip((page - 1) * pageSize)
                     .Take(pageSize)
                     .Select(x => new AlertResponseDTO(
+                        x.Id,
                         x.Category.Name,
                         x.ExpectedAmount,
                         x.DueDate,

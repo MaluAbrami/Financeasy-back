@@ -1,10 +1,10 @@
 using Financeasy.Application.UseCases.AlertsCases.CreateAlert;
 using Financeasy.Application.UseCases.AlertsCases.DeleteAlert;
 using Financeasy.Application.UseCases.AlertsCases.GetAllAlertsByMonth;
+using Financeasy.Application.UseCases.AlertsCases.PayAlert;
 using Financeasy.Domain.DTO.Alert;
 using Financeasy.Domain.DTO.Pagination;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Financeasy.Api.Endpoints
 {
@@ -19,6 +19,9 @@ namespace Financeasy.Api.Endpoints
                 .RequireAuthorization();
 
             group.MapGet("/all-by-month", GetAllAlertsByMonth)
+                .RequireAuthorization();
+
+            group.MapPatch("/pay-alert", PayAlert)
                 .RequireAuthorization();
 
             return group;
@@ -94,6 +97,26 @@ namespace Financeasy.Api.Endpoints
             });
 
             return Results.Ok(response);
+        }
+
+        private static async Task<IResult> PayAlert(
+            Guid id,
+            IMediator mediator,
+            HttpContext context
+        )
+        {
+            var userId = context.User.FindFirst("userId")?.Value;
+
+            if(userId is null)
+                return Results.Unauthorized();
+
+            await mediator.Send(new PayAlertCommand
+            {
+                UserId = Guid.Parse(userId),
+                Id = id
+            });
+
+            return Results.Ok("Alerta de conta paga para o mês em questão");
         }
     }
 }

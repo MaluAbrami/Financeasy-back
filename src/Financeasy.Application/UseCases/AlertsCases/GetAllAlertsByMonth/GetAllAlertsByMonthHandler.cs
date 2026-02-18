@@ -38,6 +38,7 @@ namespace Financeasy.Application.UseCases.AlertsCases.GetAllAlertsByMonth
             {
                 var alertResponse = new AlertResponseDTO
                 (
+                    alert.Id,
                     alert.CategoryName,
                     alert.ExpectedAmount,
                     alert.DueDate,
