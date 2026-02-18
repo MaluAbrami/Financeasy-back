@@ -9,8 +9,6 @@ namespace Financeasy.Application.UseCases.CategoryCases.CreateCategory
             RuleFor(x => x.Name).NotEmpty().WithMessage("Nome é obrigatório.");
 
             RuleFor(x => x.Type).IsInEnum();
-
-            RuleFor(x => x.RecurrenceType).IsInEnum();
         }
     }
 }

@@ -22,8 +22,7 @@ namespace Financeasy.Application.UseCases.CategoryCases.GetCategoryById
             return new GetCategoryByIdResponse
             {
                 Name = categoryExists.Name,
-                Type = categoryExists.Type,
-                RecurrenceType = categoryExists.RecurrenceType
+                Type = categoryExists.Type
             };
         }
     }

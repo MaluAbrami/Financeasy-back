@@ -45,8 +45,7 @@ namespace Financeasy.Application.UseCases.CategoryCases.GetAllCategorysPaged
                 {
                     Id = category.Id,
                     Name = category.Name,
-                    Type = category.Type,
-                    RecurrenceType = category.RecurrenceType
+                    Type = category.Type
                 };
                 
                 responseList.Add(categoryResponse);

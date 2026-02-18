@@ -55,8 +55,7 @@ namespace Financeasy.Infra.Migrations
                     id = table.Column<Guid>(type: "char(36)", nullable: false),
                     user_id = table.Column<Guid>(type: "char(36)", nullable: false),
                     name = table.Column<string>(type: "varchar(255)", nullable: false),
-                    type = table.Column<string>(type: "longtext", nullable: false),
-                    recurrence_type = table.Column<string>(type: "longtext", nullable: false)
+                    type = table.Column<string>(type: "longtext", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -103,6 +102,30 @@ namespace Financeasy.Infra.Migrations
                         name: "FK_card_bank_account_bank_account_id",
                         column: x => x.bank_account_id,
                         principalTable: "bank_account",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "alert",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(36)", nullable: false),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "char(36)", nullable: false),
+                    RecurrenceType = table.Column<string>(type: "longtext", nullable: false),
+                    DueDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    NextDueDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    ExpectedAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_alert", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_alert_category_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "category",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -202,6 +225,11 @@ namespace Financeasy.Infra.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateIndex(
+                name: "IX_alert_CategoryId",
+                table: "alert",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_card_bank_account_id_name",
                 table: "card",
                 columns: new[] { "bank_account_id", "name" },
@@ -247,6 +275,9 @@ namespace Financeasy.Infra.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "alert");
+
             migrationBuilder.DropTable(
                 name: "card_installment");
 

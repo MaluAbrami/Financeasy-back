@@ -18,6 +18,7 @@ namespace Financeasy.Infra.Persistence
         public DbSet<CardPurchase> CardPurchases { get; set; }
         public DbSet<CardInstallment> CardInstallments { get; set; }
         public DbSet<CardInvoice> CardInvoices { get; set; }
+        public DbSet<Alert> Alerts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -25,7 +26,7 @@ namespace Financeasy.Infra.Persistence
                 .Property(x => x.Type)
                 .HasConversion<string>();
 
-            modelBuilder.Entity<Category>()
+            modelBuilder.Entity<Alert>()
                 .Property(x => x.RecurrenceType)
                 .HasConversion<string>();
 

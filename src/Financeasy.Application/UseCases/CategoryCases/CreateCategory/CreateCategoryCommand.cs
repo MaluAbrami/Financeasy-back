@@ -9,6 +9,5 @@ namespace Financeasy.Application.UseCases.CategoryCases.CreateCategory
         public Guid UserId { get; set; }
         public required string Name { get; set; }
         public EntryType Type { get; set; }
-        public RecurrenceType RecurrenceType { get; set; }
     }
 }

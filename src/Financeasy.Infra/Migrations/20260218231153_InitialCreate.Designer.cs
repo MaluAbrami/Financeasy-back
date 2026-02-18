@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Financeasy.Infra.Migrations
 {
     [DbContext(typeof(FinanceasyDbContext))]
-    [Migration("20260123223209_InitialCreate")]
+    [Migration("20260218231153_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -21,6 +21,38 @@ namespace Financeasy.Infra.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "10.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
+
+            modelBuilder.Entity("Financeasy.Domain.models.Alert", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<decimal>("ExpectedAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("NextDueDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("RecurrenceType")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("alert");
+                });
 
             modelBuilder.Entity("Financeasy.Domain.models.BankAccount", b =>
                 {
@@ -244,11 +276,6 @@ namespace Financeasy.Infra.Migrations
                         .HasColumnType("varchar(255)")
                         .HasColumnName("name");
 
-                    b.Property<string>("RecurrenceType")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("recurrence_type");
-
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("longtext")
@@ -340,6 +367,17 @@ namespace Financeasy.Infra.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("users");
+                });
+
+            modelBuilder.Entity("Financeasy.Domain.models.Alert", b =>
+                {
+                    b.HasOne("Financeasy.Domain.models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("Financeasy.Domain.models.Card", b =>

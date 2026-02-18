@@ -38,7 +38,7 @@ namespace Financeasy.Api.Endpoints
             if(userId is null)
                 return Results.Unauthorized();
 
-            await mediator.Send(new CreateCategoryCommand { UserId = Guid.Parse(userId), Name = request.Name, Type = request.Type, RecurrenceType = request.RecurrenceType} );
+            await mediator.Send(new CreateCategoryCommand { UserId = Guid.Parse(userId), Name = request.Name, Type = request.Type} );
 
             return Results.Created();
         }

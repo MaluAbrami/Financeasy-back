@@ -25,8 +25,7 @@ namespace Financeasy.Application.UseCases.CategoryCases.GetAllCategorys
                 {
                     Id = category.Id,
                     Name = category.Name,
-                    Type = category.Type,
-                    RecurrenceType = category.RecurrenceType
+                    Type = category.Type
                 };
 
                 listResponse.Add(categoryResponse);

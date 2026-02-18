@@ -21,21 +21,17 @@ namespace Financeasy.Domain.models
         [Column("type")]
         public EntryType Type { get; set; }
 
-        [Column("recurrence_type")]
-        public RecurrenceType RecurrenceType { get; set; }
-
         public Category()
         {
             
         }
 
-        public Category(Guid userId, string name, EntryType type, RecurrenceType recurrenceType)
+        public Category(Guid userId, string name, EntryType type)
         {
             Id = Guid.NewGuid();
             UserId = userId;
             Name = name;
             Type = type;
-            RecurrenceType = recurrenceType;
         }
     }
 }

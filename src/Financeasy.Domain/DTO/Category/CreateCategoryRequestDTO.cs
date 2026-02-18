@@ -6,6 +6,5 @@ namespace Financeasy.Domain.DTO.Category
     {
         public string Name { get; set; }
         public EntryType Type { get; set; }
-        public RecurrenceType RecurrenceType { get; set ; }
     }
 }
