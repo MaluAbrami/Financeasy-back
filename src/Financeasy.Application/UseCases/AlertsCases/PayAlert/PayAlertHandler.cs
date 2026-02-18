@@ -1,3 +1,4 @@
+using Financeasy.Domain.Enums;
 using Financeasy.Domain.interfaces;
 using MediatR;
 
@@ -27,8 +28,14 @@ namespace Financeasy.Application.UseCases.AlertsCases.PayAlert
             if(alert.UserId != request.UserId)
                 throw new UnauthorizedAccessException("Usuário não tem permissão para realizar essa ação.");
 
-            alert.Paid();
-            _alertRepository.Update(alert);
+            if(alert.RecurrenceType == RecurrenceType.None)
+                _alertRepository.Delete(alert);
+            else
+            {
+                alert.Paid();
+                _alertRepository.Update(alert);
+            }
+
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return true;
