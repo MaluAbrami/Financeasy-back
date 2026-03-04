@@ -18,10 +18,10 @@ namespace Financeasy.Api.Endpoints
             group.MapDelete("", DeleteAlert)
                 .RequireAuthorization();
 
-            group.MapGet("/all-by-month", GetAllAlertsByMonth)
+            group.MapGet("/all-by-month/{month}/{year}/{page}/{pageSize}", GetAllAlertsByMonth)
                 .RequireAuthorization();
 
-            group.MapPatch("/pay-alert", PayAlert)
+            group.MapPatch("/pay-alert/{id}", PayAlert)
                 .RequireAuthorization();
 
             return group;
