@@ -9,29 +9,27 @@ namespace Financeasy.Application.UseCases.TransactionCases.GetAllTransactions
 {
     public class GetAllTransactionsHandler : IRequestHandler<GetAllTransactionsQuery, GetAllTransactionResponse>
     {
-        private readonly ITransactionRepository _transactionRepository;
+        private readonly ITransactionDapperRepository _transactionDapper;
 
-        public GetAllTransactionsHandler(ITransactionRepository transactionRepository)
+        public GetAllTransactionsHandler(ITransactionDapperRepository transactionDapper)
         {
-            _transactionRepository = transactionRepository;
+            _transactionDapper = transactionDapper;
         }
 
         public async Task<GetAllTransactionResponse> Handle(GetAllTransactionsQuery request, CancellationToken cancellationToken)
         {
-            Expression<Func<Transaction, object>> expression = 
-                request.OrderBy switch
-                {
-                    TransactionOrderBy.Date => x => x.Date,
-                    TransactionOrderBy.Amount => x => x.Amount,
-                    _ => x => x.Date
-                };
+            var orderBy = request.OrderBy switch
+            {
+                TransactionOrderBy.Date => "date",
+                TransactionOrderBy.Amount => "amount",
+                _ => "date"
+            };
 
-            var getPagedTransactions = await _transactionRepository.GetPagedWithRelationsAsync(
-                x => x.UserId == request.UserId, 
-                expression,
-                request.Direction == SortDirection.Asc
-                ? true
-                : false,
+            var getPagedTransactions = await _transactionDapper.GetPagedAsync(
+                request.UserId,
+                null,
+                orderBy,
+                request.Direction == SortDirection.Asc,
                 request.Pagination.Page,
                 request.Pagination.PageSize,
                 cancellationToken
@@ -46,7 +44,8 @@ namespace Financeasy.Application.UseCases.TransactionCases.GetAllTransactions
                     PageSize = request.Pagination.PageSize,
                     TotalItems = getPagedTransactions.TotalItems,
                     TotalPages = (int)Math.Ceiling(
-                        getPagedTransactions.TotalItems / (double)request.Pagination.PageSize
+                        getPagedTransactions.TotalItems /
+                        (double)request.Pagination.PageSize
                     )
                 }
             };
