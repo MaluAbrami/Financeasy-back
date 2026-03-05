@@ -7,6 +7,8 @@ namespace Financeasy.Domain.DTO.Alert
         Guid CategoryId,
         RecurrenceType RecurrenceType,
         DateTime DueDate,
-        decimal ExpectedAmount
+        decimal ExpectedAmount,
+        DateTime? StartDate,
+        DateTime? EndDate
     );
 }
