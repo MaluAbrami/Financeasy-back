@@ -6,32 +6,36 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.GetCardInvoiceByPerio
 {
     public class GetInvoiceByPeriodHandler : IRequestHandler<GetInvoiceByPeriodQuery, GetInvoiceByPeriodResponse?>
     {
-        private readonly ICardInvoiceRepository _cardInvoiceRepository;
+        private readonly ICardInvoiceDapperRepository _invoiceDapperRepository;
+        private readonly ICardDapperRepository _cardDapperRepository;
 
-        public GetInvoiceByPeriodHandler(ICardInvoiceRepository cardInvoiceRepository)
+        public GetInvoiceByPeriodHandler(
+            ICardInvoiceDapperRepository invoiceDapperRepository,
+            ICardDapperRepository cardDapperRepository
+            )
         {
-            _cardInvoiceRepository = cardInvoiceRepository;
+            _invoiceDapperRepository = invoiceDapperRepository;
+            _cardDapperRepository = cardDapperRepository;
         }
 
         public async Task<GetInvoiceByPeriodResponse?> Handle(GetInvoiceByPeriodQuery request, CancellationToken cancellationToken)
         {
-            var invoiceExist = await _cardInvoiceRepository.FindAsync(x => 
-                x.CardId == request.CardId && 
-                x.DueDate.Month == request.Month && 
-                x.DueDate.Year == request.Year, 
-                cancellationToken
-            );
-            
-            CardInvoice invoice = invoiceExist.FirstOrDefault();
+            var card = await _cardDapperRepository.GetCardById(request.CardId, cancellationToken);
+            if(card is null)
+                throw new ArgumentException($"Não existe cartão com o id {request.CardId}");
 
-            if(invoice is null)
+            var dueDate = new DateTime(request.Year, request.Month, card.DueDay);
+
+            var invoiceExist = await _invoiceDapperRepository.GetCardInvoiceByPeriod(request.CardId, dueDate, cancellationToken);
+
+            if(invoiceExist is null)
                 return null;
 
             return new GetInvoiceByPeriodResponse
             {
-                ClosingDate = invoice.ClosingDate,
-                DueDate = invoice.DueDate,
-                IsPaid = invoice.IsPaid
+                ClosingDate = invoiceExist.ClosingDate,
+                DueDate = invoiceExist.DueDate,
+                IsPaid = invoiceExist.IsPaid
             };
         }
     }

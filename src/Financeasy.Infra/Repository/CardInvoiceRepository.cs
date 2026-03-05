@@ -28,8 +28,7 @@ namespace Financeasy.Infra.Repository
             var newInvoice = new CardInvoice(
                 cardId,
                 closingDate,
-                dueDate,
-                0
+                dueDate
             );
 
             await _context.CardInvoices.AddAsync(newInvoice);

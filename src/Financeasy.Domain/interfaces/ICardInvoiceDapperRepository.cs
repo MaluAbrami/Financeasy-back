@@ -1,3 +1,5 @@
+using Financeasy.Domain.DTO.CardInvoice;
+using Financeasy.Domain.DTO.Pagination;
 using Financeasy.Domain.models;
 
 namespace Financeasy.Domain.interfaces
@@ -14,5 +16,19 @@ namespace Financeasy.Domain.interfaces
             Guid cardId,
             CancellationToken cancellationToken
         );
+
+        public Task<CardInvoice?> GetCardInvoiceByPeriod(
+            Guid cardId,
+            DateTime dueDate,
+            CancellationToken cancellationToken
+        );
+
+        public Task<GetPagedBaseResponseDTO<GetInvoiceResponseDTO>> GetPagedWithRelationsAsync(
+            Guid cardId,
+            string orderBy,
+            bool ascending,
+            int page,
+            int pageSize,
+            CancellationToken cancellationToken);
     }
 }

@@ -10,26 +10,18 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.GetAllCardInvoicesByC
 {
     public class GetAllInvoicesByCardHandler : IRequestHandler<GetAllInvoicesByCardQuery, GetAllInvoicesByCardResponse>
     {
-        private readonly ICardInvoiceRepository _cardInvoiceRepository;
+        private readonly ICardInvoiceDapperRepository _invoiceDapperRepository;
 
-        public GetAllInvoicesByCardHandler(ICardInvoiceRepository cardInvoiceRepository)
+        public GetAllInvoicesByCardHandler(ICardInvoiceDapperRepository invoiceDapperRepository)
         {
-            _cardInvoiceRepository = cardInvoiceRepository;
+            _invoiceDapperRepository = invoiceDapperRepository;
         }
 
         public async Task<GetAllInvoicesByCardResponse> Handle(GetAllInvoicesByCardQuery request, CancellationToken cancellationToken)
         {
-            Expression<Func<CardInvoice, object>> expression =
-                request.OrderBy switch
-                {
-                    CardInvoiceOrderBy.ClosingDate => x => x.ClosingDate,
-                    CardInvoiceOrderBy.DueDate => x => x.DueDate,
-                    _ => x => x.DueDate
-                };
-
-            var invoices = await _cardInvoiceRepository.GetPagedAsync(
-                x => x.CardId == request.CardId,
-                expression,
+            var invoices = await _invoiceDapperRepository.GetPagedWithRelationsAsync(
+                request.CardId,
+                request.OrderBy.ToString(),
                 request.Direction == SortDirection.Asc
                 ? true
                 : false,
