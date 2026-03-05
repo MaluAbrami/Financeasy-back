@@ -18,9 +18,6 @@ namespace Financeasy.Application.UseCases.CardPurchaseCases.CreateCardPurchase
         {
             try
             {
-                // if(request.TotalAmount > cardExist.AvailableLimit)
-                //     throw new ArgumentOutOfRangeException("Não há limite suficiente disponível no cartão de crédito escolhido");
-
                 return await _cardPurchaseService.CreatePurchase(
                     request.UserId,
                     request.CardId,
