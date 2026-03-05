@@ -15,17 +15,11 @@ namespace Financeasy.Domain.models
         [Column("bank_account_id")]
         public Guid BankAccountId { get; set; }
 
-        [Column("category_id")]
-        public Guid CategoryId { get; set; }
-
         [Column("name")]
         public string Name { get; set; }
 
         [Column("credit_limit")]
         public decimal CreditLimit { get; set; }
-
-        [Column("available_limit")]
-        public decimal AvailableLimit { get; set; }
 
         [Column("closing_day")]
         public int ClosingDay { get; set; }
@@ -36,8 +30,11 @@ namespace Financeasy.Domain.models
         [Column("is_active")]
         public bool IsActive { get; set; }
 
+        [Column("created_at")]
+        public DateTime CreatedAt { get; set; }
+
         [Column("deleted_at")]
-        public DateTime DeletedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
         public BankAccount BankAccount { get; set; }
 
@@ -45,35 +42,24 @@ namespace Financeasy.Domain.models
         {
         }
 
-        public Card(Guid userId, Guid bankAccountId, string name, decimal creditLimit, int closingDay, int dueDay, Guid categoryId)
+        public Card(Guid userId, Guid bankAccountId, string name, decimal creditLimit, int closingDay, int dueDay)
         {
             Id = Guid.NewGuid();
             UserId = userId;
             BankAccountId = bankAccountId;
             Name = name;
             CreditLimit = creditLimit;
-            AvailableLimit = creditLimit;
             ClosingDay = closingDay;
             DueDay = dueDay;
-            CategoryId = categoryId;
             IsActive = true;
-            DeletedAt = new DateTime();
+            CreatedAt = DateTime.Now;
+            DeletedAt = null;
         }
 
         public void DisableCard()
         {
             IsActive = false;
             DeletedAt = DateTime.Now;
-        }
-
-        public void DecreaseAvailableLimit(decimal value)
-        {
-            AvailableLimit -= value;
-        }
-
-        public void IncreaseAvailableLimit(decimal value)
-        {
-            AvailableLimit += value;
         }
     }
 }

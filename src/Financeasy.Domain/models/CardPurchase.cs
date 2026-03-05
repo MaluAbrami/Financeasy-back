@@ -29,6 +29,9 @@ namespace Financeasy.Domain.models
         [Column("description")]
         public string? Description { get; set; } = string.Empty;
 
+        [Column("created_at")]
+        public DateTime CreatedAt { get; set; }
+
         public ICollection<CardInstallment> InstallmentsList { get; set; }
 
         public Card Card { get; set; }
@@ -48,6 +51,7 @@ namespace Financeasy.Domain.models
             Installments = installments;
             PurchaseDate = purchaseDate;
             Description = description;
+            CreatedAt = DateTime.Now;
         }
     }
 }

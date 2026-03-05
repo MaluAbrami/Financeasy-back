@@ -11,8 +11,8 @@ namespace Financeasy.Domain.models
         [Column("user_id")]
         public Guid UserId { get; set; }
 
-        [Column("bank")]
-        public string Bank { get; set; }
+        [Column("bank_name")]
+        public string BankName { get; set; }
 
         [Column("balance")]
         public decimal Balance { get; set; }
@@ -20,21 +20,25 @@ namespace Financeasy.Domain.models
         [Column("is_active")]
         public bool IsActive { get; set; }
 
+        [Column("created_at")]
+        public DateTime CreatedAt { get; set; }
+
         [Column("deleted_at")]
-        public DateTime DeletedAt { get; set; }
+        public DateTime? DeletedAt { get; set; }
 
         public BankAccount()
         {
         }
 
-        public BankAccount(Guid userId, string bank, decimal balance)
+        public BankAccount(Guid userId, string bankName, decimal balance)
         {
             Id = Guid.NewGuid();
             UserId = userId;
-            Bank = bank;
+            BankName = bankName;
             Balance = balance;
             IsActive = true;
-            DeletedAt = new DateTime();
+            CreatedAt = DateTime.Now;
+            DeletedAt = null;
         }
 
         public void DisableBankAccount()

@@ -6,13 +6,24 @@ namespace Financeasy.Domain.models
     [Table("alert")]
     public class Alert
     {
+        [Column("id")]
         public Guid Id { get; set; }
+        [Column("user_id")]
         public Guid UserId { get; set; }
+        [Column("category_id")]
         public Guid CategoryId { get; set; }
+        [Column("recurrence_type")]
         public RecurrenceType RecurrenceType { get; set; }
+        [Column("due_date")]
         public DateTime DueDate { get; set; }
+        [Column("next_due_date")]
         public DateTime NextDueDate { get; set; }
+        [Column("expected_amount")]
         public decimal ExpectedAmount { get; set; }
+        [Column("start_date")]
+        public DateTime? StartDate { get; set; }
+        [Column("end_date")]
+        public DateTime? EndDate { get; set; }
 
         public Category Category { get; set; }
 
@@ -20,7 +31,7 @@ namespace Financeasy.Domain.models
         {
         }
 
-        public Alert(Guid userId, Guid categoryId, RecurrenceType recurrenceType, DateTime dueDate, decimal expectedAmount)
+        public Alert(Guid userId, Guid categoryId, RecurrenceType recurrenceType, DateTime dueDate, decimal expectedAmount, DateTime? startDate, DateTime? endDate)
         {
             Id = Guid.NewGuid();
             UserId = userId;
@@ -29,6 +40,8 @@ namespace Financeasy.Domain.models
             DueDate = dueDate;
             NextDueDate = DefineNextDueDate(recurrenceType, dueDate);
             ExpectedAmount = expectedAmount;
+            StartDate = startDate;
+            EndDate = endDate;
         }
 
         public void UpdateExpectedAmount(decimal newExpectedAmount)

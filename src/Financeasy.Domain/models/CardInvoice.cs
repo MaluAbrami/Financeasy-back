@@ -17,9 +17,6 @@ namespace Financeasy.Domain.models
         [Column("due_date")]
         public DateTime DueDate { get; set; }
 
-        [Column("total_amount")]
-        public decimal TotalAmount { get; set; }
-
         [Column("is_paid")]
         public bool IsPaid { get; set; }
 
@@ -29,24 +26,13 @@ namespace Financeasy.Domain.models
         {
         }
 
-        public CardInvoice(Guid cardId, DateTime closingDate, DateTime dueDate, decimal totalAmount)
+        public CardInvoice(Guid cardId, DateTime closingDate, DateTime dueDate)
         {
             Id = Guid.NewGuid();
             CardId = cardId;
             ClosingDate = closingDate;
             DueDate = dueDate;
-            TotalAmount = totalAmount;
             IsPaid = false;
-        }
-
-        public void DecreaseAmount(decimal amount)
-        {
-            TotalAmount -= amount;
-        }
-
-        public void AddAmount(decimal amount)
-        {
-            TotalAmount += amount;
         }
     }
 }

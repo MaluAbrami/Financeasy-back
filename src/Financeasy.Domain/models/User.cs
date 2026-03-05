@@ -16,7 +16,7 @@ namespace Financeasy.Domain.models
         public string Email { get; set; }
 
         [Required]
-        [Column("password")]
+        [Column("password_hash")]
         public string PasswordHash { get; set; }
 
         [Column("profile_photo")]
@@ -24,6 +24,12 @@ namespace Financeasy.Domain.models
 
         [Column("alert_limit")]
         public decimal AlertLimit { get; set; }
+
+        [Column("created_at")]
+        public DateTime CreatedAt { get; set; }
+
+        [Column("updated_at")]
+        public DateTime? UpdatedAt { get; set; }
 
         public User()
         {
@@ -36,6 +42,8 @@ namespace Financeasy.Domain.models
             PasswordHash = passwordHash;
             ProfilePhoto = profilePhoto;
             AlertLimit = alertLimit;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = null;
         }
     }
 }
