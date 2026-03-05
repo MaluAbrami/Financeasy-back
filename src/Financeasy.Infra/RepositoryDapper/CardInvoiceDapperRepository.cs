@@ -27,7 +27,8 @@ namespace Financeasy.Infra.RepositoryDapper
             return connection;
         }
 
-        public async Task<CardInvoice?> GetCardInvoiceByClosingDate(
+        public async Task<CardInvoice?> GetCardInvoiceByCardIdAndClosingDate(
+            Guid cardId,
             DateTime closingDate,
             CancellationToken cancellationToken
         )
@@ -37,7 +38,7 @@ namespace Financeasy.Infra.RepositoryDapper
             var sql = $@"
                 SELECT *
                 FROM card_invoice c
-                WHERE c.closing_date = @ClosingDate
+                WHERE c.card_id = @CardId AND c.closing_date = @ClosingDate
             ";
 
             return await connection.QuerySingleAsync(sql);

@@ -4,7 +4,8 @@ namespace Financeasy.Domain.interfaces
 {
     public interface ICardInvoiceDapperRepository
     {
-        public Task<CardInvoice?> GetCardInvoiceByClosingDate(
+        public Task<CardInvoice?> GetCardInvoiceByCardIdAndClosingDate(
+            Guid cardId,
             DateTime closingDate,
             CancellationToken cancellationToken
         );

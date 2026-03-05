@@ -1,56 +1,41 @@
-using Financeasy.Domain.interfaces;
-using Financeasy.Domain.models;
+using Financeasy.Domain.interfaces.Services;
 using MediatR;
 
 namespace Financeasy.Application.UseCases.CardPurchaseCases.CreateCardPurchase
 {
     public class CreateCardPurchaseHandler : IRequestHandler<CreateCardPurchaseCommand, Guid>
     {
-        private readonly ICardPurchaseRepository _cardPurchaseRepository;
-        private readonly ICardRepository _cardRepository;
-        private readonly ICategoryRepository _categoryRepository;
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly ICardPurchaseService _cardPurchaseService;
 
         public CreateCardPurchaseHandler(
-            ICardPurchaseRepository cardPurchaseRepository, 
-            ICardRepository cardRepository, 
-            ICategoryRepository categoryRepository, 
-            IUnitOfWork unitOfWork)
+            ICardPurchaseService cardPurchaseService
+        )
         {
-            _cardPurchaseRepository = cardPurchaseRepository;
-            _cardRepository = cardRepository;
-            _categoryRepository = categoryRepository;
-            _unitOfWork = unitOfWork;
+            _cardPurchaseService = cardPurchaseService;
         }
 
         public async Task<Guid> Handle(CreateCardPurchaseCommand request, CancellationToken cancellationToken)
         {
-            var cardExist = await _cardRepository.GetByIdAsync(request.CardId, cancellationToken);
-            if (cardExist is null)
-                throw new ArgumentException($"Não foi encontrado nenhum cartão com esse id {request.CardId}");
+            try
+            {
+                // if(request.TotalAmount > cardExist.AvailableLimit)
+                //     throw new ArgumentOutOfRangeException("Não há limite suficiente disponível no cartão de crédito escolhido");
 
-            // if(request.TotalAmount > cardExist.AvailableLimit)
-            //     throw new ArgumentOutOfRangeException("Não há limite suficiente disponível no cartão de crédito escolhido");
-
-            var newCardPurchase = new CardPurchase(
-                request.UserId,
-                request.CardId,
-                request.CategoryId,
-                request.TotalAmount,
-                request.Installments,
-                request.PurchaseDate,
-                request.Description
-            );
-
-            var cardCategory = await _categoryRepository.GetByIdAsync(newCardPurchase.CategoryId, cancellationToken);
-
-            await _cardPurchaseRepository.AddAsync(newCardPurchase, cancellationToken);
-
-            // await _purchaseDomainService.GenerateInvoicesAndInstallmentsAsync(cardExist, newCardPurchase, cardCategory!.Name, newCardPurchase.PurchaseDate, cancellationToken);
-
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
-
-            return newCardPurchase.Id;
+                return await _cardPurchaseService.CreatePurchase(
+                    request.UserId,
+                    request.CardId,
+                    request.CategoryId,
+                    request.TotalAmount,
+                    request.Installments,
+                    request.PurchaseDate,
+                    request.Description,
+                    cancellationToken
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Ocorreu um erro: ", ex);
+            }
         }
     }
 }
