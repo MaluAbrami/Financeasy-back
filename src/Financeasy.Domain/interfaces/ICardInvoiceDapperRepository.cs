@@ -30,5 +30,11 @@ namespace Financeasy.Domain.interfaces
             int page,
             int pageSize,
             CancellationToken cancellationToken);
+
+        public Task<decimal> GetTotalAmountByCardIdAndPeriod(
+            Guid cardId,
+            DateTime closingDate,
+            CancellationToken cancellationToken
+        );
     }
 }

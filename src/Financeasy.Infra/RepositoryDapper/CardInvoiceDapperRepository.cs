@@ -75,6 +75,34 @@ namespace Financeasy.Infra.RepositoryDapper
             return total;
         } 
 
+        public async Task<decimal> GetTotalAmountByCardIdAndPeriod(
+            Guid cardId,
+            DateTime closingDate,
+            CancellationToken cancellationToken
+        )
+        {
+            var connection = await GetConnection();
+
+            var sql = $@"
+                SELECT COALESCE(SUM(i.Amount),0) AS TotalAmount
+                FROM card_invoice c
+                LEFT JOIN card_installment i
+                    ON i.CardInvoiceId= c.Id
+                WHERE c.CardId = @CardId AND c.ClosingDate = @ClosingDate
+            ";
+
+            var total = await connection.ExecuteScalarAsync<decimal>(
+                sql,
+                new 
+                { 
+                    CardId = cardId,
+                    ClosingDate = closingDate
+                }
+            );
+
+            return total;
+        } 
+
         public async Task<CardInvoice?> GetCardInvoiceByPeriod(
             Guid cardId,
             DateTime dueDate,
