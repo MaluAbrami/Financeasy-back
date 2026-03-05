@@ -22,6 +22,11 @@ namespace Financeasy.Infra.Repository
             await _dbSet.AddAsync(entity);
         }
 
+        public async Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken)
+        {
+            await _dbSet.AddRangeAsync(entities, cancellationToken);
+        }
+
         public void Delete(T entity)
         {
             _dbSet.Remove(entity);

@@ -6,6 +6,7 @@ namespace Financeasy.Domain.interfaces
     public interface IBaseRepository<T> where T : class
     {
         Task AddAsync(T entity, CancellationToken cancellationToken);
+        public Task AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken);
         Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
         Task<List<T>> GetAllAsync(CancellationToken cancellationToken);
         Task<List<T>> FindAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken);
