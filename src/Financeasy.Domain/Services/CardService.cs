@@ -14,13 +14,13 @@ namespace Financeasy.Domain.Services
             _invoiceDapperRepository = invoiceDapperRepository;
         }
 
-        public async Task<bool> CheckAvailableLimit(decimal cardCreditLimit, Guid cardId, CancellationToken cancellationToken)
+        public async Task<bool> CheckAvailableLimit(decimal cardCreditLimit, decimal amount, Guid cardId, CancellationToken cancellationToken)
         {
             var totalAmountExpense = await _invoiceDapperRepository.GetTotalAmountUnpaidByCardId(cardId, cancellationToken);
 
-            if(cardCreditLimit - totalAmountExpense < 0)
+            if(cardCreditLimit - totalAmountExpense - amount < 0)
                 return false;
-                
+
             return true;
         }
     }

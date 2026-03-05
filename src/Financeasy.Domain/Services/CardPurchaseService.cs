@@ -28,6 +28,11 @@ namespace Financeasy.Domain.Services
             Guid userId, Guid cardId, Guid categoryId, decimal totalAmount, int installments, DateTime purchaseDate, string description, CancellationToken cancellationToken
         )
         {
+            var card = await _cardDapperRepository.GetCardById(cardId, cancellationToken);
+
+            if (card is null)
+                throw new ArgumentException($"Não foi encontrado um cartão com o id {cardId}");
+
             var newCardPurchase = new CardPurchase(
                 userId,
                 cardId,
@@ -39,11 +44,6 @@ namespace Financeasy.Domain.Services
             );
 
             await _cardPurchaseRepository.AddAsync(newCardPurchase, cancellationToken);
-
-            var card = await _cardDapperRepository.GetCardById(newCardPurchase.CardId, cancellationToken);
-
-            if (card is null)
-                throw new ArgumentException($"Não foi encontrado um cartão com o id {newCardPurchase.CardId}");
 
             await _installmentGeneratorService.GenerateInstallments(newCardPurchase, card, cancellationToken);
 
