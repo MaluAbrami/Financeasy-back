@@ -9,26 +9,18 @@ namespace Financeasy.Application.UseCases.CardPurchaseCases.GetAllCardPurchases
 {
     public class GetAllCardPurchasesHandler : IRequestHandler<GetAllCardPurchasesQuery, GetAllCardPurchasesResponse>
     {
-        private readonly ICardPurchaseRepository _cardPurchaseRepository;
+        private readonly ICardPurchaseDapperRepository _purchaseDapperRepository;
 
-        public GetAllCardPurchasesHandler(ICardPurchaseRepository cardPurchaseRepository)
+        public GetAllCardPurchasesHandler(ICardPurchaseDapperRepository purchaseDapperRepository)
         {
-            _cardPurchaseRepository = cardPurchaseRepository;
+            _purchaseDapperRepository = purchaseDapperRepository;
         }
 
         public async Task<GetAllCardPurchasesResponse> Handle(GetAllCardPurchasesQuery request, CancellationToken cancellationToken)
         {
-            Expression<Func<CardPurchase, object>> expression =
-                request.OrderBy switch
-            {
-                CardPurchaseOrderBy.TotalAmount => x => x.TotalAmount,
-                CardPurchaseOrderBy.PurchaseDate => x => x.PurchaseDate,
-                _ => x => x.PurchaseDate
-            };
-
-            var getPagedPurchases = await _cardPurchaseRepository.GetPagedWithRelationsAsync(
-                x => x.UserId == request.UserId,
-                expression,
+            var getPagedPurchases = await _purchaseDapperRepository.GetPagedWithRelationsAsync(
+                request.UserId,
+                request.OrderBy.ToString(),
                 request.Direction == SortDirection.Asc
                 ? true
                 : false,
