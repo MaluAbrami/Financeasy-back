@@ -41,7 +41,13 @@ namespace Financeasy.Infra.RepositoryDapper
                 WHERE c.card_id = @CardId AND c.closing_date = @ClosingDate
             ";
 
-            return await connection.QuerySingleAsync(sql);
+            var parameters = new
+            {
+                CardId = cardId,
+                ClosingDate = closingDate
+            };
+
+            return await connection.QuerySingleAsync(sql, parameters);
         }       
 
         public async Task<decimal> GetTotalAmountUnpaidByCardId(

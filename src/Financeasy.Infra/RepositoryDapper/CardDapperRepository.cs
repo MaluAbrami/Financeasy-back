@@ -40,7 +40,10 @@ namespace Financeasy.Infra.RepositoryDapper
                 WHERE c.id = @Id
             ";
 
-            return await connection.QuerySingleAsync(sql);
+            return await connection.QuerySingleAsync(
+                sql,
+                new { Id = id }
+            );
         }
     }
 }

@@ -90,5 +90,69 @@ namespace Financeasy.Infra.RepositoryDapper
                 TotalItems = totalItems
             };
         }
+
+        public async Task<GetPagedCardPurchaseDTO> GetPagedWithRelationsByCardAsync(
+            Guid cardId,
+            string orderBy,
+            bool ascending,
+            int page,
+            int pageSize,
+            CancellationToken cancellationToken)
+        {
+            var connection = await GetConnection();
+
+            // whitelist para evitar SQL injection
+            var allowedColumns = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+            {
+                { "purchaseDate", "cp.purchase_date" },
+                { "totalAmount", "cp.total_amount" },
+                { "description", "cp.description" }
+            };
+
+            if (!allowedColumns.ContainsKey(orderBy))
+                orderBy = "purchaseDate";
+
+            var orderColumn = allowedColumns[orderBy];
+            var orderDirection = ascending ? "ASC" : "DESC";
+
+            var sql = $@"
+                SELECT COUNT(*)
+                FROM card_purchase cp
+                WHERE cp.card_id = @CardId;
+
+                SELECT
+                    cp.id,
+                    c.name AS CardName,
+                    cat.name AS CategoryName,
+                    cp.total_amount AS TotalAmount,
+                    cp.installments,
+                    cp.purchase_date AS PurchaseDate,
+                    cp.description
+                FROM card_purchase cp
+                INNER JOIN card c ON c.id = cp.card_id
+                INNER JOIN category cat ON cat.id = cp.category_id
+                WHERE cp.card_id = @CardId
+                ORDER BY {orderColumn} {orderDirection}
+                LIMIT @PageSize OFFSET @Offset;
+            ";
+
+            var parameters = new
+            {
+                Cardid = cardId,
+                PageSize = pageSize,
+                Offset = (page - 1) * pageSize
+            };
+
+            using var multi = await connection.QueryMultipleAsync(sql, parameters);
+
+            var totalItems = await multi.ReadFirstAsync<int>();
+            var list = await multi.ReadAsync<GetCardPurchaseResponseDTO>();
+
+            return new GetPagedCardPurchaseDTO
+            {
+                List = list.ToList(),
+                TotalItems = totalItems
+            };
+        }
     }
 }

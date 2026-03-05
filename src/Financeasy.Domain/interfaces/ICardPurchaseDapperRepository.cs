@@ -11,5 +11,13 @@ namespace Financeasy.Domain.interfaces
             int page,
             int pageSize,
             CancellationToken cancellationToken);
+
+        public Task<GetPagedCardPurchaseDTO> GetPagedWithRelationsByCardAsync(
+            Guid cardId,
+            string orderBy,
+            bool ascending,
+            int page,
+            int pageSize,
+            CancellationToken cancellationToken);
     }
 }
