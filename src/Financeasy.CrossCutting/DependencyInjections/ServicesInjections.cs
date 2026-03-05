@@ -1,5 +1,6 @@
-using Financeasy.Application.Services;
 using Financeasy.Domain.interfaces;
+using Financeasy.Domain.interfaces.Services;
+using Financeasy.Domain.Services;
 using Financeasy.Infra.Services;
 using Financeasy.Infra.Util;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +13,10 @@ namespace Financeasy.CrossCutting.DependencyInjections
         {
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<ICardPurchaseDomainService, CardPurchaseDomainService>();
+            services.AddScoped<ICardService, CardService>();
+            services.AddScoped<ICardPurchaseService, CardPurchaseService>();
+            services.AddScoped<IInstallmentGeneratorService, InstallmentGeneratorService>();
+            services.AddScoped<IInvoiceService, InvoiceService>();
 
             return services;
         }
