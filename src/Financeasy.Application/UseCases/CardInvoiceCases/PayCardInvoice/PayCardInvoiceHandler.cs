@@ -30,7 +30,6 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.PayCardInvoice
             _unitOfWork = unitOfWork;
         }
 
-        // TODO: Refatorar esse fluxo pela questão de poder ter parcelas que foram pagas e outras que não foram pagas em uma mesma fatura
         public async Task<Guid> Handle(PayCardInvoiceCommand request, CancellationToken cancellationToken)
         {
             var cardInvoice = await _cardInvoiceRepository.FindAsync(x => x.CardId == request.CardId && x.ClosingDate == request.ClosingDate, cancellationToken);
@@ -46,17 +45,17 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.PayCardInvoice
 
             var bankExists = await _bankAccountRepository.GetByIdAsync(card.BankAccountId, cancellationToken);
 
-            var newTransaction = new Transaction(
-                PaymentMethod.Transfer,
-                request.UserId,
-                card.BankAccountId,
-                card.CategoryId,
-                cardInvoiceExist.TotalAmount,
-                DateTime.UtcNow,
-                "Pagamento de fatura do cartão de crédito"
-            );
+            // var newTransaction = new Transaction(
+            //     PaymentMethod.Transfer,
+            //     request.UserId,
+            //     card.BankAccountId,
+            //     card.CategoryId,
+            //     cardInvoiceExist.TotalAmount,
+            //     DateTime.UtcNow,
+            //     "Pagamento de fatura do cartão de crédito"
+            // );
 
-            await _transactionRepository.AddAsync(newTransaction, cancellationToken);
+            // await _transactionRepository.AddAsync(newTransaction, cancellationToken);
 
             cardInvoiceExist.IsPaid = true;
 
@@ -66,9 +65,8 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.PayCardInvoice
                 installment.Paid = true;
             }
 
-            card.IncreaseAvailableLimit(cardInvoiceExist.TotalAmount);
 
-            bankExists.DecreaseBalance(cardInvoiceExist.TotalAmount);
+            // bankExists.DecreaseBalance(cardInvoiceExist.TotalAmount);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

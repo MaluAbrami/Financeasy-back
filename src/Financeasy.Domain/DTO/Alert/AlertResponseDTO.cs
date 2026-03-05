@@ -6,6 +6,8 @@ namespace Financeasy.Domain.DTO.Alert
         string CategoryName,
         decimal ExpectedAmount,
         DateTime DueDate,
-        DateTime NextDueDate
+        DateTime NextDueDate,
+        DateTime? StartDate, 
+        DateTime? EndDate
     );
 }

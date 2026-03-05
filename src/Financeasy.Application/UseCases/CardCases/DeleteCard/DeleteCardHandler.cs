@@ -33,15 +33,8 @@ namespace Financeasy.Application.UseCases.CardCases.DeleteCard
                 throw new UnauthorizedAccessException("Usuário não tem acesso a esta ação.");
 
             var purchases = await _cardPurchaseRepository.FindAsync(x => x.CardId == request.CardId, cancellationToken);
-            if(purchases.Any())
-                card.DisableCard();  
-            else
-            {
-                var category = await _categoryRepository.GetByIdAsync(card.CategoryId, cancellationToken);
-                _categoryRepository.Delete(category);
-
-                _cardRepository.Delete(card);
-            }
+            
+            card.DisableCard();
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

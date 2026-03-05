@@ -8,13 +8,11 @@ namespace Financeasy.Application.UseCases.CardCases.CreateCard
     public class CreateCardCommandHandler : IRequestHandler<CreateCardCommand, Guid>
     {
         private readonly ICardRepository _cardRepository;
-        private readonly ICategoryRepository _categoryRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CreateCardCommandHandler(ICardRepository cardRepository, ICategoryRepository categoryRepository, IUnitOfWork unitOfWork)
+        public CreateCardCommandHandler(ICardRepository cardRepository, IUnitOfWork unitOfWork)
         {
             _cardRepository = cardRepository;
-            _categoryRepository = categoryRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -24,24 +22,15 @@ namespace Financeasy.Application.UseCases.CardCases.CreateCard
             if(nameDuplicate.Any())
                 throw new ArgumentException("Já existe um cartão com esse nome no mesmo banco.");
 
-            //TODO: CRIAR UM ALERTA TAMBÉM PARA ESSE CARTÃO
-            Category newCategory = new Category(
-                request.UserId,
-                $"Fatura {request.Name}",
-                EntryType.Expense
-            );
-
             Card newCard = new Card(
                 request.UserId,
                 request.BankAccountId,
                 request.Name,
                 request.CreditLimit,
                 request.ClosingDay,
-                request.DueDay,
-                newCategory.Id
+                request.DueDay
             );
 
-            await _categoryRepository.AddAsync(newCategory, cancellationToken);
             await _cardRepository.AddAsync(newCard, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

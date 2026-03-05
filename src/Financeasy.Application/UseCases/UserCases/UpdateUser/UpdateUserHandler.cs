@@ -34,6 +34,7 @@ namespace Financeasy.Application.UseCases.UserCases.UpdateUser
                 userExist.Email = request.User.Email;
 
             _userRepository.Update(userExist);
+            userExist.UpdatedAt = DateTime.Now;
             await _unitOfWork.SaveChangesAsync(cancellationToken);
             
             return request;

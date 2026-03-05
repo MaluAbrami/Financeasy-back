@@ -25,7 +25,9 @@ namespace Financeasy.Application.UseCases.AlertsCases.CreateAlert
                 request.CategoryId,
                 request.RecurrenceType,
                 request.DueDate,
-                request.ExpectedAmount
+                request.ExpectedAmount,
+                request.StartDate,
+                request.EndDate
             );
 
             await _alertRepository.AddAsync(newAlert, cancellationToken);

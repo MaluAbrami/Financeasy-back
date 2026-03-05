@@ -21,7 +21,6 @@ namespace Financeasy.Application.UseCases.CardCases.GetAllCards
             Expression<Func<Card, object>> expression =
                 request.OrderBy switch
                 {
-                    CardOrderBy.AvailableLimit => x => x.AvailableLimit,
                     CardOrderBy.ClosingDay => x => x.ClosingDay,
                     CardOrderBy.CreditLimit => x => x.CreditLimit,
                     CardOrderBy.DueDay => x => x.DueDay,

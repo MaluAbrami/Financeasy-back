@@ -2,7 +2,7 @@ namespace Financeasy.Domain.Enums
 {
     public enum CardInstallmentOrderBy
     {
-        TotalInstallments,
+        Number,
         Amount
     }
 }

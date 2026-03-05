@@ -36,10 +36,10 @@ namespace Financeasy.Application.UseCases.TransactionCases.CreateTransaction
                 throw new ArgumentException("Categoria não encontrada");
 
             var newTransaction = new Transaction(
-                request.PaymentMethod,
                 request.UserId,
                 request.BankAccountId,
                 request.CategoryId,
+                request.PaymentMethod,
                 request.Amount,
                 request.Date,
                 request.Description

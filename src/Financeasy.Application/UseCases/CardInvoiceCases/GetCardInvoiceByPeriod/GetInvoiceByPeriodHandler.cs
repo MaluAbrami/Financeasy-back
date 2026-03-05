@@ -31,7 +31,6 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.GetCardInvoiceByPerio
             {
                 ClosingDate = invoice.ClosingDate,
                 DueDate = invoice.DueDate,
-                TotalAmount = invoice.TotalAmount,
                 IsPaid = invoice.IsPaid
             };
         }

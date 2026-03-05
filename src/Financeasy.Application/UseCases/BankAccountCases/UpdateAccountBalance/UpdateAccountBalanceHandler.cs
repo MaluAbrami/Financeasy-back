@@ -31,7 +31,7 @@ namespace Financeasy.Application.UseCases.BankAccountCases.UpdateAccountBalance
             return new UpdateAccountBalanceResponse
             {
                 Id = bankAccount.Id,
-                Bank = bankAccount.Bank,
+                Bank = bankAccount.BankName,
                 Balance = bankAccount.Balance
             };
         }

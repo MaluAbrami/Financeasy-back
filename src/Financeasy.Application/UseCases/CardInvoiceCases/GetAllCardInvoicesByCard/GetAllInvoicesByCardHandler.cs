@@ -24,8 +24,7 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.GetAllCardInvoicesByC
                 {
                     CardInvoiceOrderBy.ClosingDate => x => x.ClosingDate,
                     CardInvoiceOrderBy.DueDate => x => x.DueDate,
-                    CardInvoiceOrderBy.TotalAmount => x => x.TotalAmount,
-                    _ => x => x.TotalAmount
+                    _ => x => x.DueDate
                 };
 
             var invoices = await _cardInvoiceRepository.GetPagedAsync(
@@ -47,7 +46,6 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.GetAllCardInvoicesByC
                     Id = invoice.Id,
                     ClosingDate = invoice.ClosingDate,
                     DueDate = invoice.DueDate,
-                    TotalAmount = invoice.TotalAmount,
                     IsPaid = invoice.IsPaid
                 };
 

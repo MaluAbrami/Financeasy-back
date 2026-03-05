@@ -22,7 +22,7 @@ namespace Financeasy.Application.UseCases.BankAccountCases.GetAllBanksAccounts
             Expression<Func<BankAccount, object>> expression =
                 request.OrderBy switch
                 {
-                    BankAccountOrderBy.Bank => x => x.Bank,
+                    BankAccountOrderBy.Bank => x => x.BankName,
                     BankAccountOrderBy.Balance => x => x.Balance,
                     _ => x => x.Balance
                 };
@@ -44,7 +44,7 @@ namespace Financeasy.Application.UseCases.BankAccountCases.GetAllBanksAccounts
                 var bankAccountDto = new GetBankAccountDTO
                 {
                     Id = bankAccount.Id,
-                    Bank = bankAccount.Bank,
+                    Bank = bankAccount.BankName,
                     Balance = bankAccount.Balance
                 };
 

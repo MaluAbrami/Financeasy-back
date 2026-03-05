@@ -17,7 +17,7 @@ namespace Financeasy.Application.UseCases.BankAccountCases.CreateBankAccount
 
         public async Task<Guid> Handle(CreateBankAccountCommand request, CancellationToken cancellationToken)
         {
-            var bankExist = await _bankRepository.FindAsync(x => x.Bank == request.Bank && x.UserId == request.UserId, cancellationToken);
+            var bankExist = await _bankRepository.FindAsync(x => x.BankName == request.Bank && x.UserId == request.UserId, cancellationToken);
 
             if(bankExist.Any())
                 throw new ArgumentException("Já existe uma conta desse banco.");

@@ -42,7 +42,9 @@ namespace Financeasy.Application.UseCases.AlertsCases.GetAllAlertsByMonth
                     alert.CategoryName,
                     alert.ExpectedAmount,
                     alert.DueDate,
-                    alert.NextDueDate
+                    alert.NextDueDate,
+                    alert.StartDate,
+                    alert.EndDate
                 );
 
                 listResponse.Add(alertResponse);

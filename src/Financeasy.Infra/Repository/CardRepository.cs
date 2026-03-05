@@ -43,10 +43,9 @@ namespace Financeasy.Infra.Repository
                     .Select(x => new GetCardResponseDTO
                     {
                         Id = x.Id,
-                        BankAccountName = x.BankAccount.Bank,
+                        BankAccountName = x.BankAccount.BankName,
                         Name = x.Name,
                         CreditLimit = x.CreditLimit,
-                        AvailableLimit = x.AvailableLimit,
                         ClosingDay = x.ClosingDay,
                         DueDay = x.DueDay
                     })

@@ -22,7 +22,7 @@ namespace Financeasy.Application.UseCases.CardInstallmentCases.GetAllInstallment
                 request.OrderBy switch
                 {
                     CardInstallmentOrderBy.Amount => x => x.Amount,
-                    CardInstallmentOrderBy.TotalInstallments => x => x.TotalInstallments,
+                    CardInstallmentOrderBy.Number => x => x.Number,
                     _ => x => x.Amount
                 };
 

@@ -43,9 +43,6 @@ namespace Financeasy.Infra.Repository
                     .Select(x => new GetInstallmentResponseDTO
                     {
                         Id = x.Id,
-                        CategoryName = x.CategoryName,
-                        PurchaseDescription = x.CardPurchase.Description!,
-                        NumberInstallment = $"{x.Number}/{x.TotalInstallments}",
                         Amount = x.Amount,
                         Paid = x.Paid 
                     })

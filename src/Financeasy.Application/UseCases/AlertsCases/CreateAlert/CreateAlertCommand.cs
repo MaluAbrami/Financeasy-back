@@ -10,5 +10,7 @@ namespace Financeasy.Application.UseCases.AlertsCases.CreateAlert
         public RecurrenceType RecurrenceType { get; set; }
         public DateTime DueDate { get; set; }
         public decimal ExpectedAmount { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
     }
 }
