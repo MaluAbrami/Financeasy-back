@@ -42,6 +42,27 @@ namespace Financeasy.Infra.RepositoryDapper
             ";
 
             return await connection.QuerySingleAsync(sql);
-        }        
+        }       
+
+        public async Task<decimal> GetTotalAmountUnpaidByCardId(
+            Guid cardId,
+            CancellationToken cancellationToken
+        )
+        {
+            var connection = await GetConnection();
+
+            var sql = $@"
+                SELECT COALESCE(SUM(c.total_amount), 0)
+                FROM card_invoice c
+                WHERE c.card_id = @CardId AND c.is_paid = false
+            ";
+
+            var total = await connection.ExecuteScalarAsync<decimal>(
+                sql,
+                new { CardId = cardId }
+            );
+
+            return total;
+        } 
     }
 }

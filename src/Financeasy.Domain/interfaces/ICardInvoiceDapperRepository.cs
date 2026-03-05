@@ -9,5 +9,10 @@ namespace Financeasy.Domain.interfaces
             DateTime closingDate,
             CancellationToken cancellationToken
         );
+
+        public Task<decimal> GetTotalAmountUnpaidByCardId(
+            Guid cardId,
+            CancellationToken cancellationToken
+        );
     }
 }
