@@ -8,17 +8,9 @@ namespace Financeasy.Domain.models
     [Table("category")]
     public class Category
     {
-        [Key]
-        [Column("id")]
         public Guid Id { get; set; }
-
-        [Column("user_id")]
         public Guid UserId { get; set; }
-
-        [Column("name")]
         public string Name { get; set; } = string.Empty;
-
-        [Column("type")]
         public EntryType Type { get; set; }
 
         public Category()

@@ -5,19 +5,11 @@ namespace Financeasy.Domain.models
     [Table("card_invoice")]
     public class CardInvoice
     {
-        [Column("id")]
         public Guid Id { get; set; }
-
-        [Column("card_id")]
         public Guid CardId { get; set; }
-
-        [Column("closing_date")]
         public DateTime ClosingDate { get; set; }
 
-        [Column("due_date")]
         public DateTime DueDate { get; set; }
-
-        [Column("is_paid")]
         public bool IsPaid { get; set; }
 
         public ICollection<CardInstallment> Installments { get; set; }

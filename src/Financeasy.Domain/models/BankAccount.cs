@@ -5,25 +5,12 @@ namespace Financeasy.Domain.models
     [Table("bank_account")]
     public class BankAccount
     {
-        [Column("id")]
         public Guid Id { get; set; }
-        
-        [Column("user_id")]
         public Guid UserId { get; set; }
-
-        [Column("bank_name")]
         public string BankName { get; set; }
-
-        [Column("balance")]
         public decimal Balance { get; set; }
-
-        [Column("is_active")]
         public bool IsActive { get; set; }
-
-        [Column("created_at")]
         public DateTime CreatedAt { get; set; }
-
-        [Column("deleted_at")]
         public DateTime? DeletedAt { get; set; }
 
         public BankAccount()

@@ -60,8 +60,10 @@ namespace Financeasy.Infra.RepositoryDapper
             var connection = await GetConnection();
 
             var sql = $@"
-                SELECT COALESCE(SUM(c.total_amount), 0)
+                SELECT COALESCE(SUM(i.amount),0) AS TotalAmount
                 FROM card_invoice c
+                LEFT JOIN card_installment i
+                    ON i.card_invoice_id = c.id
                 WHERE c.card_id = @CardId AND c.is_paid = false
             ";
 

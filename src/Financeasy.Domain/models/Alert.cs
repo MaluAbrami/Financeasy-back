@@ -6,23 +6,14 @@ namespace Financeasy.Domain.models
     [Table("alert")]
     public class Alert
     {
-        [Column("id")]
         public Guid Id { get; set; }
-        [Column("user_id")]
         public Guid UserId { get; set; }
-        [Column("category_id")]
         public Guid CategoryId { get; set; }
-        [Column("recurrence_type")]
         public RecurrenceType RecurrenceType { get; set; }
-        [Column("due_date")]
         public DateTime DueDate { get; set; }
-        [Column("next_due_date")]
         public DateTime NextDueDate { get; set; }
-        [Column("expected_amount")]
         public decimal ExpectedAmount { get; set; }
-        [Column("start_date")]
         public DateTime? StartDate { get; set; }
-        [Column("end_date")]
         public DateTime? EndDate { get; set; }
 
         public Category Category { get; set; }

@@ -6,31 +6,14 @@ namespace Financeasy.Domain.models
     [Table("transaction")]
     public class Transaction
     {
-        [Column("id")]
         public Guid Id { get; set; }
-
-        [Column("user_id")]
         public Guid UserId { get; set; }
-
-        [Column("bank_account_id")]
         public Guid BankAccountId { get; set; }
-
-        [Column("category_id")]
         public Guid CategoryId { get; set; }
-
-        [Column("payment_method")]
         public PaymentMethod PaymentMethod { get; set; }
-
-        [Column("amount")]
         public decimal Amount { get; set; }
-
-        [Column("date")]
         public DateTime Date { get; set; }
-
-        [Column("description")]
         public string Description { get; set; } = string.Empty;
-
-        [Column("created_at")]
         public DateTime CreatedAt { get; set; }
 
 

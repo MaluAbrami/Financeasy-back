@@ -5,22 +5,11 @@ namespace Financeasy.Domain.models
     [Table("card_installment")]
     public class CardInstallment
     {
-        [Column("id")]
         public Guid Id { get; set; }
-
-        [Column("card_purchase_id")]
         public Guid CardPurchaseId { get; set; }
-
-        [Column("card_invoice_id")]
         public Guid CardInvoiceId { get; set; }
-
-        [Column("number")]
         public int Number { get; set; }
-
-        [Column("amount")]
         public decimal Amount { get; set; }
-
-        [Column("paid")]
         public bool Paid { get; set; }
 
         public CardPurchase CardPurchase { get; set; }
