@@ -9,18 +9,21 @@ namespace Financeasy.Domain.Services
         private readonly ICardPurchaseRepository _cardPurchaseRepository;
         private readonly ICardDapperRepository _cardDapperRepository;
         private readonly IInstallmentGeneratorService _installmentGeneratorService;
+        private readonly ICardService _cardService;
         private readonly IUnitOfWork _unitOfWork;
 
         public CardPurchaseService(
             ICardPurchaseRepository cardPurchaseRepository,
             ICardDapperRepository cardDapperRepository,
             IInstallmentGeneratorService installmentGeneratorService,
+            ICardService cardService,
             IUnitOfWork unitOfWork
         )
         {
             _cardPurchaseRepository = cardPurchaseRepository;
             _cardDapperRepository = cardDapperRepository;
             _installmentGeneratorService = installmentGeneratorService;
+            _cardService = cardService;
             _unitOfWork = unitOfWork;
         }
 
@@ -32,6 +35,9 @@ namespace Financeasy.Domain.Services
 
             if (card is null)
                 throw new ArgumentException($"Não foi encontrado um cartão com o id {cardId}");
+
+            if(await _cardService.CheckAvailableLimit(card.CreditLimit, totalAmount, card.Id, cancellationToken))
+                throw new Exception("O cartão não possui limite suficiente disponível para realizar essa compra");
 
             var newCardPurchase = new CardPurchase(
                 userId,

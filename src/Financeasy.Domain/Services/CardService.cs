@@ -1,9 +1,10 @@
 using Financeasy.Domain.interfaces;
+using Financeasy.Domain.interfaces.Services;
 using Financeasy.Domain.models;
 
 namespace Financeasy.Domain.Services
 {
-    public class CardService
+    public class CardService : ICardService
     {
         private readonly ICardInvoiceDapperRepository _invoiceDapperRepository;
 
