@@ -44,7 +44,8 @@ namespace Financeasy.Infra.Repository
                     {
                         Id = x.Id,
                         Amount = x.Amount,
-                        Paid = x.Paid 
+                        Paid = x.Paid ,
+                        Number = x.Number
                     })
                     .ToListAsync(),
                 TotalItems = totalItems

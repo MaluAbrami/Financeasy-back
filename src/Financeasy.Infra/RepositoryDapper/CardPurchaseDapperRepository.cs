@@ -54,7 +54,7 @@ namespace Financeasy.Infra.RepositoryDapper
             var sql = $@"
                 SELECT COUNT(*)
                 FROM card_purchase cp
-                WHERE cp.user_id = @UserId;
+                WHERE cp.UserId = @UserId;
 
                 SELECT
                     cp.Id,
@@ -131,7 +131,7 @@ namespace Financeasy.Infra.RepositoryDapper
                 FROM card_purchase cp
                 INNER JOIN card c ON c.id = cp.CardId
                 INNER JOIN category cat ON cat.id = cp.CategoryId
-                WHERE cp.card_id = @CardId
+                WHERE cp.CardId = @CardId
                 ORDER BY {orderColumn} {orderDirection}
                 LIMIT @PageSize OFFSET @Offset;
             ";

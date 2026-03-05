@@ -31,11 +31,14 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.GetCardInvoiceByPerio
             if(invoiceExist is null)
                 return null;
 
+            var totalAmount = await _invoiceDapperRepository.GetTotalAmountByCardIdAndPeriod(card.Id, invoiceExist.ClosingDate, cancellationToken);
+
             return new GetInvoiceByPeriodResponse
             {
                 ClosingDate = invoiceExist.ClosingDate,
                 DueDate = invoiceExist.DueDate,
-                IsPaid = invoiceExist.IsPaid
+                IsPaid = invoiceExist.IsPaid,
+                TotalAmount = totalAmount
             };
         }
     }
