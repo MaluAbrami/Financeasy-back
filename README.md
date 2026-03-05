@@ -14,6 +14,89 @@ Backend de um sistema de controle financeiro pessoal que permite ao usuário:
 
 O sistema expõe uma API REST para consumo por um frontend web (React).
 
+### Entidades
+* User - representa a conta de um usuário
+    - Id
+    - Email
+    - Password
+    - Profile_Photo
+    - Alert_Limit
+* Card - representa um cartão de crédito do usuário que tem seu
+limite, transacoes e faturas
+    - Id
+    - User_Id
+    - Bank_Account_Id
+    - Category_Id
+    - Name
+    - Credit_Limit
+    - Available_Limit
+    - Closing_Day
+    - Due_Day
+    - Is_Active
+    - Deleted_At
+* Category - representa uma categoria que pode ser tanto de saídas
+como de entradas
+    - Id
+    - User_Id
+    - Name
+    - Type
+* Transaction - representa uma transação podendo ser uma entrada como
+salário, como também um gasto dentro de alguma categoria, vai sempre
+descontar do saldo da conta bancária
+    - Id
+    - Payment_Method
+    - User_Id
+    - Bank_Account_Id
+    - Category_Id
+    - Amount
+    - Date
+    - Description
+* Bank account - representa uma conta bancária do usuário que tem seu
+saldo próprio, cartões e transações somente daquele banco
+    - Id
+    - User_Id
+    - Bank
+    - Balance
+    - Is_Active
+    - Deleted_At
+* Card purchase - representa a compra no cartão de crédito
+    - Id
+    - User_Id
+    - Card_Id
+    - Category_Id
+    - Total_Amount
+    - Installments
+    - Purchase_Date
+    - Description
+* Card installment - representa uma parcela única referente a uma
+compra feita no cartão de crédito
+    - Id
+    - Card_Purchase_Id
+    - Card_Invoice_Id
+    - Category_Name
+    - Number
+    - Total_Installments
+    - Amount
+    - Paid
+* Card invoice - representa a fatura de um cartão de crédito que
+engloba todas as parcelas de compras feitas que cairam no mesmo mês
+    - Id
+    - Card_Id
+    - Closing_Date
+    - Due_Date
+    - Total_Amount
+    - Is_Paid
+* Alert - representa contas a pagar para alertar o usuário referente 
+as contas previstas que ele mesmo cadastra para já definir gastos
+fixos ao longo dos meses
+    - Id
+    - UserId
+    - CategoryId
+    - RecurrenceType
+    - DueDate
+    - NextDueDate
+    - ExpectedAmount
+
 ## 🧱 Arquitetura
 * Arquitetura em camadas
 * CQRS (Command Query Responsibility Segregation)
