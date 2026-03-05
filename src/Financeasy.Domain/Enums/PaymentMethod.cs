@@ -4,7 +4,6 @@ namespace Financeasy.Domain.Enums
     {
         Pix,
         DebtCard,
-        CreditCard,
         Transfer,
         Cash
     }

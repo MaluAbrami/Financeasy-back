@@ -18,9 +18,6 @@ namespace Financeasy.Domain.models
         [Column("category_id")]
         public Guid CategoryId { get; set; }
 
-        [Column("type")]
-        public EntryType Type { get; set; }
-
         [Column("payment_method")]
         public PaymentMethod PaymentMethod { get; set; }
 
@@ -44,10 +41,9 @@ namespace Financeasy.Domain.models
         {
         }
 
-        public Transaction(Guid userId, Guid bankAccountId, Guid categoryId, EntryType type, PaymentMethod paymentMethod, decimal amount, DateTime date, string description)
+        public Transaction(Guid userId, Guid bankAccountId, Guid categoryId, PaymentMethod paymentMethod, decimal amount, DateTime date, string description)
         {
             Id = Guid.NewGuid();
-            Type = type;
             PaymentMethod = paymentMethod;
             UserId = userId;
             BankAccountId = bankAccountId;
