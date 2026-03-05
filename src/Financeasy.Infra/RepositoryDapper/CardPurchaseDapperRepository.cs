@@ -40,9 +40,9 @@ namespace Financeasy.Infra.RepositoryDapper
             // whitelist para evitar SQL injection
             var allowedColumns = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
             {
-                { "purchaseDate", "cp.purchase_date" },
-                { "totalAmount", "cp.total_amount" },
-                { "description", "cp.description" }
+                { "purchaseDate", "cp.PurchaseDate" },
+                { "totalAmount", "cp.TotalAmount" },
+                { "description", "cp.Description" }
             };
 
             if (!allowedColumns.ContainsKey(orderBy))
@@ -57,17 +57,17 @@ namespace Financeasy.Infra.RepositoryDapper
                 WHERE cp.user_id = @UserId;
 
                 SELECT
-                    cp.id,
-                    c.name AS CardName,
-                    cat.name AS CategoryName,
-                    cp.total_amount AS TotalAmount,
-                    cp.installments,
-                    cp.purchase_date AS PurchaseDate,
-                    cp.description
+                    cp.Id,
+                    c.Name AS CardName,
+                    cat.Name AS CategoryName,
+                    cp.TotalAmount AS TotalAmount,
+                    cp.Installments,
+                    cp.PurchaseDate AS PurchaseDate,
+                    cp.Description
                 FROM card_purchase cp
-                INNER JOIN card c ON c.id = cp.card_id
-                INNER JOIN category cat ON cat.id = cp.category_id
-                WHERE cp.user_id = @UserId
+                INNER JOIN card c ON c.Id = cp.CardId
+                INNER JOIN category cat ON cat.Id = cp.CategoryId
+                WHERE cp.UserId = @UserId
                 ORDER BY {orderColumn} {orderDirection}
                 LIMIT @PageSize OFFSET @Offset;
             ";
@@ -104,9 +104,9 @@ namespace Financeasy.Infra.RepositoryDapper
             // whitelist para evitar SQL injection
             var allowedColumns = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
             {
-                { "purchaseDate", "cp.purchase_date" },
-                { "totalAmount", "cp.total_amount" },
-                { "description", "cp.description" }
+                { "purchaseDate", "cp.PurchaseDate" },
+                { "totalAmount", "cp.TotalAmount" },
+                { "description", "cp.Description" }
             };
 
             if (!allowedColumns.ContainsKey(orderBy))
@@ -118,19 +118,19 @@ namespace Financeasy.Infra.RepositoryDapper
             var sql = $@"
                 SELECT COUNT(*)
                 FROM card_purchase cp
-                WHERE cp.card_id = @CardId;
+                WHERE cp.CardId = @CardId;
 
                 SELECT
-                    cp.id,
-                    c.name AS CardName,
-                    cat.name AS CategoryName,
-                    cp.total_amount AS TotalAmount,
-                    cp.installments,
-                    cp.purchase_date AS PurchaseDate,
-                    cp.description
+                    cp.Id,
+                    c.Name AS CardName,
+                    cat.Name AS CategoryName,
+                    cp.TotalAmount AS TotalAmount,
+                    cp.Installments,
+                    cp.PurchaseDate AS PurchaseDate,
+                    cp.Description
                 FROM card_purchase cp
-                INNER JOIN card c ON c.id = cp.card_id
-                INNER JOIN category cat ON cat.id = cp.category_id
+                INNER JOIN card c ON c.id = cp.CardId
+                INNER JOIN category cat ON cat.id = cp.CategoryId
                 WHERE cp.card_id = @CardId
                 ORDER BY {orderColumn} {orderDirection}
                 LIMIT @PageSize OFFSET @Offset;

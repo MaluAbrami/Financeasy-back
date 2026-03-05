@@ -57,15 +57,15 @@ namespace Financeasy.Infra.RepositoryDapper
 
                 SELECT 
                     t.Id,
-                    ba.bank AS BankAccountName,
-                    c.name AS CategoryName,
-                    t.payment_method,
-                    t.amount,
-                    t.date,
-                    t.description
+                    ba.BankName AS BankAccountName,
+                    c.Name AS CategoryName,
+                    t.PaymentMethod,
+                    t.Amount,
+                    t.Date,
+                    t.Description
                 FROM transaction t
-                INNER JOIN bank_account ba ON ba.Id = t.bank_account_id
-                INNER JOIN category c ON c.Id = t.category_id
+                INNER JOIN bank_account ba ON ba.Id = t.BankAccountId
+                INNER JOIN category c ON c.Id = t.CategoryId
                 {whereClause}
                 ORDER BY {orderColumn} {orderDirection}
                 LIMIT @PageSize OFFSET @Offset;";

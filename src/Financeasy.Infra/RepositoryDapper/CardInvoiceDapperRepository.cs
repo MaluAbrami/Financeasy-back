@@ -40,7 +40,7 @@ namespace Financeasy.Infra.RepositoryDapper
             var sql = $@"
                 SELECT *
                 FROM card_invoice c
-                WHERE c.card_id = @CardId AND c.closing_date = @ClosingDate
+                WHERE c.CardId = @CardId AND c.ClosingDate = @ClosingDate
             ";
 
             var parameters = new
@@ -49,7 +49,7 @@ namespace Financeasy.Infra.RepositoryDapper
                 ClosingDate = closingDate
             };
 
-            return await connection.QuerySingleAsync(sql, parameters);
+            return await connection.QuerySingleOrDefaultAsync<CardInvoice?>(sql, parameters);
         }       
 
         public async Task<decimal> GetTotalAmountUnpaidByCardId(
@@ -60,11 +60,11 @@ namespace Financeasy.Infra.RepositoryDapper
             var connection = await GetConnection();
 
             var sql = $@"
-                SELECT COALESCE(SUM(i.amount),0) AS TotalAmount
+                SELECT COALESCE(SUM(i.Amount),0) AS TotalAmount
                 FROM card_invoice c
                 LEFT JOIN card_installment i
-                    ON i.card_invoice_id = c.id
-                WHERE c.card_id = @CardId AND c.is_paid = false
+                    ON i.CardInvoiceId= c.Id
+                WHERE c.CardId = @CardId AND c.IsPaid = false
             ";
 
             var total = await connection.ExecuteScalarAsync<decimal>(
@@ -86,11 +86,11 @@ namespace Financeasy.Infra.RepositoryDapper
             var sql = $@"
                 SELECT *
                 FROM card_invoice ci
-                WHERE ci.card_id = @CardId  
-                AND ci.due_date = @DueDate
+                WHERE ci.CardId = @CardId  
+                AND ci.DueDate = @DueDate
             ";
 
-            var invoice = await connection.QuerySingleAsync(
+            var invoice = await connection.QuerySingleOrDefaultAsync<CardInvoice?>(
                 sql,
                 new 
                 { 
@@ -115,12 +115,12 @@ namespace Financeasy.Infra.RepositoryDapper
             // whitelist para evitar SQL injection
             var allowedColumns = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
             {
-                { "closingDate", "ci.closing_date" },
-                { "dueDate", "ci.due_date" }
+                { "closingDate", "ci.ClosingDate" },
+                { "dueDate", "ci.DueDate" }
             };
 
             if (!allowedColumns.ContainsKey(orderBy))
-                orderBy = "purchaseDate";
+                orderBy = "PurchaseDate";
 
             var orderColumn = allowedColumns[orderBy];
             var orderDirection = ascending ? "ASC" : "DESC";
@@ -132,19 +132,19 @@ namespace Financeasy.Infra.RepositoryDapper
 
                 SELECT
                     ci.id,
-                    ci.closing_date AS ClosingDate,
-                    ci.due_date AS DueDate,
-                    ci.is_paid AS IsPaid,
-                    COALESCE(SUM(i.amount),0) AS TotalAmount
+                    ci.ClosingDate AS ClosingDate,
+                    ci.DueDate AS DueDate,
+                    ci.IsPaid AS IsPaid,
+                    COALESCE(SUM(i.Amount),0) AS TotalAmount
                 FROM card_invoice ci
                 LEFT JOIN card_installment i
-                    ON i.card_invoice_id = ci.id
-                WHERE ci.card_id = @CardId
+                    ON i.CardInvoiceId = ci.Id
+                WHERE ci.CardId = @CardId
                 GROUP BY
-                    ci.id,
-                    ci.closing_date,
-                    ci.due_date,
-                    ci.is_paid
+                    ci.Id,
+                    ci.ClosingDate,
+                    ci.DueDate,
+                    ci.IsPaid
                 ORDER BY {orderColumn} {orderDirection}
                 LIMIT @PageSize OFFSET @Offset;
             ";

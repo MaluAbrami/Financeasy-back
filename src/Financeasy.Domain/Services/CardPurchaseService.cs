@@ -36,7 +36,7 @@ namespace Financeasy.Domain.Services
             if (card is null)
                 throw new ArgumentException($"Não foi encontrado um cartão com o id {cardId}");
 
-            if(await _cardService.CheckAvailableLimit(card.CreditLimit, totalAmount, card.Id, cancellationToken))
+            if(!await _cardService.CheckAvailableLimit(card.CreditLimit, totalAmount, card.Id, cancellationToken))
                 throw new Exception("O cartão não possui limite suficiente disponível para realizar essa compra");
 
             var newCardPurchase = new CardPurchase(

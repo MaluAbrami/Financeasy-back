@@ -37,10 +37,10 @@ namespace Financeasy.Infra.RepositoryDapper
             var sql = $@"
                 SELECT *
                 FROM card c
-                WHERE c.id = @Id
+                WHERE c.Id = @Id
             ";
 
-            return await connection.QuerySingleAsync<Card?>(
+            return await connection.QuerySingleOrDefaultAsync<Card?>(
                 sql,
                 new { Id = id }
             );
