@@ -19,7 +19,7 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.GetAllCardInvoicesByC
 
         public async Task<GetAllInvoicesByCardResponse> Handle(GetAllInvoicesByCardQuery request, CancellationToken cancellationToken)
         {
-            var invoices = await _invoiceDapperRepository.GetPagedWithRelationsAsync(
+            var invoices = await _invoiceDapperRepository.GetPagedWithRelationsByCardAsync(
                 request.CardId,
                 request.OrderBy.ToString(),
                 request.Direction == SortDirection.Asc

@@ -23,7 +23,7 @@ namespace Financeasy.Domain.interfaces
             CancellationToken cancellationToken
         );
 
-        public Task<GetPagedBaseResponseDTO<GetInvoiceResponseDTO>> GetPagedWithRelationsAsync(
+        public Task<GetPagedBaseResponseDTO<GetInvoiceResponseDTO>> GetPagedWithRelationsByCardAsync(
             Guid cardId,
             string orderBy,
             bool ascending,

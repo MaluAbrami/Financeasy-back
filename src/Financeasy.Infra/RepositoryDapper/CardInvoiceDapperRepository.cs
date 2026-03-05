@@ -100,7 +100,7 @@ namespace Financeasy.Infra.RepositoryDapper
             return invoice;
         } 
 
-        public async Task<GetPagedBaseResponseDTO<GetInvoiceResponseDTO>> GetPagedWithRelationsAsync(
+        public async Task<GetPagedBaseResponseDTO<GetInvoiceResponseDTO>> GetPagedWithRelationsByCardAsync(
             Guid cardId,
             string orderBy,
             bool ascending,
@@ -137,7 +137,6 @@ namespace Financeasy.Infra.RepositoryDapper
                 FROM card_invoice ci
                 LEFT JOIN card_installment i
                     ON i.card_invoice_id = ci.id
-                    AND i.paid = false
                 WHERE ci.card_id = @CardId
                 GROUP BY
                     ci.id,
