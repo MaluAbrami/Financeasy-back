@@ -28,7 +28,7 @@ namespace Financeasy.Domain.Services
 
             for (int i = 1; i <= purchase.Installments; i++)
             {
-                var invoice = await _invoiceService.GetOrGenerateInvoice(card, purchase.PurchaseDate, cancellationToken);
+                var invoice = await _invoiceService.GetOrGenerateInvoice(card, purchase.PurchaseDate, i, cancellationToken);
 
                 var newInstallment = new CardInstallment
                 (

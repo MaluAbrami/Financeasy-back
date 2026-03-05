@@ -19,10 +19,10 @@ namespace Financeasy.Domain.Services
         }
 
         public async Task<CardInvoice> GetOrGenerateInvoice(
-            Card card, DateTime purchaseDate, CancellationToken cancellationToken
+            Card card, DateTime purchaseDate, int number, CancellationToken cancellationToken
         )
         {
-            var(closingDate, dueDate) = GetClosingAndDueDate(card, purchaseDate);
+            var(closingDate, dueDate) = GetClosingAndDueDate(card, purchaseDate, number);
 
             var invoiceExist = await _invoiceDapperRepository.GetCardInvoiceByCardIdAndClosingDate(card.Id, closingDate, cancellationToken);
 
@@ -43,11 +43,13 @@ namespace Financeasy.Domain.Services
             return invoiceExist;
         }
 
-        private (DateTime closingDate, DateTime dueDate) GetClosingAndDueDate(Card card, DateTime purchaseDate)
+        private (DateTime closingDate, DateTime dueDate) GetClosingAndDueDate(Card card, DateTime purchaseDate, int number)
         {
-            var closingDate = new DateTime(purchaseDate.Year, purchaseDate.Month, card.ClosingDay);
-            var dueDate = new DateTime(purchaseDate.Year, purchaseDate.Month, card.DueDay);
-            if (purchaseDate.Day >= card.ClosingDay)
+            var date = purchaseDate.AddMonths(number - 1);
+
+            var closingDate = new DateTime(date.Year, date.Month, card.ClosingDay);
+            var dueDate = new DateTime(date.Year, date.Month, card.DueDay);
+            if (date.Day >= card.ClosingDay)
             {
                 closingDate = closingDate.AddMonths(1);
                 dueDate = dueDate.AddMonths(1);
