@@ -44,7 +44,9 @@ namespace Financeasy.Infra.Repository
                         x.Category.Name,
                         x.ExpectedAmount,
                         x.DueDate,
-                        x.NextDueDate))
+                        x.NextDueDate,
+                        x.StartDate,
+                        x.EndDate))
                     .ToListAsync(),
                 TotalItems = totalItems
             };
