@@ -156,7 +156,7 @@ namespace Financeasy.Infra.RepositoryDapper
             var sql = $@"
                 SELECT COUNT(*)
                 FROM card_invoice ci
-                WHERE ci.card_id = @CardId;
+                WHERE ci.CardId = @CardId;
 
                 SELECT
                     ci.id,

@@ -38,7 +38,8 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.GetAllCardInvoicesByC
                     Id = invoice.Id,
                     ClosingDate = invoice.ClosingDate,
                     DueDate = invoice.DueDate,
-                    IsPaid = invoice.IsPaid
+                    IsPaid = invoice.IsPaid,
+                    TotalAmount = invoice.TotalAmount
                 };
 
                 listResponse.Add(invoiceDto);
