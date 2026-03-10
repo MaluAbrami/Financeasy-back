@@ -38,9 +38,6 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.PayCardInvoice
 
             var cardInvoiceExist = cardInvoice.First();
 
-            if(cardInvoiceExist.IsPaid)
-                throw new ArgumentException("Essa fatura já está paga.");
-
             var card = await _cardRepository.GetByIdAsync(request.CardId, cancellationToken);
 
             var bankExists = await _bankAccountRepository.GetByIdAsync(card.BankAccountId, cancellationToken);
@@ -56,8 +53,6 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.PayCardInvoice
             // );
 
             // await _transactionRepository.AddAsync(newTransaction, cancellationToken);
-
-            cardInvoiceExist.IsPaid = true;
 
             var cardInstallments = await _cardInstallmentRepository.FindAsync(x => x.CardInvoiceId == cardInvoiceExist.Id, cancellationToken);
             foreach ( var installment in cardInstallments)

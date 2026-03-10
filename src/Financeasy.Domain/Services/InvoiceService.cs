@@ -45,9 +45,6 @@ namespace Financeasy.Domain.Services
                 return newInvoice;
             }
 
-            //caso ele já exista pode ser que essa fatura já tenha sido paga uma vez antes do fechamento e marcada como paga, portanto voltamos a marca-lá como não paga(isso não irá afetar as parcelas antigas dela que já estão pagas)
-            invoiceExist.IsPaid = false;
-
             return invoiceExist;
         }
 

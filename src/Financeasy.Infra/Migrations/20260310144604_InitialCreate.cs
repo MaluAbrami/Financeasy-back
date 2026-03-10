@@ -39,8 +39,7 @@ namespace Financeasy.Infra.Migrations
                     Id = table.Column<Guid>(type: "char(36)", nullable: false),
                     CardId = table.Column<Guid>(type: "char(36)", nullable: false),
                     ClosingDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    DueDate = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    IsPaid = table.Column<bool>(type: "tinyint(1)", nullable: false)
+                    DueDate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -145,7 +144,7 @@ namespace Financeasy.Infra.Migrations
                     PaymentMethod = table.Column<string>(type: "longtext", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Description = table.Column<string>(type: "longtext", nullable: false),
+                    Description = table.Column<string>(type: "longtext", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>

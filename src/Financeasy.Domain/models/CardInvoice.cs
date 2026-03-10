@@ -10,7 +10,6 @@ namespace Financeasy.Domain.models
         public DateTime ClosingDate { get; set; }
 
         public DateTime DueDate { get; set; }
-        public bool IsPaid { get; set; }
 
         public ICollection<CardInstallment> Installments { get; set; }
 
@@ -24,7 +23,6 @@ namespace Financeasy.Domain.models
             CardId = cardId;
             ClosingDate = closingDate;
             DueDate = dueDate;
-            IsPaid = false;
         }
     }
 }

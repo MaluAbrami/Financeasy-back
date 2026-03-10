@@ -162,7 +162,6 @@ namespace Financeasy.Infra.RepositoryDapper
                     ci.id,
                     ci.ClosingDate AS ClosingDate,
                     ci.DueDate AS DueDate,
-                    ci.IsPaid AS IsPaid,
                     COALESCE(SUM(i.Amount),0) AS TotalAmount
                 FROM card_invoice ci
                 LEFT JOIN card_installment i
@@ -171,8 +170,7 @@ namespace Financeasy.Infra.RepositoryDapper
                 GROUP BY
                     ci.Id,
                     ci.ClosingDate,
-                    ci.DueDate,
-                    ci.IsPaid
+                    ci.DueDate
                 ORDER BY {orderColumn} {orderDirection}
                 LIMIT @PageSize OFFSET @Offset;
             ";

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Financeasy.Infra.Migrations
 {
     [DbContext(typeof(FinanceasyDbContext))]
-    [Migration("20260305221345_InitialCreate")]
+    [Migration("20260310144604_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -177,9 +177,6 @@ namespace Financeasy.Infra.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<bool>("IsPaid")
-                        .HasColumnType("tinyint(1)");
-
                     b.HasKey("Id");
 
                     b.ToTable("card_invoice");
@@ -271,7 +268,6 @@ namespace Financeasy.Infra.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("longtext");
 
                     b.Property<string>("PaymentMethod")

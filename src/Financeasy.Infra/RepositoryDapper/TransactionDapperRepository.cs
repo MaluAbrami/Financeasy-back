@@ -45,7 +45,7 @@ namespace Financeasy.Infra.RepositoryDapper
             var orderColumn = allowedColumns[orderBy];
             var orderDirection = ascending ? "ASC" : "DESC";
 
-            var whereClause = "WHERE t.user_id = @UserId";
+            var whereClause = "WHERE t.UserId = @UserId";
 
             if (!string.IsNullOrEmpty(descriptionFilter))
                 whereClause += " AND t.description LIKE @Description";

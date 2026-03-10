@@ -13,7 +13,7 @@ namespace Financeasy.Domain.models
         public PaymentMethod PaymentMethod { get; set; }
         public decimal Amount { get; set; }
         public DateTime Date { get; set; }
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; } = string.Empty;
         public DateTime CreatedAt { get; set; }
 
 
@@ -24,7 +24,7 @@ namespace Financeasy.Domain.models
         {
         }
 
-        public Transaction(Guid userId, Guid bankAccountId, Guid categoryId, PaymentMethod paymentMethod, decimal amount, DateTime date, string description)
+        public Transaction(Guid userId, Guid bankAccountId, Guid categoryId, PaymentMethod paymentMethod, decimal amount, DateTime date, string? description)
         {
             Id = Guid.NewGuid();
             PaymentMethod = paymentMethod;

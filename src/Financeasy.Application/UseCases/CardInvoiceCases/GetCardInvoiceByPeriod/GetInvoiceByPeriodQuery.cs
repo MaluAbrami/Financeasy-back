@@ -7,7 +7,6 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.GetCardInvoiceByPerio
         public DateTime ClosingDate { get; set; }
         public DateTime DueDate { get; set; }
         public decimal TotalAmount { get; set; }
-        public bool IsPaid { get; set; }
     }
 
     public record GetInvoiceByPeriodQuery : IRequest<GetInvoiceByPeriodResponse?>
