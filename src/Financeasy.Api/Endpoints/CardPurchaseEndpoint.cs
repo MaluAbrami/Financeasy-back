@@ -2,6 +2,7 @@ using Financeasy.Application.UseCases.CardPurchaseCases.CreateCardPurchase;
 using Financeasy.Application.UseCases.CardPurchaseCases.DeleteCardPurchase;
 using Financeasy.Application.UseCases.CardPurchaseCases.GetAllCardPurchases;
 using Financeasy.Application.UseCases.CardPurchaseCases.GetAllCardPurchasesByCard;
+using Financeasy.Application.UseCases.CardPurchaseCases.PayCardPurchase;
 using Financeasy.Domain.DTO.CardPurchase;
 using Financeasy.Domain.DTO.Pagination;
 using Financeasy.Domain.Enums;
@@ -23,6 +24,9 @@ namespace Financeasy.Api.Endpoints
                 .RequireAuthorization();
 
             group.MapDelete("/{id}", DeleteCardPurchase)
+                .RequireAuthorization();
+
+            group.MapPost("/pay-purchase", PayPurchaseAdvance)
                 .RequireAuthorization();
 
             return group;
@@ -119,6 +123,27 @@ namespace Financeasy.Api.Endpoints
             });
 
             return Results.NoContent();
+        }
+
+        private static async Task<IResult> PayPurchaseAdvance(
+            PayCardPurchaseRequestDTO request,
+            HttpContext context,
+            IMediator mediator
+        )
+        {
+            var userId = context.User.FindFirst("userId")?.Value;
+            if(userId is null)
+                return Results.Unauthorized();
+
+            var response = await mediator.Send(new PayCardPurchaseCommand
+            {
+                UserId = Guid.Parse(userId),
+                PurchaseId = request.PurchaseId,
+                InstallmentsQuantity = request.InstallmentsQuantity,
+                Amount = request.Amount
+            });
+
+            return Results.Ok(response);
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Data.Common;
 using Dapper;
 using Financeasy.Domain.DTO.CardPurchase;
 using Financeasy.Domain.interfaces;
+using Financeasy.Domain.models;
 using Financeasy.Infra.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,7 +26,20 @@ namespace Financeasy.Infra.RepositoryDapper
                 await connection.OpenAsync();
 
             return connection;
-        }        
+        }
+
+        public async Task<CardPurchase?> GetPurchaseById(Guid id, CancellationToken cancellationToken)
+        {
+            var connection = await GetConnection();
+
+            var sql = $@"
+                SELECT *
+                FROM card_purchase p
+                WHERE p.Id = @Id;
+            ";
+
+            return await connection.QuerySingleOrDefaultAsync<CardPurchase?>(sql, new { Id = id });
+        }
 
         public async Task<GetPagedCardPurchaseDTO> GetPagedWithRelationsAsync(
             Guid userId,

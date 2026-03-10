@@ -1,4 +1,5 @@
 using Financeasy.Domain.interfaces;
+using Financeasy.Domain.interfaces.Services;
 using Financeasy.Infra.Repository;
 using Financeasy.Infra.RepositoryDapper;
 using Financeasy.Infra.UnitOfWork;
@@ -25,6 +26,7 @@ namespace Financeasy.CrossCutting.DependencyInjections
             services.AddScoped<ICardPurchaseDapperRepository, CardPurchaseDapperRepository>();
             services.AddScoped<ICardInvoiceDapperRepository, CardInvoiceDapperRepository>();
             services.AddScoped<ICardDapperRepository, CardDapperRepository>();
+            services.AddScoped<ICardInstallmentsDapperRepository, CardInstallmentsDapperRepository>();
 
             return services;
         }
