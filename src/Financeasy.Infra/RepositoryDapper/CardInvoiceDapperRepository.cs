@@ -64,7 +64,7 @@ namespace Financeasy.Infra.RepositoryDapper
                 FROM card_invoice c
                 LEFT JOIN card_installment i
                     ON i.CardInvoiceId= c.Id
-                WHERE c.CardId = @CardId AND c.IsPaid = false
+                WHERE c.CardId = @CardId AND i.Paid = false
             ";
 
             var total = await connection.ExecuteScalarAsync<decimal>(

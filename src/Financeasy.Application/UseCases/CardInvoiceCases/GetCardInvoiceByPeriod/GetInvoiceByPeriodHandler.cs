@@ -35,6 +35,7 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.GetCardInvoiceByPerio
 
             return new GetInvoiceByPeriodResponse
             {
+                Id = invoiceExist.Id,
                 ClosingDate = invoiceExist.ClosingDate,
                 DueDate = invoiceExist.DueDate,
                 TotalAmount = totalAmount

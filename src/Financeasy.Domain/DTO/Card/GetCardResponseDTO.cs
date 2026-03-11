@@ -6,6 +6,7 @@ namespace Financeasy.Domain.DTO.Card
         public string BankAccountName { get; set; }
         public string Name { get; set; }
         public decimal CreditLimit { get; set; }
+        public decimal UsedLimit { get; set; }
         public int ClosingDay { get; set; }
         public int DueDay { get; set; }
     }

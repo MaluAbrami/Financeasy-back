@@ -90,4 +90,8 @@ app.MapGroup("/alerts")
     .WithTags("Alerts")
     .MapAlerts();
 
+app.MapGroup("/dashboards")
+    .WithTags("Dashboards")
+    .MapDashboardEndpoint();
+
 app.Run();

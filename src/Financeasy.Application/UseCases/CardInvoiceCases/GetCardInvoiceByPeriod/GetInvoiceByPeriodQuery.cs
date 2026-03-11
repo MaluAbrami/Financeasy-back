@@ -4,6 +4,7 @@ namespace Financeasy.Application.UseCases.CardInvoiceCases.GetCardInvoiceByPerio
 {
     public record GetInvoiceByPeriodResponse()
     {
+        public Guid Id { get; set; }
         public DateTime ClosingDate { get; set; }
         public DateTime DueDate { get; set; }
         public decimal TotalAmount { get; set; }

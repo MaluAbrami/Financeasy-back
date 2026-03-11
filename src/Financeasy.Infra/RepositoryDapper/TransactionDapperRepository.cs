@@ -1,4 +1,5 @@
 using System.Data;
+using System.Data.Common;
 using System.Transactions;
 using Dapper;
 using Financeasy.Domain.DTO.Transaction;
@@ -17,6 +18,16 @@ namespace Financeasy.Infra.RepositoryDapper
             _dbContext = dbContext;
         }
 
+        private async Task<DbConnection> GetConnection()
+        {
+            var connection = _dbContext.Database.GetDbConnection();
+
+            if (connection.State == ConnectionState.Closed)
+                await connection.OpenAsync();
+
+            return connection;
+        }
+
         public async Task<GetPagedTransResponseDTO> GetPagedAsync(
             Guid userId,
             string? descriptionFilter,
@@ -26,10 +37,7 @@ namespace Financeasy.Infra.RepositoryDapper
             int pageSize,
             CancellationToken cancellationToken)
         {
-            var connection = _dbContext.Database.GetDbConnection();
-
-            if (connection.State == ConnectionState.Closed)
-                await connection.OpenAsync();
+            var connection = await GetConnection();
 
             // 🔒 WHITELIST para evitar SQL Injection
             var allowedColumns = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
@@ -88,6 +96,62 @@ namespace Financeasy.Infra.RepositoryDapper
                 List = (List<GetTransactionResponseDTO>)list,
                 TotalItems = totalItems
             };
+        }
+
+        public async Task<decimal> GetTotalBalanceMonthlyExpense(Guid userId, int month, int year, CancellationToken cancellationToken)
+        {
+            var connection = await GetConnection();
+
+            var startDate = new DateTime(year, month, 1);
+
+            var sql = $@"
+                SELECT COALESCE(SUM(t.Amount), 0)
+                FROM transaction t
+                INNER JOIN category c ON c.Id = t.CategoryId
+                WHERE t.UserId = @UserId
+                AND t.Date >= @StartDate
+                AND t.Date < @EndDate
+                AND c.Type = 'Expense';
+            ";
+
+            var parameters = new
+            {
+                UserId = userId,
+                StartDate = startDate,
+                EndDate = startDate.AddMonths(1)
+            };
+
+            var total = await connection.QuerySingleAsync<decimal>(sql, parameters);
+
+            return total;
+        }
+
+        public async Task<decimal> GetTotalBalanceMonthlyIncome(Guid userId, int month, int year, CancellationToken cancellationToken)
+        {
+            var connection = await GetConnection();
+
+            var startDate = new DateTime(year, month, 1);
+
+            var sql = $@"
+                SELECT COALESCE(SUM(t.Amount), 0)
+                FROM transaction t
+                INNER JOIN category c ON c.Id = t.CategoryId
+                WHERE t.UserId = @UserId
+                AND t.Date >= @StartDate
+                AND t.Date < @EndDate
+                AND c.Type = 'Income';
+            ";
+
+            var parameters = new
+            {
+                UserId = userId,
+                StartDate = startDate,
+                EndDate = startDate.AddMonths(1)
+            };
+
+            var total = await connection.QuerySingleAsync<decimal>(sql, parameters);
+
+            return total;
         }
     }
 }

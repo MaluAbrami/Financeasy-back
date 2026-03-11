@@ -10,10 +10,15 @@ namespace Financeasy.Application.UseCases.CardCases.GetAllCards
     public class GetAllCardsHandler : IRequestHandler<GetAllCardsQuery, GetAllCardsResponse>
     {
         private readonly ICardRepository _cardRepository;
+        private readonly ICardInvoiceDapperRepository _invoiceDapperRepository;
 
-        public GetAllCardsHandler(ICardRepository cardRepository)
+        public GetAllCardsHandler(
+            ICardRepository cardRepository,
+            ICardInvoiceDapperRepository invoiceDapperRepository
+        )
         {
             _cardRepository = cardRepository;
+            _invoiceDapperRepository = invoiceDapperRepository;
         }
 
         public async Task<GetAllCardsResponse> Handle(GetAllCardsQuery request, CancellationToken cancellationToken)
@@ -38,6 +43,11 @@ namespace Financeasy.Application.UseCases.CardCases.GetAllCards
                 request.Pagination.PageSize,
                 cancellationToken
             );
+
+            foreach (var card in getCardsPaged.List)
+            {
+                card.UsedLimit = await _invoiceDapperRepository.GetTotalAmountUnpaidByCardId(card.Id, cancellationToken);
+            }
 
             return new GetAllCardsResponse
             {

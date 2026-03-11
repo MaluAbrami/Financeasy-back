@@ -27,9 +27,7 @@ namespace Financeasy.Application.UseCases.CardPurchaseCases.DeleteCardPurchase
                 throw new ArgumentException("Cartão não encontrado");
 
             if(cardPurchase.UserId != request.UserId)
-                throw new UnauthorizedAccessException("Usuário não tem acesso a esta ação");
-
-            // await _cardPurchaseService.DeleteInstallmentsAndDecreaseInvoiceAsync(request.CardPurchaseId, cancellationToken);
+                throw new UnauthorizedAccessException("Usuário não tem acesso a esta ação"); 
 
             var card = await _cardRepository.GetByIdAsync(cardPurchase.CardId, cancellationToken);
 

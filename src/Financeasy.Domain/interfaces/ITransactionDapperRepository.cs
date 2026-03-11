@@ -1,3 +1,4 @@
+using System.Transactions;
 using Financeasy.Domain.DTO.Transaction;
 
 namespace Financeasy.Domain.interfaces
@@ -12,5 +13,19 @@ namespace Financeasy.Domain.interfaces
             int page,
             int pageSize,
             CancellationToken cancellationToken);
+
+        public Task<decimal> GetTotalBalanceMonthlyIncome(
+            Guid userId,
+            int month,
+            int year,
+            CancellationToken cancellationToken
+        );
+
+        public Task<decimal> GetTotalBalanceMonthlyExpense(
+            Guid userId,
+            int month,
+            int year,
+            CancellationToken cancellationToken
+        );
     }
 }

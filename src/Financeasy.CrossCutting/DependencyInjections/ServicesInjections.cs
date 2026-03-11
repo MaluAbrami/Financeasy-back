@@ -13,7 +13,6 @@ namespace Financeasy.CrossCutting.DependencyInjections
         {
             services.AddScoped<IPasswordHasher, PasswordHasher>();
             services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<ICardService, CardService>();
             services.AddScoped<ICardPurchaseService, CardPurchaseService>();
             services.AddScoped<IInstallmentGeneratorService, InstallmentGeneratorService>();
             services.AddScoped<IInvoiceService, InvoiceService>();
