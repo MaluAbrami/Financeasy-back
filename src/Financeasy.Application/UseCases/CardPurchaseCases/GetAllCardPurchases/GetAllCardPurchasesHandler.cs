@@ -31,7 +31,7 @@ namespace Financeasy.Application.UseCases.CardPurchaseCases.GetAllCardPurchases
 
             return new GetAllCardPurchasesResponse
             {
-                Purchases = getPagedPurchases.List,
+                CardPurchases = getPagedPurchases.List,
                 Pagination = new PaginationResponseBase
                 {
                     Page = request.Pagination.Page,

@@ -7,7 +7,7 @@ namespace Financeasy.Application.UseCases.CardPurchaseCases.GetAllCardPurchases
 {
     public record GetAllCardPurchasesResponse()
     {
-        public List<GetCardPurchaseResponseDTO> Purchases { get; set; }
+        public List<GetCardPurchaseResponseDTO> CardPurchases { get; set; }
         public PaginationResponseBase Pagination { get; set; }
     }
 
