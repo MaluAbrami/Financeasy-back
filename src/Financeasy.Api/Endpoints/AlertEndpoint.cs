@@ -15,7 +15,7 @@ namespace Financeasy.Api.Endpoints
             group.MapPost("", CreateAlert)
                 .RequireAuthorization();
 
-            group.MapDelete("", DeleteAlert)
+            group.MapDelete("/{id}", DeleteAlert)
                 .RequireAuthorization();
 
             group.MapGet("/all-by-month/{month}/{year}/{page}/{pageSize}", GetAllAlertsByMonth)
