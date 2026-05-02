@@ -27,7 +27,7 @@ namespace Financeasy.Application.UseCases.AlertsCases.GetAllAlertsByMonth
                      && x.DueDate >= start
                      && x.DueDate < end,
                 x => x.DueDate,
-                false,
+                true,
                 request.Pagination.Page,
                 request.Pagination.PageSize,
                 cancellationToken
