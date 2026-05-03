@@ -193,5 +193,29 @@ namespace Financeasy.Infra.RepositoryDapper
                 TotalItems = totalItems
             };
         }
+
+        public async Task<List<CardInvoice>?> GetAllInvoicesActiveByCardId(
+            Guid cardId,
+            DateTime today,
+            CancellationToken cancellationToken
+        )
+        {
+            var connection = await GetConnection();
+
+            var sql = $@"
+                SELECT *
+                FROM card_invoice c
+                WHERE c.CardId = @CardId AND c.ClosingDate > @Today
+            ";
+
+            var parameters = new
+            {
+                CardId = cardId,
+                Today = today
+            };
+
+            var result = await connection.QueryAsync<CardInvoice>(sql, parameters);
+            return result?.ToList();
+        }
     }
 }

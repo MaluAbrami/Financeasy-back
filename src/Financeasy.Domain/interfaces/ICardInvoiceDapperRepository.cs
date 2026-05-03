@@ -6,24 +6,24 @@ namespace Financeasy.Domain.interfaces
 {
     public interface ICardInvoiceDapperRepository
     {
-        public Task<CardInvoice?> GetCardInvoiceByCardIdAndClosingDate(
+        Task<CardInvoice?> GetCardInvoiceByCardIdAndClosingDate(
             Guid cardId,
             DateTime closingDate,
             CancellationToken cancellationToken
         );
 
-        public Task<decimal> GetTotalAmountUnpaidByCardId(
+        Task<decimal> GetTotalAmountUnpaidByCardId(
             Guid cardId,
             CancellationToken cancellationToken
         );
 
-        public Task<CardInvoice?> GetCardInvoiceByPeriod(
+        Task<CardInvoice?> GetCardInvoiceByPeriod(
             Guid cardId,
             DateTime dueDate,
             CancellationToken cancellationToken
         );
 
-        public Task<GetPagedBaseResponseDTO<GetInvoiceResponseDTO>> GetPagedWithRelationsByCardAsync(
+        Task<GetPagedBaseResponseDTO<GetInvoiceResponseDTO>> GetPagedWithRelationsByCardAsync(
             Guid cardId,
             string orderBy,
             bool ascending,
@@ -31,9 +31,15 @@ namespace Financeasy.Domain.interfaces
             int pageSize,
             CancellationToken cancellationToken);
 
-        public Task<decimal> GetTotalAmountByCardIdAndPeriod(
+        Task<decimal> GetTotalAmountByCardIdAndPeriod(
             Guid cardId,
             DateTime closingDate,
+            CancellationToken cancellationToken
+        );
+
+        Task<List<CardInvoice>?> GetAllInvoicesActiveByCardId(
+            Guid cardId,
+            DateTime today,
             CancellationToken cancellationToken
         );
     }

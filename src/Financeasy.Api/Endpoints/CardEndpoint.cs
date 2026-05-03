@@ -1,10 +1,12 @@
 using Financeasy.Application.UseCases.CardCases.CreateCard;
 using Financeasy.Application.UseCases.CardCases.DeleteCard;
 using Financeasy.Application.UseCases.CardCases.GetAllCards;
+using Financeasy.Application.UseCases.CardCases.UpdateCard;
 using Financeasy.Domain.DTO.Card;
 using Financeasy.Domain.DTO.Pagination;
 using Financeasy.Domain.Enums;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Financeasy.Api.Endpoints
 {
@@ -19,6 +21,9 @@ namespace Financeasy.Api.Endpoints
                 .RequireAuthorization();
 
             group.MapDelete("/{cardId}", DeleteCard)
+                .RequireAuthorization();
+
+            group.MapPatch("/update/{cardId}", UpdateCard)
                 .RequireAuthorization();
 
             return group;
@@ -86,6 +91,33 @@ namespace Financeasy.Api.Endpoints
             );
 
             return Results.NoContent();
+        }
+
+        private static async Task<IResult> UpdateCard(
+            Guid cardId, 
+            HttpContext context, 
+            IMediator mediator,
+            string? name = null,
+            int closingDay = 0,
+            int dueDay = 0,
+            decimal creditLimit = 0)
+        {
+            var userId = context.User.FindFirst("userId")?.Value;
+
+            if(userId is null)
+                return Results.Unauthorized();
+
+            var response = await mediator.Send(new UpdateCardCommand { 
+                    UserId = Guid.Parse(userId), 
+                    CardId = cardId,
+                    Name = name,
+                    ClosingDay = closingDay,
+                    DueDay = dueDay,
+                    CreditLimit = creditLimit
+                }
+            );
+
+            return Results.Ok(response);
         }
     }
 }

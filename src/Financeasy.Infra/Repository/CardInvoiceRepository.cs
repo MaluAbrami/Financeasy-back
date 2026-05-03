@@ -35,5 +35,12 @@ namespace Financeasy.Infra.Repository
 
             return newInvoice;
         }
+
+        public async Task<List<CardInvoice>> GetAllActiveInvoicesByCardIdAsync(Guid cardId, DateTime today, CancellationToken cancellationToken)
+        {
+            return await _context.CardInvoices
+                .Where(c => c.CardId == cardId && c.ClosingDate > today)
+                .ToListAsync(cancellationToken);
+        }
     }
 }
