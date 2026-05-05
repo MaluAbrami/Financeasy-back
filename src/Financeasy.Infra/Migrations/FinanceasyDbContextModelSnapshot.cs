@@ -19,30 +19,221 @@ namespace Financeasy.Infra.Migrations
                 .HasAnnotation("ProductVersion", "10.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
+            modelBuilder.Entity("Financeasy.Domain.models.Alert", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<decimal>("ExpectedAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("NextDueDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("RecurrenceType")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("alert");
+                });
+
+            modelBuilder.Entity("Financeasy.Domain.models.BankAccount", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<decimal>("Balance")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("BankName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("bank_account");
+                });
+
+            modelBuilder.Entity("Financeasy.Domain.models.Card", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("BankAccountId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("ClosingDay")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<decimal>("CreditLimit")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<int>("DueDay")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BankAccountId", "Name")
+                        .IsUnique();
+
+                    b.ToTable("card");
+                });
+
+            modelBuilder.Entity("Financeasy.Domain.models.CardInstallment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("CardInvoiceId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CardPurchaseId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Paid")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CardInvoiceId");
+
+                    b.HasIndex("CardPurchaseId");
+
+                    b.ToTable("card_installment");
+                });
+
+            modelBuilder.Entity("Financeasy.Domain.models.CardInvoice", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CardId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("ClosingDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("card_invoice");
+                });
+
+            modelBuilder.Entity("Financeasy.Domain.models.CardPurchase", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CardId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Installments")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("PurchaseDate")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CardId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("card_purchase");
+                });
+
             modelBuilder.Entity("Financeasy.Domain.models.Category", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)")
-                        .HasColumnName("id");
-
-                    b.Property<bool>("IsFixed")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_fixed");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("varchar(255)")
-                        .HasColumnName("name");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Type")
                         .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("type");
+                        .HasColumnType("longtext");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)")
-                        .HasColumnName("user_id");
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
@@ -52,127 +243,162 @@ namespace Financeasy.Infra.Migrations
                     b.ToTable("category");
                 });
 
-            modelBuilder.Entity("Financeasy.Domain.models.FinancialEntry", b =>
+            modelBuilder.Entity("Financeasy.Domain.models.Transaction", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)")
-                        .HasColumnName("id");
+                        .HasColumnType("char(36)");
 
                     b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)")
-                        .HasColumnName("amount");
+                        .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("CategoryName")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("category_name");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("date");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("longtext")
-                        .HasColumnName("description");
-
-                    b.Property<bool>("IsFixed")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_fixed");
-
-                    b.Property<string>("Source")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("source");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("type");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("financial_entry");
-                });
-
-            modelBuilder.Entity("Financeasy.Domain.models.RecurrenceRule", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)")
-                        .HasColumnName("id");
-
-                    b.Property<string>("AdjustmentRule")
-                        .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("adjustment_rule");
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)")
-                        .HasColumnName("amount");
+                    b.Property<Guid>("BankAccountId")
+                        .HasColumnType("char(36)");
 
                     b.Property<Guid>("CategoryId")
-                        .HasColumnType("char(36)")
-                        .HasColumnName("category_id");
+                        .HasColumnType("char(36)");
 
-                    b.Property<int?>("DayOfMonth")
-                        .HasColumnType("int")
-                        .HasColumnName("day_of_month");
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("DayOfWeek")
-                        .HasColumnType("int")
-                        .HasColumnName("day_of_week");
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("end_date");
+                    b.Property<string>("Description")
+                        .HasColumnType("longtext");
 
-                    b.Property<string>("Frequency")
+                    b.Property<string>("PaymentMethod")
                         .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("frequency");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_active");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime(6)")
-                        .HasColumnName("start_date");
+                        .HasColumnType("longtext");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("char(36)")
-                        .HasColumnName("user_id");
+                        .HasColumnType("char(36)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("recurrence_rule");
+                    b.HasIndex("BankAccountId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("transaction");
                 });
 
             modelBuilder.Entity("Financeasy.Domain.models.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)")
-                        .HasColumnName("id");
+                        .HasColumnType("char(36)");
+
+                    b.Property<decimal>("AlertLimit")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("email");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("longtext")
-                        .HasColumnName("password");
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ProfilePhoto")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
 
                     b.HasKey("Id");
 
                     b.ToTable("users");
+                });
+
+            modelBuilder.Entity("Financeasy.Domain.models.Alert", b =>
+                {
+                    b.HasOne("Financeasy.Domain.models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Financeasy.Domain.models.Card", b =>
+                {
+                    b.HasOne("Financeasy.Domain.models.BankAccount", "BankAccount")
+                        .WithMany()
+                        .HasForeignKey("BankAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BankAccount");
+                });
+
+            modelBuilder.Entity("Financeasy.Domain.models.CardInstallment", b =>
+                {
+                    b.HasOne("Financeasy.Domain.models.CardInvoice", null)
+                        .WithMany("Installments")
+                        .HasForeignKey("CardInvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Financeasy.Domain.models.CardPurchase", "CardPurchase")
+                        .WithMany("InstallmentsList")
+                        .HasForeignKey("CardPurchaseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CardPurchase");
+                });
+
+            modelBuilder.Entity("Financeasy.Domain.models.CardPurchase", b =>
+                {
+                    b.HasOne("Financeasy.Domain.models.Card", "Card")
+                        .WithMany()
+                        .HasForeignKey("CardId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Financeasy.Domain.models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Card");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Financeasy.Domain.models.Transaction", b =>
+                {
+                    b.HasOne("Financeasy.Domain.models.BankAccount", "BankAccount")
+                        .WithMany()
+                        .HasForeignKey("BankAccountId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Financeasy.Domain.models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("BankAccount");
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Financeasy.Domain.models.CardInvoice", b =>
+                {
+                    b.Navigation("Installments");
+                });
+
+            modelBuilder.Entity("Financeasy.Domain.models.CardPurchase", b =>
+                {
+                    b.Navigation("InstallmentsList");
                 });
 #pragma warning restore 612, 618
         }

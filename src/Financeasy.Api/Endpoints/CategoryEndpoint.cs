@@ -2,9 +2,9 @@ using Financeasy.Application.UseCases.CategoryCases.CreateCategory;
 using Financeasy.Application.UseCases.CategoryCases.DeleteCategory;
 using Financeasy.Application.UseCases.CategoryCases.GetAllCategorys;
 using Financeasy.Application.UseCases.CategoryCases.GetAllCategorysPaged;
-using Financeasy.Application.UseCases.CategoryCases.GetAllFixedCategorys;
 using Financeasy.Application.UseCases.CategoryCases.GetCategoryById;
-using Financeasy.Domain.DTO;
+using Financeasy.Domain.DTO.Category;
+using Financeasy.Domain.DTO.Pagination;
 using Financeasy.Domain.Enums;
 using MediatR;
 
@@ -23,9 +23,6 @@ namespace Financeasy.Api.Endpoints
             group.MapGet("/all", GetAllCategorys)
                 .RequireAuthorization();
 
-            group.MapGet("/all-fixed", GetAllFixedCategorys)
-                .RequireAuthorization();
-
             group.MapGet("/{id}", GetCategoryById)
                 .RequireAuthorization();
 
@@ -41,12 +38,18 @@ namespace Financeasy.Api.Endpoints
             if(userId is null)
                 return Results.Unauthorized();
 
-            await mediator.Send(new CreateCategoryCommand { UserId = Guid.Parse(userId), Name = request.Name, Type = request.Type, IsFixed = request.IsFixed, Recurrence = request.Recurrence } );
+            await mediator.Send(new CreateCategoryCommand { UserId = Guid.Parse(userId), Name = request.Name, Type = request.Type} );
 
             return Results.Created();
         }
 
-        private static async Task<IResult> GetAllCategorysPaged(int page, int pageSize, CategoryOrderBy orderBy, SortDirection direction, HttpContext context, IMediator mediator)
+        private static async Task<IResult> GetAllCategorysPaged(
+            HttpContext context, 
+            IMediator mediator,
+            int page = 1, 
+            int pageSize = 10, 
+            CategoryOrderBy orderBy = CategoryOrderBy.Name, 
+            SortDirection direction = SortDirection.Asc)
         {
             var userId = context.User.FindFirst("userId")?.Value;
             if(userId is null)
@@ -64,17 +67,6 @@ namespace Financeasy.Api.Endpoints
                 return Results.Unauthorized();
 
             var response = await mediator.Send(new GetAllCategorys { UserId = Guid.Parse(userId) } );
-
-            return Results.Ok(response);
-        }
-
-        private static async Task<IResult> GetAllFixedCategorys(HttpContext context, IMediator mediator)
-        {
-            var userId = context.User.FindFirst("userId")?.Value;
-            if(userId is null)
-                return Results.Unauthorized();
-
-            var response = await mediator.Send(new GetAllFixedCategorys { UserId = Guid.Parse(userId) });
 
             return Results.Ok(response);
         }

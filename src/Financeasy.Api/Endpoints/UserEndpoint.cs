@@ -3,9 +3,8 @@ using Financeasy.Application.UseCases.UserCases.GetUserByEmail;
 using Financeasy.Application.UseCases.UserCases.Login;
 using Financeasy.Application.UseCases.UserCases.RegisterUser;
 using Financeasy.Application.UseCases.UserCases.UpdateUser;
-using Financeasy.Domain.DTO;
+using Financeasy.Domain.DTO.User;
 using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Financeasy.Api.Endpoints
 {

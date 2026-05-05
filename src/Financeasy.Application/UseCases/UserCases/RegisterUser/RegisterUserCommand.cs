@@ -6,5 +6,7 @@ namespace Financeasy.Application.UseCases.UserCases.RegisterUser
     {
         public required string Email { get; set;}
         public required string Password {get; set; }
+        public string? ProfilePhoto { get; set; } = string.Empty;
+        public decimal AlertLimit { get; set; }
     }
 }

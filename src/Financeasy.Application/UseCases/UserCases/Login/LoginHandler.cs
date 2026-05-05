@@ -18,14 +18,14 @@ namespace Financeasy.Application.UseCases.UserCases.Login
 
         public async Task<string> Handle(LoginCommand request, CancellationToken cancellationToken)
         {
-            var userExist = await _userRepository.GetUserByEmail(request.Email);
+            var userExist = await _userRepository.GetUserByEmail(request.Email, cancellationToken);
 
-            if(userExist is null)
+            if (userExist is null)
                 throw new ArgumentException("Email ou senha incorretos.");
 
-            if(!_passwordHasher.Verify(request.Password, userExist.PasswordHash))
+            if (!_passwordHasher.Verify(request.Password, userExist.PasswordHash))
                 throw new ArgumentException("Email ou senha incorretos.");
-                
+
             return _tokenService.GenerateToken(userExist.Id, userExist.Email);
         }
     }

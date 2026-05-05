@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Financeasy.Application.UseCases.CategoryCases.DeleteCategory
 {
-    public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand, DeleteCategoryCommand>
+    public class DeleteCategoryHandler : IRequestHandler<DeleteCategoryCommand, Unit>
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -14,20 +14,17 @@ namespace Financeasy.Application.UseCases.CategoryCases.DeleteCategory
             _unitOfWork = unitOfWork;
         }
         
-        public async Task<DeleteCategoryCommand> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteCategoryCommand request, CancellationToken cancellationToken)
         {
-            var categoryExists = await _categoryRepository.GetByIdAsync(request.Id);
+            var categoryExists = await _categoryRepository.GetByIdAndUserId(request.Id, request.UserId, cancellationToken);
 
             if(categoryExists is null)
                 throw new ArgumentException($"Categoria de id {request.Id} não foi encontrada.");
 
-            if(categoryExists.UserId != request.UserId)
-                throw new UnauthorizedAccessException("Usuário não pode realizar essa ação.");
-
             _categoryRepository.Delete(categoryExists);
-            await _unitOfWork.SaveChangesAsync();
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            return request;
+            return Unit.Value;
         }
     }
 }

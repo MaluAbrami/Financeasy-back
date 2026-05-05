@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Financeasy.Application\Financeasy.Application.csproj" />
     <ProjectReference Include="..\Financeasy.Infra\Financeasy.Infra.csproj" />
+    <ProjectReference Include="..\Financeasy.CrossCutting\Financeasy.CrossCutting.csproj" />
   </ItemGroup>
 
 </Project>

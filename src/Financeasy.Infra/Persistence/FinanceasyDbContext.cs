@@ -11,35 +11,35 @@ namespace Financeasy.Infra.Persistence
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<FinancialEntry> FinancialEntry { get; set ;}
+        public DbSet<BankAccount> BankAccount { get; set ;}
         public DbSet<Category> Categorys { get; set; }
-        public DbSet<RecurrenceRule> RecurrenceRules { get; set; }
+        public DbSet<Card> Cards { get; set; }
+        public DbSet<Transaction> Transactions { get; set; }
+        public DbSet<CardPurchase> CardPurchases { get; set; }
+        public DbSet<CardInstallment> CardInstallments { get; set; }
+        public DbSet<CardInvoice> CardInvoices { get; set; }
+        public DbSet<Alert> Alerts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<FinancialEntry>()
-                .Property(x => x.Type)
-                .HasConversion<string>();
-
-            modelBuilder.Entity<FinancialEntry>()
-                .Property(x => x.Source)
-                .HasConversion<string>();
-
             modelBuilder.Entity<Category>()
                 .Property(x => x.Type)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<Alert>()
+                .Property(x => x.RecurrenceType)
                 .HasConversion<string>();
 
             modelBuilder.Entity<Category>()
                 .HasIndex(e => new { e.UserId, e.Name })
                 .IsUnique();
 
-            modelBuilder.Entity<RecurrenceRule>()
-                .Property(x => x.AdjustmentRule)
+            modelBuilder.Entity<Transaction>()
+                .Property(x => x.PaymentMethod)
                 .HasConversion<string>();
 
-            modelBuilder.Entity<RecurrenceRule>()
-                .Property(x => x.Frequency)
-                .HasConversion<string>();
+            modelBuilder.Entity<Card>()
+                .HasIndex(x => new { x.BankAccountId, x.Name }).IsUnique();
 
             base.OnModelCreating(modelBuilder);
         }

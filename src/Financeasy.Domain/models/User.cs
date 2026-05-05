@@ -1,28 +1,33 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
 
 namespace Financeasy.Domain.models
 {
     [Table("users")]
     public class User
     {
-        [Key]
-        [Column("id")]
         public Guid Id { get; set; }
-
-        [Required]
-        [Column("email")]
         public string Email { get; set; }
-
-        [Required]
-        [Column("password")]
         public string PasswordHash { get; set; }
+        public string? ProfilePhoto { get; set; } = string.Empty;
+        public decimal AlertLimit { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
-        public User(string email, string passwordHash)
+        public User()
+        {
+        }
+
+        public User(string email, string passwordHash, string? profilePhoto, decimal alertLimit)
         {
             Id = Guid.NewGuid();
             Email = email;
             PasswordHash = passwordHash;
+            ProfilePhoto = profilePhoto;
+            AlertLimit = alertLimit;
+            CreatedAt = DateTime.Now;
+            UpdatedAt = null;
         }
     }
 }

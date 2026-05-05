@@ -19,25 +19,23 @@ namespace Financeasy.Application.UseCases.UserCases.UpdateUser
 
         public async Task<UpdateUserCommand> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
-            var userExist = await _userRepository.GetByIdAsync(request.UserId);
+            var userExist = await _userRepository.GetByIdAsync(request.UserId, cancellationToken);
 
             if(userExist is null)
                 throw new ArgumentException($"Usuário com id {request.UserId} não existe.");
 
-            if(request.User.NewPassword is not null && request.User.OldPassword is not null)
-            {
-                if(!_passwordHasher.Verify(request.User.OldPassword, userExist.PasswordHash))
-                    throw new ArgumentException("Senha errada");
+            if(!string.IsNullOrEmpty(request.User.ProfilePhoto))
+                userExist.ProfilePhoto = request.User.ProfilePhoto;
 
-                var newPasswordHash = _passwordHasher.Hash(request.User.NewPassword);
-                userExist.PasswordHash = newPasswordHash;
-            }
+            if(request.User.AlertLimit != 0)
+                userExist.AlertLimit = request.User.AlertLimit;
 
             if(request.User.Email is not null)
                 userExist.Email = request.User.Email;
 
             _userRepository.Update(userExist);
-            await _unitOfWork.SaveChangesAsync();
+            userExist.UpdatedAt = DateTime.Now;
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
             
             return request;
         }

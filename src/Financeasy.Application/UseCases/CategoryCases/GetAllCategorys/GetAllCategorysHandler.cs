@@ -1,4 +1,4 @@
-using Financeasy.Domain.DTO;
+using Financeasy.Domain.DTO.Category;
 using Financeasy.Domain.interfaces;
 using MediatR;
 
@@ -15,7 +15,7 @@ namespace Financeasy.Application.UseCases.CategoryCases.GetAllCategorys
 
         public async Task<GetAllCategorysRespone> Handle(GetAllCategorys request, CancellationToken cancellationToken)
         {
-            var categories = await _categoryRepository.FindAsync(x => x.UserId == request.UserId);
+            var categories = await _categoryRepository.FindAsync(x => x.UserId == request.UserId, cancellationToken);
 
             List<CategoryResponseDTO> listResponse = [];
 
@@ -25,8 +25,7 @@ namespace Financeasy.Application.UseCases.CategoryCases.GetAllCategorys
                 {
                     Id = category.Id,
                     Name = category.Name,
-                    Type = category.Type,
-                    IsFixed = category.IsFixed
+                    Type = category.Type
                 };
 
                 listResponse.Add(categoryResponse);

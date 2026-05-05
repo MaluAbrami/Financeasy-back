@@ -9,7 +9,5 @@ namespace Financeasy.Application.UseCases.CategoryCases.CreateCategory
         public Guid UserId { get; set; }
         public required string Name { get; set; }
         public EntryType Type { get; set; }
-        public bool IsFixed { get; set; }
-        public CreateRecurrenceRequestDTO? Recurrence { get; set; }
     }
 }
