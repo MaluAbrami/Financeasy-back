@@ -53,12 +53,13 @@ namespace Financeasy.Domain.Services
             var date = purchaseDate.AddMonths(number - 1);
 
             var closingDate = new DateTime(date.Year, date.Month, card.ClosingDay);
-            var dueDate = new DateTime(date.Year, date.Month, card.DueDay);
             if (date.Day >= card.ClosingDay)
             {
                 closingDate = closingDate.AddMonths(1);
-                dueDate = dueDate.AddMonths(1);
             }
+
+            var dueDateMonth = card.DueDay < card.ClosingDay ? closingDate.AddMonths(1) : closingDate;
+            var dueDate = new DateTime(dueDateMonth.Year, dueDateMonth.Month, card.DueDay);
 
             return (closingDate, dueDate);
         }
